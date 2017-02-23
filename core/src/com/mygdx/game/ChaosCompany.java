@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ChaosCompany extends ApplicationAdapter {
 	SpriteBatch batch;
+	//Sami on ihan gei
 	
 	@Override
 	public void create () {
