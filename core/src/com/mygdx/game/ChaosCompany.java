@@ -12,6 +12,7 @@ public class ChaosCompany extends Game {
     private MainMenuState mainMenuState;
     private OfficeState officeState;
     private MapState mapState;
+    private HireState hireState;
 
     public SpriteBatch getSpriteBatch(){
         return batch;
@@ -23,6 +24,7 @@ public class ChaosCompany extends Game {
         mainMenuState = new MainMenuState(this);
         officeState = new OfficeState(this);
         mapState = new MapState(this);
+        hireState = new HireState(this);
         setScreen(mainMenuState);
 	}
 
@@ -37,6 +39,9 @@ public class ChaosCompany extends Game {
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.V) && getScreen() == officeState){
             setScreen(mapState);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.B) && getScreen() == mapState){
+            setScreen(hireState);
         }
 	}
 	
