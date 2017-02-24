@@ -7,8 +7,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ChaosCompany extends Game {
-	SpriteBatch batch;
-	
+	private SpriteBatch batch;
+
+    public SpriteBatch getSpriteBatch(){
+        return batch;
+    }
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
