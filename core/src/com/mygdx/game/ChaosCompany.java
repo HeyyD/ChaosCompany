@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ChaosCompany extends Game {
 	private SpriteBatch batch;
+    private MainMenuState mainMenu;
 
     public SpriteBatch getSpriteBatch(){
         return batch;
@@ -15,7 +16,9 @@ public class ChaosCompany extends Game {
 
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+        batch = new SpriteBatch();
+        mainMenu = new MainMenuState(this);
+        setScreen(mainMenu);
 	}
 
 	@Override
