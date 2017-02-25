@@ -20,11 +20,12 @@ public class ChaosCompany extends Game {
 
 	@Override
 	public void create () {
-        batch = new SpriteBatch();
-        mainMenuState = new MainMenuState(this);
-        officeState = new OfficeState(this);
-        mapState = new MapState(this);
-        hireState = new HireState(this);
+        batch                   = new SpriteBatch();
+        mainMenuState           = new MainMenuState(this);
+        officeState             = new OfficeState(this);
+        mapState                = new MapState(this);
+        hireState               = new HireState(this);
+
         setScreen(mainMenuState);
 	}
 

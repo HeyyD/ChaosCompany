@@ -6,6 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  * Created by SamiH on 24.2.2017.
@@ -13,18 +20,40 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MainMenuState implements Screen {
 
+
+
     private ChaosCompany game;
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
+
+
     private Texture img;
+    private TextureRegion imgRegion;
+    private TextureRegionDrawable imgRegionDraw;
+    private ImageButton playBtn;
+    private Stage stage;
 
     public MainMenuState(ChaosCompany g){
-        game = g;
-        batch = game.getSpriteBatch();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 8, 4.8f);
-        batch.setProjectionMatrix(camera.combined);
-        img = new Texture("badlogic.jpg");
+        game =              g;
+
+        img =               new Texture("button1.png");
+        imgRegion =         new TextureRegion(img);
+        imgRegionDraw =     new TextureRegionDrawable(imgRegion);
+        playBtn =           new ImageButton(imgRegionDraw);
+        stage =             new Stage(new ScreenViewport());
+
+
+        playBtn.setPosition(300,180);
+        playBtn.addListener(new InputListener(){
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("toimiiko?","No toimii!");
+                return true;
+            }
+        });
+        stage.addActor(playBtn);
     }
 
     @Override
@@ -37,9 +66,10 @@ public class MainMenuState implements Screen {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(img, 1,1,1,1);
-        batch.end();
+
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override
