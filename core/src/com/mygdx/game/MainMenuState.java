@@ -30,6 +30,8 @@ public class MainMenuState implements Screen {
 
     private final float SCREEN_WIDTH = 800;
     private final float SCREEN_HEIGHT = 480;
+    private final int BUTTON_WIDTH = 200;
+    private final int BUTTON_HEIGHT = 60;
 
     public MainMenuState(ChaosCompany g){
         this.game = g;
@@ -44,7 +46,7 @@ public class MainMenuState implements Screen {
 
         //Setting up skin color and size
         skin = new Skin();
-        Pixmap pixmap = new Pixmap(200,60, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(BUTTON_WIDTH,BUTTON_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fill();
 
@@ -66,7 +68,7 @@ public class MainMenuState implements Screen {
 
         //Create TextButton named "playBtn"
         final TextButton playBtn = new TextButton("PLAY",textButtonStyle);
-        playBtn.setPosition(SCREEN_WIDTH/2 - 100 , SCREEN_HEIGHT/2 - 30);
+        playBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2);
 
         //Add InputListener to button
         playBtn.addListener(new InputListener() {
@@ -76,7 +78,7 @@ public class MainMenuState implements Screen {
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
-                if(x > 0 && x < 200 && y > 0 && y < 60){
+                if(x > 0 && x < BUTTON_WIDTH && y > 0 && y < BUTTON_HEIGHT){
                     game.setScreen(game.getOfficeState());
                 }
             }
