@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class MainMenuState implements Screen {
     private Skin skin;
     private ChaosCompany game;
-    private Texture img;
+    private Texture backgroundImage;
     private Stage stage;
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -39,9 +39,13 @@ public class MainMenuState implements Screen {
     }
 
     public void create(){
-        batch =         new SpriteBatch();
-        stage =         new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT));
+        batch =             new SpriteBatch();
+        stage =             new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT));
+        camera =            new OrthographicCamera();
+        backgroundImage =   new Texture("menubackground.png");
 
+        camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+        batch.setProjectionMatrix(camera.combined);
         Gdx.input.setInputProcessor(stage);
 
         //Setting up skin color and size
@@ -70,7 +74,7 @@ public class MainMenuState implements Screen {
         final TextButton playBtn = new TextButton("PLAY",textButtonStyle);
         playBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2);
 
-        //Add InputListener to button
+        //Add InputListener to playBtn
         playBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("X: "+ x + "Y: " + y);
@@ -83,7 +87,6 @@ public class MainMenuState implements Screen {
                 }
             }
         });
-
         stage.addActor(playBtn);
 
 
@@ -104,8 +107,9 @@ public class MainMenuState implements Screen {
         //Draw everything
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         batch.begin();
-        stage.draw();
+        batch.draw(backgroundImage,0,0);
         batch.end();
+        stage.draw();
     }
 
     @Override
