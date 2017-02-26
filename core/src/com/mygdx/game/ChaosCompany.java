@@ -50,4 +50,8 @@ public class ChaosCompany extends Game {
 	public void dispose () {
 		batch.dispose();
 	}
+
+    public OfficeState getOfficeState(){
+        return this.officeState;
+    }
 }

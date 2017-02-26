@@ -25,6 +25,7 @@ public class MapState implements Screen {
         batch.setProjectionMatrix(camera.combined);
         img = new Texture("badlogic.jpg");
     }
+
     @Override
     public void show() {
 
