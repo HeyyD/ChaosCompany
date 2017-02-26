@@ -4,18 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * Created by SamiH on 24.2.2017.
@@ -27,6 +24,9 @@ public class MainMenuState implements Screen {
     private Texture img;
     private Stage stage;
     private SpriteBatch batch;
+
+    private final int SCREEN_WIDTH = 800;
+    private final int SCREEN_HEIGHT = 480;
 
     public MainMenuState(ChaosCompany g){
         this.game = g;
@@ -40,7 +40,7 @@ public class MainMenuState implements Screen {
 
         //Setting up skin color and size
         skin = new Skin();
-        Pixmap pixmap = new Pixmap(100,30, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(200,60, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.GREEN);
         pixmap.fill();
 
@@ -53,9 +53,8 @@ public class MainMenuState implements Screen {
         //Config TextButtonStyle and name it "default"
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.down = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.over = skin.newDrawable("white", Color.DARK_GRAY);
 
         textButtonStyle.font = skin.getFont("default");
 
@@ -63,22 +62,26 @@ public class MainMenuState implements Screen {
 
         //Create TextButton named "playBtn"
         final TextButton playBtn = new TextButton("PLAY",textButtonStyle);
-        playBtn.setPosition(200, 200);
+        playBtn.setPosition(SCREEN_WIDTH/2 - 100 , SCREEN_HEIGHT/2 - 30);
 
-
+        //Add InputListener to button
         playBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("X: "+ x + "Y: " + y);
                 return true;
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.getOfficeState());
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < 200 && y > 0 && y < 60){
+                    game.setScreen(game.getOfficeState());
+                }
+
             }
         });
 
         stage.addActor(playBtn);
-        stage.addActor(playBtn);
-        stage.addActor(playBtn);
+
 
     }
 
@@ -96,22 +99,6 @@ public class MainMenuState implements Screen {
         //Draw everything
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-    }
-
-    private void playButton(){
-        Gdx.app.log("",""+ Gdx.input.getY());
-        if(Gdx.input.isTouched()
-                && Gdx.input.getX()/100f > 3 && Gdx.input.getX() /100f < 3+ img.getWidth() / 100f
-                && Gdx.input.getY()/100f > 3 && Gdx.input.getY() /100f < 3+ img.getHeight() / 100f){
-            img = new Texture("button2.png");
-        }else{
-            img = new Texture("button1.png");
-        }
-        if(Gdx.input.justTouched()
-                && Gdx.input.getX()/100f > 3 && Gdx.input.getX() /100f < 3+ img.getWidth() / 100f
-                && Gdx.input.getY()/100f > 3 && Gdx.input.getY() /100f < 3+ img.getHeight() / 100f){
-            game.setScreen(game.getOfficeState());
-        }
     }
 
     @Override
