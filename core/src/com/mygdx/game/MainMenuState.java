@@ -2,60 +2,84 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * Created by SamiH on 24.2.2017.
  */
 
 public class MainMenuState implements Screen {
-
-
-
+    private Skin skin;
     private ChaosCompany game;
-    private OrthographicCamera camera;
     private Texture img;
-    private TextureRegion imgRegion;
-    private TextureRegionDrawable imgRegionDraw;
-    private ImageButton playBtn;
     private Stage stage;
+    private SpriteBatch batch;
 
     public MainMenuState(ChaosCompany g){
-        camera =            new OrthographicCamera();
-        camera.setToOrtho(false, 8f, 4.8f);
+        this.game = g;
+        create();
+    }
 
-        game =              g;
-        img =               new Texture("button1.png");
-        imgRegion =         new TextureRegion(img);
-        imgRegionDraw =     new TextureRegionDrawable(imgRegion);
-        playBtn =           new ImageButton(imgRegionDraw);
-        stage =             new Stage(new ScreenViewport(camera));
+    public void create(){
+        batch =         new SpriteBatch();
+        stage =         new Stage();
+        Gdx.input.setInputProcessor(stage);
+
+        //Setting up skin color and size
+        skin = new Skin();
+        Pixmap pixmap = new Pixmap(100,30, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+
+        skin.add("white", new Texture(pixmap));
+
+        //Setting up skin font.
+        BitmapFont bfont = new BitmapFont();
+        skin.add("default", bfont);
+
+        //Config TextButtonStyle and name it "default"
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+
+        textButtonStyle.font = skin.getFont("default");
+
+        skin.add("default", textButtonStyle);
+
+        //Create TextButton named "playBtn"
+        final TextButton playBtn = new TextButton("PLAY",textButtonStyle);
+        playBtn.setPosition(200, 200);
 
 
-        playBtn.setPosition(1,1);
-
-        playBtn.addListener(new InputListener(){
-            @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("TAG", "Toimiiko? No vittu ei :D");
-            }
-            @Override
+        playBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("toimiiko?","No toimii!");
-                getGame().setScreen(getGame().getOfficeState());
                 return true;
             }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(game.getOfficeState());
+            }
         });
+
         stage.addActor(playBtn);
+        stage.addActor(playBtn);
+        stage.addActor(playBtn);
+
     }
 
     @Override
@@ -65,13 +89,29 @@ public class MainMenuState implements Screen {
 
     @Override
     public void render(float delta) {
-
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        //Clear screen
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-        stage.act(Gdx.graphics.getDeltaTime());
+        //Draw everything
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+    }
+
+    private void playButton(){
+        Gdx.app.log("",""+ Gdx.input.getY());
+        if(Gdx.input.isTouched()
+                && Gdx.input.getX()/100f > 3 && Gdx.input.getX() /100f < 3+ img.getWidth() / 100f
+                && Gdx.input.getY()/100f > 3 && Gdx.input.getY() /100f < 3+ img.getHeight() / 100f){
+            img = new Texture("button2.png");
+        }else{
+            img = new Texture("button1.png");
+        }
+        if(Gdx.input.justTouched()
+                && Gdx.input.getX()/100f > 3 && Gdx.input.getX() /100f < 3+ img.getWidth() / 100f
+                && Gdx.input.getY()/100f > 3 && Gdx.input.getY() /100f < 3+ img.getHeight() / 100f){
+            game.setScreen(game.getOfficeState());
+        }
     }
 
     @Override
