@@ -32,6 +32,7 @@ public class ChaosCompany extends Game {
 	@Override
 	public void render () {
         super.render();
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && getScreen() == mainMenuState ){
             setScreen(officeState);
         } 

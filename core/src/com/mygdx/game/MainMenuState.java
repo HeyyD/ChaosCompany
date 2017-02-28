@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class MainMenuState implements Screen {
     private Skin skin;
     private ChaosCompany game;
-    private Texture backgroundImage;
+    //private Texture backgroundImage;
     private Stage stage;
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -42,7 +42,7 @@ public class MainMenuState implements Screen {
         batch =             new SpriteBatch();
         stage =             new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT));
         camera =            new OrthographicCamera();
-        backgroundImage =   new Texture("menubackground.png");
+        //backgroundImage =   new Texture("menubackground.png");
 
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
@@ -145,7 +145,7 @@ public class MainMenuState implements Screen {
         //Draw everything
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         batch.begin();
-        batch.draw(backgroundImage,0,0);
+        //batch.draw(backgroundImage,0,0);
         batch.end();
         stage.draw();
     }
