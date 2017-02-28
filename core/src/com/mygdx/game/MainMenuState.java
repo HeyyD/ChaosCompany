@@ -1,5 +1,4 @@
 package com.mygdx.game;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -23,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class MainMenuState implements Screen {
     private Skin skin;
     private ChaosCompany game;
-    //private Texture backgroundImage;
+    private Texture backgroundImage;
     private Stage stage;
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -42,11 +41,10 @@ public class MainMenuState implements Screen {
         batch =             new SpriteBatch();
         stage =             new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT));
         camera =            new OrthographicCamera();
-        //backgroundImage =   new Texture("menubackground.png");
+        backgroundImage =   new Texture("menubackground.png");
 
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
-        Gdx.input.setInputProcessor(stage);
 
         //Setting up skin color and size of button
         skin = new Skin();
@@ -95,7 +93,7 @@ public class MainMenuState implements Screen {
 
         //SETTINGS BUTTON
         settingsBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2
-        - BUTTON_HEIGHT - 10);
+                - BUTTON_HEIGHT - 10);
         //Add InputListener to settingsBtn
         settingsBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -133,7 +131,7 @@ public class MainMenuState implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -145,7 +143,7 @@ public class MainMenuState implements Screen {
         //Draw everything
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         batch.begin();
-        //batch.draw(backgroundImage,0,0);
+        batch.draw(backgroundImage,0,0);
         batch.end();
         stage.draw();
     }

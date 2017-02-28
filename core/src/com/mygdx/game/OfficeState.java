@@ -88,7 +88,7 @@ public class OfficeState implements InputProcessor, Screen{
 
     public OfficeState(Game g) {
 
-        Gdx.input.setInputProcessor(this);	//register this class as input processor
+
 
         GL20 gl = Gdx.graphics.getGL20();
         gl.glEnable(GL20.GL_BLEND);
@@ -143,7 +143,7 @@ public class OfficeState implements InputProcessor, Screen{
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(this);	//register this class as input processor
     }
 
     @Override

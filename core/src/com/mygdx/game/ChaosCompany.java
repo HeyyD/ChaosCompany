@@ -35,7 +35,7 @@ public class ChaosCompany extends Game {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && getScreen() == mainMenuState ){
             setScreen(officeState);
-        } 
+        }
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
             setScreen(mainMenuState);
         }
@@ -46,7 +46,7 @@ public class ChaosCompany extends Game {
             setScreen(hireState);
         }
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
