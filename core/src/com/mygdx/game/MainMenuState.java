@@ -48,7 +48,7 @@ public class MainMenuState implements Screen {
         batch.setProjectionMatrix(camera.combined);
         Gdx.input.setInputProcessor(stage);
 
-        //Setting up skin color and size
+        //Setting up skin color and size of button
         skin = new Skin();
         Pixmap pixmap = new Pixmap(BUTTON_WIDTH,BUTTON_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
@@ -56,7 +56,7 @@ public class MainMenuState implements Screen {
 
         skin.add("white", new Texture(pixmap));
 
-        //Setting up skin font.
+        //Setting up skin font of button.
         BitmapFont bfont = new BitmapFont();
         skin.add("default", bfont);
 
@@ -70,10 +70,14 @@ public class MainMenuState implements Screen {
 
         skin.add("default", textButtonStyle);
 
-        //Create TextButton named "playBtn"
+        //Create TextButton three TextButtons
         final TextButton playBtn = new TextButton("PLAY",textButtonStyle);
-        playBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2);
+        final TextButton settingsBtn = new TextButton("SETTINGS", textButtonStyle);
+        final TextButton exitBtn = new TextButton("EXIT", textButtonStyle);
 
+
+        //PLAYBUTTON
+        playBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2);
         //Add InputListener to playBtn
         playBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -89,7 +93,42 @@ public class MainMenuState implements Screen {
         });
         stage.addActor(playBtn);
 
+        //SETTINGS BUTTON
+        settingsBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2
+        - BUTTON_HEIGHT - 10);
+        //Add InputListener to settingsBtn
+        settingsBtn.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("X: "+ x + "Y: " + y);
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < BUTTON_WIDTH && y > 0 && y < BUTTON_HEIGHT){
+                    game.setScreen(game.getOfficeState());
+                }
+            }
+        });
+        stage.addActor(settingsBtn);
 
+        //EXIT BUTTON
+        exitBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/2 - BUTTON_HEIGHT /2
+                - BUTTON_HEIGHT * 2 - 40);
+        //Add InputListener to exitBtn
+        exitBtn.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("X: "+ x + "Y: " + y);
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < BUTTON_WIDTH && y > 0 && y < BUTTON_HEIGHT){
+                    Gdx.app.log("", "Exiting..");
+                    Gdx.app.exit();
+                }
+            }
+        });
+        stage.addActor(exitBtn);
     }
 
     @Override
@@ -99,7 +138,6 @@ public class MainMenuState implements Screen {
 
     @Override
     public void render(float delta) {
-
         //Clear screen
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
