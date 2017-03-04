@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -13,7 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.ChaosCompany;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class OfficeState implements InputProcessor, Screen{
 
@@ -32,63 +31,12 @@ public class OfficeState implements InputProcessor, Screen{
 
     private int 				pickedTileX = -1, pickedTileY = -1;
 
-    @Override
-    public boolean keyDown(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        touch.set(screenX, screenY, 0);
-        cam.unproject(touch);
-        touch.mul(invIsotransform);
-
-        pickedTileX = (int)touch.x;
-        pickedTileY = (int)touch.y;
-
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public OfficeState(Game g) {
+    //menu
+    private Stage               stage;
+    private BuildMenu         buildMenu = null;
 
 
+    public OfficeState(ChaosCompany g) {
 
         GL20 gl = Gdx.graphics.getGL20();
         gl.glEnable(GL20.GL_BLEND);
@@ -96,6 +44,7 @@ public class OfficeState implements InputProcessor, Screen{
         gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch = new SpriteBatch();
         cam = new OrthographicCamera();
+        stage = new Stage();
 
         //load the tileset
         textureTileset = new Texture("tileset.png");
@@ -108,14 +57,14 @@ public class OfficeState implements InputProcessor, Screen{
         //create a 10x10 isometric map
         map = new int[][]{
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 1 ,1, 1, 1, 1, 1, 1, 0},
-                {0, 1, 2 ,2, 0, 0, 0, 0, 1, 0},
-                {0, 1, 2 ,2, 0, 0, 0, 0, 1, 0},
-                {0, 1, 0 ,0, 0, 0, 0, 0, 1, 0},
-                {0, 1, 0 ,0, 0, 0, 0, 0, 1, 0},
-                {0, 1, 0 ,0, 0, 0, 0, 0, 1, 0},
-                {0, 1, 0 ,0, 0, 0, 0, 0, 1, 0},
-                {0, 1, 1 ,1, 1, 1, 1, 1, 1, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0}
         };
 
@@ -129,21 +78,65 @@ public class OfficeState implements InputProcessor, Screen{
         isoTransform.scale((float)(Math.sqrt(2.0) / 2.0), (float)(Math.sqrt(2.0) / 4.0), 1.0f);
         isoTransform.rotate(0.0f, 0.0f, 1.0f, -45.0f);
 
-
-
-
         //... and the inverse matrix
         invIsotransform = new Matrix4(isoTransform);
         invIsotransform.inv();
 
         //touch vector
         touch = new Vector3();
+    }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        touch.set(screenX, screenY, 0);
+        cam.unproject(touch);
+        touch.mul(invIsotransform);
+        pickedTileX = (int) touch.x;
+        pickedTileY = (int) touch.y;
+        return false;
+
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);	//register this class as input processor
+        stage.getViewport().setCamera(cam);
     }
 
     @Override
@@ -152,17 +145,19 @@ public class OfficeState implements InputProcessor, Screen{
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         spriteBatch.setProjectionMatrix(cam.combined);
+        stage.act(delta);
         spriteBatch.setTransformMatrix(id);
-
         spriteBatch.begin();
+
         renderMap();
+        renderBuildMenu();
+
         spriteBatch.end();
-
-
+        stage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
-        spriteBatch.begin();
-        spriteBatch.draw(tileSet[3], 0.0f, 0.0f, 1.0f, 1.0f);
-        spriteBatch.end();
+
+        cam.update();
+
     }
 
     @Override
@@ -174,12 +169,20 @@ public class OfficeState implements InputProcessor, Screen{
         //for the height, we just maintain the aspect ratio
         float camHeight = camWidth * ((float)height / (float)width);
 
-        cam = new OrthographicCamera(camWidth, camHeight);
+        cam.setToOrtho(false, camWidth, camHeight);
         cam.position.set(camWidth / 2.0f, 0, 0);
-        cam.update();
-
     }
 
+    private void renderBuildMenu(){
+
+        float offset = 0.5f;
+        float x_pos = (pickedTileX * tileWidth /2.0f ) + (pickedTileY * tileWidth / 2.0f) + offset;
+        float y_pos = - (pickedTileX * tileHeight / 2.0f) + (pickedTileY * tileHeight /2.0f) + offset;
+
+        if((pickedTileX >= 0 || pickedTileY >= 0) && buildMenu == null){
+            buildMenu = new BuildMenu(stage, x_pos, y_pos);
+        }
+    }
 
     private void renderMap(){
         for (int x = 0; x < 10; x++){
@@ -192,21 +195,26 @@ public class OfficeState implements InputProcessor, Screen{
                     spriteBatch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
                 else
                     spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                spriteBatch.draw(tileSet[map[x][y]], x_pos, y_pos, tileWidth, tileHeight);
 
+                spriteBatch.draw(tileSet[map[x][y]], x_pos, y_pos, tileWidth, tileHeight);
             }
         }
     }
 
+    public void resetBuildMenu(){
+        pickedTileY = -1;
+        pickedTileX = -1;
+        stage.clear();
+        buildMenu = null;
+    }
+
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -220,7 +228,7 @@ public class OfficeState implements InputProcessor, Screen{
         GL20 gl = Gdx.graphics.getGL20();
         gl.glDisable(GL20.GL_BLEND);
         gl.glDisable(GL20.GL_TEXTURE_2D);
-
+        stage.dispose();
     }
 
 }

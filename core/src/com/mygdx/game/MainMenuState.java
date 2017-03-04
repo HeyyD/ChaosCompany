@@ -79,7 +79,7 @@ public class MainMenuState implements Screen {
         //Add InputListener to playBtn
         playBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("X: "+ x + "Y: " + y);
+                //System.out.println("X: "+ x + "Y: " + y);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -97,7 +97,7 @@ public class MainMenuState implements Screen {
         //Add InputListener to settingsBtn
         settingsBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("X: "+ x + "Y: " + y);
+                //System.out.println("X: "+ x + "Y: " + y);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -115,7 +115,7 @@ public class MainMenuState implements Screen {
         //Add InputListener to exitBtn
         exitBtn.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("X: "+ x + "Y: " + y);
+                //System.out.println("X: "+ x + "Y: " + y);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -165,7 +165,7 @@ public class MainMenuState implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

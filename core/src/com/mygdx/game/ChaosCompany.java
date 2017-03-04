@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ChaosCompany extends Game {
-	private SpriteBatch     batch;
-    private MainMenuState   mainMenuState;
-    private OfficeState     officeState;
-    private MapState        mapState;
-    private HireState       hireState;
+
+    public static MainMenuState   mainMenuState;
+    public static OfficeState     officeState;
+    public static MapState        mapState;
+    public static HireState       hireState;
+
+	protected SpriteBatch   batch;
 
     public SpriteBatch getSpriteBatch(){
         return batch;
