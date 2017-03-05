@@ -6,7 +6,7 @@ package com.mygdx.game;
 
 public class StatsManager {
 
-    private int welfare =50;
+    private int welfare = 50;
 
     public int getWelfare() {
         return welfare;

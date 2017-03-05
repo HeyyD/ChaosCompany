@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ChaosCompany extends Game {
 
+    //Screens
     public static MainMenuState   mainMenuState;
     public static OfficeState     officeState;
     public static MapState        mapState;
     public static HireState       hireState;
+
+    //Manager
+    public static StatsManager    manager;
 
 	protected SpriteBatch   batch;
 
@@ -22,6 +26,11 @@ public class ChaosCompany extends Game {
 
 	@Override
 	public void create () {
+
+        //Stats Manager
+        manager                 = new StatsManager();
+
+        //Screens
         batch                   = new SpriteBatch();
         mainMenuState           = new MainMenuState(this);
         officeState             = new OfficeState(this);
@@ -55,5 +64,9 @@ public class ChaosCompany extends Game {
 
     public OfficeState getOfficeState(){
         return this.officeState;
+    }
+
+    public StatsManager getManager(){
+        return manager;
     }
 }

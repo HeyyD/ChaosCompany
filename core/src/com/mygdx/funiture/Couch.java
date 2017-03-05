@@ -2,6 +2,7 @@ package com.mygdx.funiture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.StatsManager;
 
 /**
@@ -16,14 +17,8 @@ public class Couch extends Funiture {
 
     public Couch(StatsManager m, float x, float y){
         manager = m;
-        //Test
+        manager.setWelfare(manager.getWelfare() + welfare);
         System.out.println(manager.getWelfare());
-
-        manager.setWelfare(manager.getWelfare()+this.welfare);
-
-        //Test
-        System.out.println(manager.getWelfare());
-
         setPosX(x);
         setPosY(y);
         setAlive(true);
@@ -31,14 +26,10 @@ public class Couch extends Funiture {
     }
 
     @Override
-    public void draw(Batch batch, float alpha) {
+    public void draw(SpriteBatch batch) {
         batch.draw(couchImg, getPosX(), getPosY(), 1f, 1f);
     }
 
-    @Override
-    public void act(float delta){
-        super.act(delta);
-    }
 
     @Override
     void create() {

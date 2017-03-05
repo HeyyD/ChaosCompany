@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Created by SamiH on 4.3.2017.
  */
 
-abstract class Funiture extends Actor {
+abstract class Funiture {
 
     private float posX = 0;
     private float posY = 0;
@@ -18,6 +18,8 @@ abstract class Funiture extends Actor {
     abstract void create();
 
     abstract void sell();
+
+    abstract void draw(SpriteBatch batch);
 
     public void setPosX(float x){
         this.posX = x;

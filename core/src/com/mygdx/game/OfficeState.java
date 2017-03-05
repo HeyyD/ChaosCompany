@@ -18,6 +18,7 @@ import com.mygdx.funiture.Couch;
 public class OfficeState implements InputProcessor, Screen{
 
     private ChaosCompany        game;
+    private StatsManager        manager;
     private Matrix4 			isoTransform = null;
     private Matrix4				invIsotransform = null;
     private Matrix4				id = null;
@@ -36,8 +37,12 @@ public class OfficeState implements InputProcessor, Screen{
     private Stage               stage;
     private BuildMenu         buildMenu = null;
 
+    //TEST
+    private Couch               couch;
 
     public OfficeState(ChaosCompany g) {
+
+        game = g;
 
         GL20 gl = Gdx.graphics.getGL20();
         gl.glEnable(GL20.GL_BLEND);
@@ -85,7 +90,12 @@ public class OfficeState implements InputProcessor, Screen{
 
         //touch vector
         touch = new Vector3();
-        stage.addActor(new Couch(new StatsManager(), 5f, 5f));
+
+        //Stats manager
+        manager = game.getManager();
+
+        //TEST
+        couch = new Couch(manager, 3f, 3f);
     }
 
     @Override
@@ -153,6 +163,9 @@ public class OfficeState implements InputProcessor, Screen{
 
         renderMap();
         renderBuildMenu();
+
+        //Test
+        couch.draw(spriteBatch);
 
         spriteBatch.end();
         stage.draw();
