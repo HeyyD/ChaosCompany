@@ -9,17 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Created by SamiH on 4.3.2017.
  */
 
-abstract class Funiture {
+abstract class Funiture extends Actor{
 
     private float posX = 0;
     private float posY = 0;
+    private int price = 0;
+    private int sellPrice = 0;
+
     private boolean alive = false;
 
     abstract void create();
 
     abstract void sell();
 
-    abstract void draw(SpriteBatch batch);
 
     public void setPosX(float x){
         this.posX = x;
@@ -43,5 +45,21 @@ abstract class Funiture {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public void setPrice(int price){
+        this.price = price;
+    }
+
+    public int getPrice(){
+        return price;
+    }
+
+    public void setSellPrice(int sellPrice){
+        this.sellPrice = sellPrice;
+    }
+
+    public int getSellPrice(){
+        return sellPrice;
     }
 }

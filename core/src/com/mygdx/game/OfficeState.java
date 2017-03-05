@@ -35,7 +35,8 @@ public class OfficeState implements InputProcessor, Screen{
 
     //menu
     private Stage               stage;
-    private BuildMenu         buildMenu = null;
+    private Stage               funitureStage;
+    private BuildMenu           buildMenu = null;
 
     //TEST
     private Couch               couch;
@@ -51,6 +52,7 @@ public class OfficeState implements InputProcessor, Screen{
         spriteBatch = new SpriteBatch();
         cam = new OrthographicCamera();
         stage = new Stage();
+        funitureStage = new Stage();
 
         //load the tileset
         textureTileset = new Texture("tileset.png");
@@ -95,7 +97,8 @@ public class OfficeState implements InputProcessor, Screen{
         manager = game.getManager();
 
         //TEST
-        couch = new Couch(manager, 3f, 3f);
+        couch = new Couch(manager, 0f, 0f);
+        funitureStage.addActor(couch);
     }
 
     @Override
@@ -149,6 +152,7 @@ public class OfficeState implements InputProcessor, Screen{
     public void show() {
         Gdx.input.setInputProcessor(this);	//register this class as input processor
         stage.getViewport().setCamera(cam);
+        funitureStage.getViewport().setCamera(cam);
     }
 
     @Override
@@ -158,17 +162,18 @@ public class OfficeState implements InputProcessor, Screen{
 
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
+        funitureStage.act(delta);
+
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
 
         renderMap();
         renderBuildMenu();
 
-        //Test
-        couch.draw(spriteBatch);
 
         spriteBatch.end();
         stage.draw();
+        funitureStage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
 
         cam.update();
@@ -244,6 +249,7 @@ public class OfficeState implements InputProcessor, Screen{
         gl.glDisable(GL20.GL_BLEND);
         gl.glDisable(GL20.GL_TEXTURE_2D);
         stage.dispose();
+        funitureStage.dispose();
     }
 
 }

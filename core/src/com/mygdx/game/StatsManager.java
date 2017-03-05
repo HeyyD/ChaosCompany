@@ -7,7 +7,15 @@ package com.mygdx.game;
 public class StatsManager {
 
     private int welfare = 50;
+    private int money = 500;
 
+    public int getMoney(){
+        return money;
+    }
+
+    public void setMoney(int money){
+        this.money = money;
+    }
     public int getWelfare() {
         return welfare;
     }

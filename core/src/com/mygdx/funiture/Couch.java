@@ -17,17 +17,29 @@ public class Couch extends Funiture {
 
     public Couch(StatsManager m, float x, float y){
         manager = m;
+        //Add benfits
         manager.setWelfare(manager.getWelfare() + welfare);
         System.out.println(manager.getWelfare());
+        //Set position, price and sellPrice
         setPosX(x);
         setPosY(y);
+        setPrice(100);
+        setSellPrice(50);
+
+        manager.setMoney(manager.getMoney() - getPrice());
+        //because this couch is living being, we set his alive attribute to true.
         setAlive(true);
         couchImg = new Texture("couch.png");
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void draw(Batch batch, float alfa) {
         batch.draw(couchImg, getPosX(), getPosY(), 1f, 1f);
+    }
+
+    @Override
+    public void act(float delta){
+        super.act(delta);
     }
 
 
@@ -38,7 +50,12 @@ public class Couch extends Funiture {
 
     @Override
     void sell() {
+        //Destroy couch >:)
         setAlive(false);
+        //minus benfits
+        manager.setWelfare(manager.getWelfare()-welfare);
         System.out.println(manager.getWelfare());
+        //add money
+        manager.setMoney(manager.getMoney() + getSellPrice());
     }
 }

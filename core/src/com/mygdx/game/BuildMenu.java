@@ -118,5 +118,4 @@ public class BuildMenu extends Actor{
     public void act(float delta){
         super.act(delta);
     }
-
 }
