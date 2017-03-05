@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.funiture.Couch;
 
 public class OfficeState implements InputProcessor, Screen{
 
@@ -84,6 +85,7 @@ public class OfficeState implements InputProcessor, Screen{
 
         //touch vector
         touch = new Vector3();
+        stage.addActor(new Couch(new StatsManager(), 5f, 5f));
     }
 
     @Override

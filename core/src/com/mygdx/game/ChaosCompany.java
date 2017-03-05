@@ -16,7 +16,7 @@ public class ChaosCompany extends Game {
 
 	protected SpriteBatch   batch;
 
-    public SpriteBatch getSpriteBatch(){
+    public SpriteBatch getSpriteBatch() {
         return batch;
     }
 
@@ -29,9 +29,9 @@ public class ChaosCompany extends Game {
         hireState               = new HireState(this);
 
         setScreen(mainMenuState);
-	}
+    }
 
-	@Override
+    @Override
 	public void render () {
         super.render();
 
@@ -47,12 +47,11 @@ public class ChaosCompany extends Game {
         if(Gdx.input.isKeyJustPressed(Input.Keys.B) && getScreen() == mapState){
             setScreen(hireState);
         }
-	}
-
-	@Override
-	public void dispose () {
-		batch.dispose();
-	}
+    }
+    @Override
+    public void dispose () {
+        batch.dispose();
+    }
 
     public OfficeState getOfficeState(){
         return this.officeState;
