@@ -16,11 +16,9 @@ abstract class Funiture extends Actor{
     private int price = 0;
     private int sellPrice = 0;
 
-    private boolean alive = false;
-
     abstract void create();
 
-    abstract void sell();
+    public abstract void sell();
 
 
     public void setPosX(float x){
@@ -37,14 +35,6 @@ abstract class Funiture extends Actor{
 
     public float getPosY(){
         return this.posY;
-    }
-
-    public boolean getAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public void setPrice(int price){

@@ -97,8 +97,9 @@ public class OfficeState implements InputProcessor, Screen{
         manager = game.getManager();
 
         //TEST
-        couch = new Couch(manager, 0f, 0f);
+        couch = new Couch(game, 0f, 0f);
         funitureStage.addActor(couch);
+        couch.sell();
     }
 
     @Override
@@ -250,6 +251,10 @@ public class OfficeState implements InputProcessor, Screen{
         gl.glDisable(GL20.GL_TEXTURE_2D);
         stage.dispose();
         funitureStage.dispose();
+    }
+
+    public Stage getFunitureStage(){
+        return funitureStage;
     }
 
 }
