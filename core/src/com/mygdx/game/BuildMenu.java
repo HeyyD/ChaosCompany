@@ -27,9 +27,9 @@ public class BuildMenu extends Actor{
     private float               menuHeight = 2;
 
     private Skin                skin;
-    private int                 buttonWidth = 200;
-    private int                 buttonHeight = 60;
-    private float               buttonScale = 0.007f;
+    private int                 buttonWidth = 100;
+    private int                 buttonHeight = 30;
+    private float               buttonScale = 0.01f;
     private TextButton          buildButton;
     private TextButton          cancelButton;
     private float               buttonOffset = 0.5f;
@@ -76,7 +76,7 @@ public class BuildMenu extends Actor{
         buildButton = new TextButton("BUILD", textButtonStyle);
         buildButton.setTransform(true);
         buildButton.setScale(buttonScale);
-        buildButton.setPosition(getX() + getWidth() * 0.2f, getY() + getHeight() * 0.6f);
+        buildButton.setPosition(getX() + (buildButton.getWidth()/2) * buttonScale, getY() + getHeight() * 0.75f);
 
         buildButton.addListener(new InputListener() {
 
