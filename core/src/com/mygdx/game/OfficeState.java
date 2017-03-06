@@ -5,14 +5,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.furniture.Couch;
+import com.mygdx.map.TileMap;
 
 public class OfficeState implements InputProcessor, Screen{
 
@@ -23,14 +21,8 @@ public class OfficeState implements InputProcessor, Screen{
     private Matrix4				id = null;
     private SpriteBatch			spriteBatch = null;
     private int[][]				map = null;
-    private Texture				textureTileset = null;
-    private TextureRegion[]		tileSet = null;
     private OrthographicCamera	cam = null;
-    private float				tileWidth = 1.0f;
-    private float				tileHeight = .5f;
     private Vector3				touch = null;
-
-    private int 				pickedTileX = -1, pickedTileY = -1;
 
     //menu
     private Stage               stage;
@@ -39,6 +31,7 @@ public class OfficeState implements InputProcessor, Screen{
 
     //TEST
     private Couch               couch;
+    private TileMap             tileMap = null;
 
     public OfficeState(ChaosCompany g) {
 
@@ -53,15 +46,6 @@ public class OfficeState implements InputProcessor, Screen{
         stage = new Stage();
         funitureStage = new Stage();
 
-        //load the tileset
-        textureTileset = new Texture("tileset.png");
-        textureTileset.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        tileSet = new TextureRegion[4];
-        for(int x=0;x<4;x++){
-            tileSet[x] = new TextureRegion(textureTileset, x*64, 0, 64, 32);
-        }
-
-        //create a 10x10 isometric map
         map = new int[][]{
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
@@ -74,6 +58,8 @@ public class OfficeState implements InputProcessor, Screen{
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0}
         };
+
+        tileMap = new TileMap(map, spriteBatch);
 
         id = new Matrix4();
         id.idt();
@@ -122,8 +108,8 @@ public class OfficeState implements InputProcessor, Screen{
         touch.set(screenX, screenY, 0);
         cam.unproject(touch);
         touch.mul(invIsotransform);
-        pickedTileX = (int) touch.x;
-        pickedTileY = (int) touch.y;
+        tileMap.pickedTileX = (int) touch.x;
+        tileMap.pickedTileY = (int) touch.y;
         return false;
 
     }
@@ -167,7 +153,7 @@ public class OfficeState implements InputProcessor, Screen{
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
 
-        renderMap();
+        tileMap.renderMap();
         renderBuildMenu();
 
 
@@ -184,7 +170,7 @@ public class OfficeState implements InputProcessor, Screen{
     public void resize(int width, int height) {
 
         //the cam will show 10 tiles
-        float camWidth = tileWidth * 10.0f;
+        float camWidth = tileMap.tileWidth * 10.0f;
 
         //for the height, we just maintain the aspect ratio
         float camHeight = camWidth * ((float)height / (float)width);
@@ -196,34 +182,17 @@ public class OfficeState implements InputProcessor, Screen{
     private void renderBuildMenu(){
 
         float offset = 0.5f;
-        float x_pos = (pickedTileX * tileWidth /2.0f ) + (pickedTileY * tileWidth / 2.0f) + offset;
-        float y_pos = - (pickedTileX * tileHeight / 2.0f) + (pickedTileY * tileHeight /2.0f) + offset;
+        float x_pos = (tileMap.pickedTileX * tileMap.tileWidth /2.0f ) + (tileMap.pickedTileY * tileMap.tileWidth / 2.0f) + offset;
+        float y_pos = - (tileMap.pickedTileX * tileMap.tileHeight / 2.0f) + (tileMap.pickedTileY * tileMap.tileHeight /2.0f) + offset;
 
-        if((pickedTileX >= 0 || pickedTileY >= 0) && buildMenu == null){
+        if((tileMap.pickedTileX >= 0 || tileMap.pickedTileY >= 0) && buildMenu == null){
             buildMenu = new BuildMenu(stage, x_pos, y_pos);
         }
     }
 
-    private void renderMap(){
-        for (int x = 0; x < 10; x++){
-            for(int y = 10-1; y >= 0; y--){
-
-                float x_pos = (x * tileWidth /2.0f ) + (y * tileWidth / 2.0f);
-                float y_pos = - (x * tileHeight / 2.0f) + (y * tileHeight /2.0f);
-
-                if(x==pickedTileX && y==pickedTileY)
-                    spriteBatch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-                else
-                    spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-                spriteBatch.draw(tileSet[map[x][y]], x_pos, y_pos, tileWidth, tileHeight);
-            }
-        }
-    }
-
     public void resetBuildMenu(){
-        pickedTileY = -1;
-        pickedTileX = -1;
+        tileMap.pickedTileY = -1;
+        tileMap.pickedTileX = -1;
         stage.clear();
         buildMenu = null;
     }

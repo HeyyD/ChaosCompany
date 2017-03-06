@@ -106,8 +106,6 @@ public class BuildMenu extends Actor{
 
     }
 
-
-
     @Override
     public void draw(Batch batch, float alpha){
         act(Gdx.graphics.getDeltaTime());
