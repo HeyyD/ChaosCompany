@@ -146,6 +146,7 @@ public class OfficeState implements InputProcessor, Screen{
         GL20 gl = Gdx.graphics.getGL20();
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
         funitureStage.act(delta);
@@ -186,7 +187,7 @@ public class OfficeState implements InputProcessor, Screen{
         float y_pos = - (tileMap.pickedTileX * tileMap.tileHeight / 2.0f) + (tileMap.pickedTileY * tileMap.tileHeight /2.0f) + offset;
 
         if((tileMap.pickedTileX >= 0 || tileMap.pickedTileY >= 0) && buildMenu == null){
-            buildMenu = new BuildMenu(stage, x_pos, y_pos);
+            buildMenu = new BuildMenu(game, x_pos, y_pos);
         }
     }
 
@@ -224,5 +225,12 @@ public class OfficeState implements InputProcessor, Screen{
     public Stage getFunitureStage(){
         return funitureStage;
     }
+    public Stage getStage(){
+        return stage;
+    }
+    public TileMap getTileMap(){
+        return tileMap;
+    }
+
 
 }

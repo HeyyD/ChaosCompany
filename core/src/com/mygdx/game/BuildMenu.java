@@ -12,8 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.mygdx.furniture.Couch;
 
 public class BuildMenu extends Actor{
+
+    //Game
+    private ChaosCompany        game;
+    private Stage               stage;
+    private Stage               funitureStage;
 
     //menu
     private Texture             menuBackground;
@@ -28,7 +34,11 @@ public class BuildMenu extends Actor{
     private TextButton          cancelButton;
     private float               buttonOffset = 0.5f;
 
-    public BuildMenu (Stage stage, float x, float y){
+    public BuildMenu (ChaosCompany g, float x, float y){
+
+        game                    = g;
+        stage                   = game.getOfficeState().getStage();
+        funitureStage           = game.getOfficeState().getFunitureStage();
 
         menuBackground = new Texture("white.jpg");
 
@@ -77,7 +87,19 @@ public class BuildMenu extends Actor{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
-                    System.out.println("BUILD");
+                    float x_pos = (game.getOfficeState().getTileMap().pickedTileX *
+                            game.getOfficeState().getTileMap().tileWidth /2.0f )
+                            +
+                            (game.getOfficeState().getTileMap().pickedTileY *
+                                    game.getOfficeState().getTileMap().tileWidth / 2.0f);
+
+                    float y_pos = - (game.getOfficeState().getTileMap().pickedTileX *
+                            game.getOfficeState().getTileMap().tileHeight /2.0f )
+                            +
+                            (game.getOfficeState().getTileMap().pickedTileY *
+                                    game.getOfficeState().getTileMap().tileWidth / 4.0f);
+
+                    funitureStage.addActor(new Couch(game, x_pos, y_pos));
                 }
             }
         });
