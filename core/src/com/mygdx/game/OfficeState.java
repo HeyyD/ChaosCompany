@@ -12,8 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.funiture.Couch;
+import com.mygdx.furniture.Couch;
 
 public class OfficeState implements InputProcessor, Screen{
 
@@ -99,7 +98,7 @@ public class OfficeState implements InputProcessor, Screen{
         //TEST
         couch = new Couch(game, 0f, 0f);
         funitureStage.addActor(couch);
-        couch.sell();
+
     }
 
     @Override

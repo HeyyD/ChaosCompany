@@ -1,8 +1,7 @@
-package com.mygdx.funiture;
+package com.mygdx.furniture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.StatsManager;
 
@@ -10,7 +9,7 @@ import com.mygdx.game.StatsManager;
  * Created by SamiH on 5.3.2017.
  */
 
-public class Couch extends Funiture {
+public class Couch extends Furniture {
 
     private StatsManager        manager;
     private Texture             couchImg;
@@ -30,7 +29,6 @@ public class Couch extends Funiture {
         setSellPrice(50);
 
         manager.setMoney(manager.getMoney() - getPrice());
-        //because this couch is living being, we set his alive attribute to true.
         couchImg = new Texture("couch.png");
     }
 
