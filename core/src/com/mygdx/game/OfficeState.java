@@ -29,9 +29,15 @@ public class OfficeState implements InputProcessor, Screen{
     private Stage               funitureStage;
     private BuildMenu           buildMenu = null;
 
+    //BuildMenu size
+    private final float         buildMenuHeight = 2;
+    private final float         buildMenuWidth = 2;
+
     //TEST
     private Couch               couch;
     private TileMap             tileMap = null;
+
+
 
     public OfficeState(ChaosCompany g) {
 
@@ -186,6 +192,12 @@ public class OfficeState implements InputProcessor, Screen{
         float x_pos = (tileMap.pickedTileX * tileMap.tileWidth /2.0f ) + (tileMap.pickedTileY * tileMap.tileWidth / 2.0f) + offset;
         float y_pos = - (tileMap.pickedTileX * tileMap.tileHeight / 2.0f) + (tileMap.pickedTileY * tileMap.tileHeight /2.0f) + offset;
 
+        if(y_pos > (3-buildMenuHeight)){
+            y_pos = 3-buildMenuHeight;
+        }
+        if(x_pos > tileMap.tileWidth * 10 - buildMenuWidth){
+            x_pos = tileMap.tileWidth * 10 - buildMenuWidth;
+        }
         if((tileMap.pickedTileX >= 0 || tileMap.pickedTileY >= 0) && buildMenu == null){
             buildMenu = new BuildMenu(game, x_pos, y_pos);
         }
@@ -232,6 +244,4 @@ public class OfficeState implements InputProcessor, Screen{
     public TileMap getTileMap(){
         return tileMap;
     }
-
-
 }
