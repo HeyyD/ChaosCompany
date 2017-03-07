@@ -159,8 +159,8 @@ public class OfficeState implements InputProcessor, Screen{
 
 
         spriteBatch.end();
-        stage.draw();
         funitureStage.draw();
+        stage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
 
         cam.update();
@@ -196,6 +196,7 @@ public class OfficeState implements InputProcessor, Screen{
         tileMap.pickedTileX = -1;
         stage.clear();
         buildMenu = null;
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override

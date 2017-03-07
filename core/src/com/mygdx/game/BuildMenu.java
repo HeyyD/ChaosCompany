@@ -100,6 +100,7 @@ public class BuildMenu extends Actor{
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
                     funitureStage.addActor(new Couch(game, x_pos, y_pos));
+                    ChaosCompany.officeState.resetBuildMenu();
                 }
             }
         });

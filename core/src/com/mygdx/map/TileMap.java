@@ -13,10 +13,10 @@ public class TileMap {
     private SpriteBatch         spriteBatch = null;
     private int[][]             map = null;
     private Texture             textureTileset = null;
-    private final int           TILE_WIDTH_PIXELS = 64;
-    private final int           TILE_HEIGHT_PIXELS = 32;
+    private final int           TILE_WIDTH_PIXELS = 128;
+    private final int           TILE_HEIGHT_PIXELS = 64;
     private TextureRegion[]		tileSet = null;
-    private int                 tileSetWidth = 4;
+    private int                 tileSetWidth = 2;
     private Tile[][]            tiles = null;
 
     public TileMap (int[][] map, SpriteBatch spriteBatch){
