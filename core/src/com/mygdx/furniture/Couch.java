@@ -21,10 +21,9 @@ public class Couch extends Furniture {
         manager = game.getManager();
         //Add benfits
         manager.setWelfare(manager.getWelfare() + welfare);
-        System.out.println(manager.getWelfare());
         //Set position, price and sellPrice
-        setPosX(x);
-        setPosY(y);
+        setX(x);
+        setY(y);
         setPrice(100);
         setSellPrice(50);
 
@@ -34,7 +33,7 @@ public class Couch extends Furniture {
 
     @Override
     public void draw(Batch batch, float alfa) {
-        batch.draw(couchImg, getPosX(), getPosY(), 1f, 1f);
+        batch.draw(couchImg, getX(), getY(), 1f, 1f);
     }
 
     @Override
@@ -52,7 +51,6 @@ public class Couch extends Furniture {
     public void sell() {
         //minus benfits
         manager.setWelfare(manager.getWelfare()-welfare);
-        System.out.println(manager.getWelfare());
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch

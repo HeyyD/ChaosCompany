@@ -1,15 +1,12 @@
 package com.mygdx.furniture;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
  * Created by SamiH on 4.3.2017.
  */
 
-abstract class Furniture extends Actor{
+public abstract class Furniture extends Actor{
 
     private float posX = 0;
     private float posY = 0;

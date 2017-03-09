@@ -19,7 +19,7 @@ public class BuildMenu extends Actor{
     //Game
     private ChaosCompany        game;
     private Stage               stage;
-    private Stage               funitureStage;
+    private Stage               furnitureStage;
 
     //menu
     private Texture             menuBackground;
@@ -38,7 +38,7 @@ public class BuildMenu extends Actor{
 
         game                    = g;
         stage                   = game.getOfficeState().getStage();
-        funitureStage           = game.getOfficeState().getFunitureStage();
+        furnitureStage           = game.getOfficeState().getfurnitureStage();
 
         menuBackground = new Texture("white.jpg");
 
@@ -99,7 +99,8 @@ public class BuildMenu extends Actor{
                             (game.getOfficeState().getTileMap().pickedTileY *
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
-                    funitureStage.addActor(new Couch(game, x_pos, y_pos));
+                    furnitureStage.addActor(new Couch(game, x_pos, y_pos));
+                    ChaosCompany.officeState.updateDrawingOrder();
                     ChaosCompany.officeState.resetBuildMenu();
                 }
             }

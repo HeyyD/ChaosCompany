@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.furniture.Couch;
 import com.mygdx.map.TileMap;
+import java.util.Comparator;
 
 public class OfficeState implements InputProcessor, Screen{
 
@@ -26,7 +29,7 @@ public class OfficeState implements InputProcessor, Screen{
 
     //menu
     private Stage               stage;
-    private Stage               funitureStage;
+    private Stage               furnitureStage;
     private BuildMenu           buildMenu = null;
 
     //BuildMenu size
@@ -50,7 +53,7 @@ public class OfficeState implements InputProcessor, Screen{
         spriteBatch = new SpriteBatch();
         cam = new OrthographicCamera();
         stage = new Stage();
-        funitureStage = new Stage();
+        furnitureStage = new Stage();
 
         map = new int[][]{
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
@@ -86,11 +89,6 @@ public class OfficeState implements InputProcessor, Screen{
 
         //Stats manager
         manager = game.getManager();
-
-        //TEST
-        couch = new Couch(game, 0f, 0f);
-        funitureStage.addActor(couch);
-
     }
 
     @Override
@@ -144,7 +142,7 @@ public class OfficeState implements InputProcessor, Screen{
     public void show() {
         Gdx.input.setInputProcessor(this);	//register this class as input processor
         stage.getViewport().setCamera(cam);
-        funitureStage.getViewport().setCamera(cam);
+        furnitureStage.getViewport().setCamera(cam);
     }
 
     @Override
@@ -155,7 +153,7 @@ public class OfficeState implements InputProcessor, Screen{
 
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
-        funitureStage.act(delta);
+        furnitureStage.act(delta);
 
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
@@ -165,7 +163,7 @@ public class OfficeState implements InputProcessor, Screen{
 
 
         spriteBatch.end();
-        funitureStage.draw();
+        furnitureStage.draw();
         stage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
 
@@ -211,6 +209,18 @@ public class OfficeState implements InputProcessor, Screen{
         Gdx.input.setInputProcessor(this);
     }
 
+    public void updateDrawingOrder(){
+
+        //get all actors in the furnitureStage
+        Array<Actor> actorsList = furnitureStage.getActors();
+        //furnitureStage.clear();
+        actorsList.sort(new ActorComparator());
+
+        for(int i = 0; i < actorsList.size; i++){
+            System.out.println(actorsList.get(i).getY());
+        }
+    }
+
     @Override
     public void pause() {
 
@@ -232,16 +242,30 @@ public class OfficeState implements InputProcessor, Screen{
         gl.glDisable(GL20.GL_BLEND);
         gl.glDisable(GL20.GL_TEXTURE_2D);
         stage.dispose();
-        funitureStage.dispose();
+        furnitureStage.dispose();
     }
 
-    public Stage getFunitureStage(){
-        return funitureStage;
+    public Stage getfurnitureStage(){
+        return furnitureStage;
     }
     public Stage getStage(){
         return stage;
     }
     public TileMap getTileMap(){
         return tileMap;
+    }
+
+    class ActorComparator implements Comparator<Actor> {
+        @Override
+
+        public int compare(Actor arg0, Actor arg1) {
+            if (arg0.getY() < arg1.getY()) {
+                return 1;
+            } else if (arg0.getY() > arg1.getY()) {
+                return -1;
+            } else{
+                return 0;
+            }
+        }
     }
 }
