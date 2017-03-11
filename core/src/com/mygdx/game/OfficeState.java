@@ -131,6 +131,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //Setup multiplexer
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(furnitureStage);
         multiplexer.addProcessor(input);
     }
 
@@ -158,8 +159,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
 
         spriteBatch.end();
-        furnitureStage.draw();
+
         stage.draw();
+        furnitureStage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
 
         cam.update();

@@ -15,6 +15,8 @@ public abstract class Furniture extends Actor{
     private Texture sheet;
     private boolean bought = false;
 
+    private FurnitureButtons    buttons;
+
     public abstract void sell();
 
     public abstract void buy();
@@ -52,4 +54,11 @@ public abstract class Furniture extends Actor{
         this.bought = bought;
     }
 
+    public FurnitureButtons getButtons(){
+        return buttons;
+    }
+
+    public void setButtons(FurnitureButtons buttons){
+        this.buttons = buttons;
+    }
 }

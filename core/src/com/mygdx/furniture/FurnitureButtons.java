@@ -59,7 +59,7 @@ public class FurnitureButtons {
         create();
     }
 
-    private void create(){
+    public void create(){
         //ROTATE BUTTON
         rotate = new TextButton("R", textButtonStyle);
         rotate.setTransform(true);
@@ -77,6 +77,7 @@ public class FurnitureButtons {
             }
         });
         stage.addActor(rotate);
+
         //MOVE BUTTON
         move = new TextButton("M", textButtonStyle);
         move.setTransform(true);

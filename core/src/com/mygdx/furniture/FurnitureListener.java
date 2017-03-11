@@ -12,7 +12,6 @@ import com.mygdx.game.ChaosCompany;
 public class FurnitureListener extends InputListener {
 
     private ChaosCompany        game;
-    private FurnitureMenu       menu;
     private Furniture           furniture;
 
     public FurnitureListener(ChaosCompany g, Furniture furniture){
@@ -25,6 +24,7 @@ public class FurnitureListener extends InputListener {
     }
 
     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-        menu = new FurnitureMenu(game,furniture.getX(),furniture.getY());
+        furniture.getButtons().create();
+        System.out.println(furniture.getX()+" YY"+furniture.getY());
     }
 }
