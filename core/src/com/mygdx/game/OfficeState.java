@@ -1,21 +1,22 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.furniture.Couch;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
 
-public class OfficeState implements InputProcessor, Screen{
+public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     private ChaosCompany        game;
     private StatsManager        manager;
@@ -24,6 +25,12 @@ public class OfficeState implements InputProcessor, Screen{
     private Matrix4				id = null;
     private SpriteBatch			spriteBatch = null;
     private int[][]				map = null;
+    private float               cameraDistance = 1f;
+    private float               zoomSpeed = 0.0001f;
+    private float               panSpeed = 0.01f;
+    private float               maxCameraDistance = 3f;
+    private float               minCameraDistance = 0.7f;
+    private Vector3             cameraPosition = null;
     private OrthographicCamera	cam = null;
     private Vector3				touch = null;
 
@@ -35,12 +42,10 @@ public class OfficeState implements InputProcessor, Screen{
     //BuildMenu size
     private final float         buildMenuHeight = 2;
     private final float         buildMenuWidth = 2;
-
-    //TEST
-    private Couch               couch;
     private TileMap             tileMap = null;
 
-
+    //Input
+    protected GestureDetector     input = null;
 
     public OfficeState(ChaosCompany g) {
 
@@ -52,6 +57,7 @@ public class OfficeState implements InputProcessor, Screen{
         gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch = new SpriteBatch();
         cam = new OrthographicCamera();
+        cameraPosition = new Vector3(0,0,0);
         stage = new Stage();
         furnitureStage = new Stage();
 
@@ -89,58 +95,13 @@ public class OfficeState implements InputProcessor, Screen{
 
         //Stats manager
         manager = game.getManager();
-    }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        touch.set(screenX, screenY, 0);
-        cam.unproject(touch);
-        touch.mul(invIsotransform);
-        tileMap.pickedTileX = (int) touch.x;
-        tileMap.pickedTileY = (int) touch.y;
-        return false;
-
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+        input = new GestureDetector(this);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);	//register this class as input processor
+        Gdx.input.setInputProcessor(input);	//register this class as input processor
         stage.getViewport().setCamera(cam);
         furnitureStage.getViewport().setCamera(cam);
     }
@@ -175,13 +136,14 @@ public class OfficeState implements InputProcessor, Screen{
     public void resize(int width, int height) {
 
         //the cam will show 10 tiles
-        float camWidth = tileMap.tileWidth * 10.0f;
+        float camWidth = tileMap.tileWidth * 10.0f * cameraDistance;
 
         //for the height, we just maintain the aspect ratio
         float camHeight = camWidth * ((float)height / (float)width);
 
         cam.setToOrtho(false, camWidth, camHeight);
-        cam.position.set(camWidth / 2.0f, 0, 0);
+        cam.position.set(cameraPosition);
+        cam.update();
     }
 
     private void renderBuildMenu(){
@@ -197,7 +159,7 @@ public class OfficeState implements InputProcessor, Screen{
             x_pos = tileMap.tileWidth * 10 - buildMenuWidth;
         }
         if((tileMap.pickedTileX >= 0 || tileMap.pickedTileY >= 0) && buildMenu == null){
-            buildMenu = new BuildMenu(game, x_pos, y_pos);
+            buildMenu = new BuildMenu(game, cam, x_pos, y_pos, cameraDistance);
         }
     }
 
@@ -206,19 +168,14 @@ public class OfficeState implements InputProcessor, Screen{
         tileMap.pickedTileX = -1;
         stage.clear();
         buildMenu = null;
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(input);
     }
 
     public void updateDrawingOrder(){
 
         //get all actors in the furnitureStage
         Array<Actor> actorsList = furnitureStage.getActors();
-        //furnitureStage.clear();
         actorsList.sort(new ActorComparator());
-
-        for(int i = 0; i < actorsList.size; i++){
-            System.out.println(actorsList.get(i).getY());
-        }
     }
 
     @Override
@@ -253,6 +210,73 @@ public class OfficeState implements InputProcessor, Screen{
     }
     public TileMap getTileMap(){
         return tileMap;
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+
+        touch.set(x, y, 0);
+        cam.unproject(touch);
+        touch.mul(invIsotransform);
+        tileMap.pickedTileX = (int) touch.x;
+        tileMap.pickedTileY = (int) touch.y;
+
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+
+        cameraPosition.x -= deltaX * panSpeed;
+        cameraPosition.y += deltaY * panSpeed;
+        resize(800, 480);
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        //calculates the zoom amount
+        cameraDistance += (initialDistance - distance) * zoomSpeed;
+
+        //Makes sure the user can't zoom too far or too close
+        if(cameraDistance < minCameraDistance)
+            cameraDistance = minCameraDistance;
+        else if(cameraDistance > maxCameraDistance)
+            cameraDistance = maxCameraDistance;
+
+        //camera needs to be set again
+        resize(800, 480);
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
     }
 
     class ActorComparator implements Comparator<Actor> {

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -23,8 +24,8 @@ public class BuildMenu extends Actor{
 
     //menu
     private Texture             menuBackground;
-    private float               menuWidth = 2;
-    private float               menuHeight = 2;
+    private float               menuWidth = .2f;
+    private float               menuHeight = .4f;
 
     private Skin                skin;
     private int                 buttonWidth = 100;
@@ -32,9 +33,9 @@ public class BuildMenu extends Actor{
     private float               buttonScale = 0.01f;
     private TextButton          buildButton;
     private TextButton          cancelButton;
-    private float               buttonOffset = 0.5f;
+    private float               buttonOffset = 0.2f;
 
-    public BuildMenu (ChaosCompany g, float x, float y){
+    public BuildMenu (ChaosCompany g, OrthographicCamera camera, float x, float y, float scale){
 
         game                    = g;
         stage                   = game.getOfficeState().getStage();
@@ -42,9 +43,10 @@ public class BuildMenu extends Actor{
 
         menuBackground = new Texture("white.jpg");
 
-        setSize(menuWidth, menuHeight);
+        setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         setPosition(x, y);
         setBounds(getX(), getY(), getWidth(), getHeight());
+        buttonOffset = getHeight() * buttonOffset;
 
         stage.addActor(this);
 
@@ -75,8 +77,8 @@ public class BuildMenu extends Actor{
 
         buildButton = new TextButton("BUILD", textButtonStyle);
         buildButton.setTransform(true);
-        buildButton.setScale(buttonScale);
-        buildButton.setPosition(getX() + (buildButton.getWidth()/2) * buttonScale, getY() + getHeight() * 0.75f);
+        buildButton.setScale(scale * buttonScale);
+        buildButton.setPosition(getX() + (buildButton.getWidth()/2) * buildButton.getScaleX(), getY() + getHeight() * 0.75f);
 
         buildButton.addListener(new InputListener() {
 
@@ -108,7 +110,7 @@ public class BuildMenu extends Actor{
 
         cancelButton = new TextButton("CANCEL", textButtonStyle);
         cancelButton.setTransform(true);
-        cancelButton.setScale(buttonScale);
+        cancelButton.setScale(scale * buttonScale);
         cancelButton.setPosition(buildButton.getX(), buildButton.getY() - buttonOffset);
 
         cancelButton.addListener(new InputListener() {
@@ -118,7 +120,7 @@ public class BuildMenu extends Actor{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
-                    Gdx.input.setInputProcessor(ChaosCompany.officeState);
+                    Gdx.input.setInputProcessor(ChaosCompany.officeState.input);
                     ChaosCompany.officeState.resetBuildMenu();
                 }
             }
