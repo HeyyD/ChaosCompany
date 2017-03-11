@@ -78,6 +78,8 @@ public class Couch extends Furniture {
         //Destroy couch
         remove();
     }
+
+    @Override
     public void buy(){
         manager.setWelfare((manager.getWelfare()+welfare));
         manager.setMoney(manager.getMoney() + getSellPrice());

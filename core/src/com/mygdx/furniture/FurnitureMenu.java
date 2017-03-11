@@ -42,6 +42,7 @@ public class FurnitureMenu extends Actor{
 
     private float               buttonOffset = 0.5f;
 
+
     public FurnitureMenu (ChaosCompany g, float x, float y){
 
         game                    = g;
@@ -125,7 +126,7 @@ public class FurnitureMenu extends Actor{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
-                    Gdx.input.setInputProcessor(ChaosCompany.officeState);
+                    //Gdx.input.setInputProcessor(ChaosCompany.officeState);
                     //ChaosCompany.officeState.resetBuildMenu();
                 }
             }

@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,7 +22,7 @@ import com.mygdx.furniture.FurnitureMenu;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
 
-public class OfficeState implements InputProcessor,GestureDetector.GestureListener, Screen{
+public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     private ChaosCompany        game;
     private StatsManager        manager;
@@ -58,6 +59,7 @@ public class OfficeState implements InputProcessor,GestureDetector.GestureListen
 
     //Input
     protected GestureDetector     input = null;
+    private InputMultiplexer      multiplexer = null;
 
 
 
@@ -71,7 +73,7 @@ public class OfficeState implements InputProcessor,GestureDetector.GestureListen
         gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch = new SpriteBatch();
         cam = new OrthographicCamera();
-        cameraPosition = new Vector3(0,0,0);
+        cameraPosition = new Vector3(5,0,0);
         stage = new Stage();
         furnitureStage = new Stage();
 
@@ -126,58 +128,16 @@ public class OfficeState implements InputProcessor,GestureDetector.GestureListen
         });
 
         input = new GestureDetector(this);
+        //Setup multiplexer
+        multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(input);
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        touch.set(screenX, screenY, 0);
-        cam.unproject(touch);
-        touch.mul(invIsotransform);
-        tileMap.pickedTileX = (int) touch.x;
-        tileMap.pickedTileY = (int) touch.y;
-        return false;
-
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(input);	//register this class as input processor
+        Gdx.input.setInputProcessor(multiplexer);	//register this class as input processor
         stage.getViewport().setCamera(cam);
         furnitureStage.getViewport().setCamera(cam);
     }

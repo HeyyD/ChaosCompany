@@ -48,8 +48,6 @@ public class BuildMenu extends Actor{
 
         stage.addActor(this);
 
-        Gdx.input.setInputProcessor(stage);
-
         //button creation
         //Setting up skin color and size of button
         skin = new Skin();
