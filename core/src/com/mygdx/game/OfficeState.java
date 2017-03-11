@@ -281,7 +281,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     class ActorComparator implements Comparator<Actor> {
         @Override
-
+        //compares the Y-position of the furniture
         public int compare(Actor arg0, Actor arg1) {
             if (arg0.getY() < arg1.getY()) {
                 return 1;
