@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.furniture;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,33 +12,41 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygdx.furniture.Couch;
+import com.mygdx.game.ChaosCompany;
 
-public class BuildMenu extends Actor{
+/**
+ * Created by SamiH on 9.3.2017.
+ */
+
+public class FurnitureMenu extends Actor{
 
     //Game
     private ChaosCompany        game;
     private Stage               stage;
-    private Stage               furnitureStage;
+    private Stage               funitureStage;
 
     //menu
-    private Texture             menuBackground;
+    private Texture menuBackground;
     private float               menuWidth = 2;
     private float               menuHeight = 2;
 
-    private Skin                skin;
+    private Skin skin;
     private int                 buttonWidth = 100;
     private int                 buttonHeight = 30;
     private float               buttonScale = 0.01f;
-    private TextButton          buildButton;
+
+    private TextButton          moveButton;
+    private TextButton          rotateButton;
+    private TextButton          sellButton;
     private TextButton          cancelButton;
+
     private float               buttonOffset = 0.5f;
 
-    public BuildMenu (ChaosCompany g, float x, float y){
+    public FurnitureMenu (ChaosCompany g, float x, float y){
 
         game                    = g;
         stage                   = game.getOfficeState().getStage();
-        furnitureStage           = game.getOfficeState().getFurnitureStage();
+        funitureStage           = game.getOfficeState().getFurnitureStage();
 
         menuBackground = new Texture("white.jpg");
 
@@ -73,12 +81,12 @@ public class BuildMenu extends Actor{
 
         skin.add("default", textButtonStyle);
 
-        buildButton = new TextButton("BUILD", textButtonStyle);
-        buildButton.setTransform(true);
-        buildButton.setScale(buttonScale);
-        buildButton.setPosition(getX() + (buildButton.getWidth()/2) * buttonScale, getY() + getHeight() * 0.75f);
+        moveButton = new TextButton("MOVE", textButtonStyle);
+        moveButton.setTransform(true);
+        moveButton.setScale(buttonScale);
+        moveButton.setPosition(getX() + (moveButton.getWidth()/2) * buttonScale, getY() + getHeight() * 0.75f);
 
-        buildButton.addListener(new InputListener() {
+        moveButton.addListener(new InputListener() {
 
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -99,41 +107,33 @@ public class BuildMenu extends Actor{
                             (game.getOfficeState().getTileMap().pickedTileY *
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
-                    //KORJAA
-                    furnitureStage.addActor(new Couch(game, 0, 0));
-                    ChaosCompany.officeState.updateDrawingOrder();
+                    funitureStage.addActor(new Couch(game, x_pos, y_pos));
                     //ChaosCompany.officeState.resetBuildMenu();
-                    cancelButton.remove();
-                    buildButton.remove();
-                    remove();
                 }
             }
         });
 
-        cancelButton = new TextButton("CANCEL", textButtonStyle);
-        cancelButton.setTransform(true);
-        cancelButton.setScale(buttonScale);
-        cancelButton.setPosition(buildButton.getX(), buildButton.getY() - buttonOffset);
+        rotateButton = new TextButton("CANCEL", textButtonStyle);
+        rotateButton.setTransform(true);
+        rotateButton.setScale(buttonScale);
+        rotateButton.setPosition(moveButton.getX(), moveButton.getY() - buttonOffset);
 
-        cancelButton.addListener(new InputListener() {
+        rotateButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
-                    //Gdx.input.setInputProcessor(ChaosCompany.officeState);
+                    Gdx.input.setInputProcessor(ChaosCompany.officeState);
                     //ChaosCompany.officeState.resetBuildMenu();
-                    cancelButton.remove();
-                    buildButton.remove();
-                    remove();
                 }
             }
         });
 
         stage.addActor(this);
-        stage.addActor(buildButton);
-        stage.addActor(cancelButton);
+        stage.addActor(moveButton);
+        stage.addActor(rotateButton);
 
     }
 

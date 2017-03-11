@@ -1,7 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,12 +11,17 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.furniture.Couch;
+import com.mygdx.furniture.FurnitureMenu;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
 
-public class OfficeState implements GestureDetector.GestureListener, Screen{
+public class OfficeState implements InputProcessor,GestureDetector.GestureListener, Screen{
 
     private ChaosCompany        game;
     private StatsManager        manager;
@@ -25,6 +30,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private Matrix4				id = null;
     private SpriteBatch			spriteBatch = null;
     private int[][]				map = null;
+
+    //CAMERA
     private float               cameraDistance = 1f;
     private float               zoomSpeed = 0.0001f;
     private float               panSpeed = 0.01f;
@@ -32,20 +39,27 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private float               minCameraDistance = 0.7f;
     private Vector3             cameraPosition = null;
     private OrthographicCamera	cam = null;
+
+
     private Vector3				touch = null;
 
     //menu
     private Stage               stage;
     private Stage               furnitureStage;
     private BuildMenu           buildMenu = null;
+    private FurnitureMenu       furnitureMenu = null;
+    private TextButton          buildMenuBtn = null;
 
     //BuildMenu size
     private final float         buildMenuHeight = 2;
     private final float         buildMenuWidth = 2;
+
     private TileMap             tileMap = null;
 
     //Input
     protected GestureDetector     input = null;
+
+
 
     public OfficeState(ChaosCompany g) {
 
@@ -62,11 +76,11 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         furnitureStage = new Stage();
 
         map = new int[][]{
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 {0, 0, 0 ,0, 0, 0, 0, 1, 0, 0},
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
@@ -96,7 +110,69 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //Stats manager
         manager = game.getManager();
 
+        //TEST
+        buildMenuBtn = new GameButton(game, stage, 8.5f,-2.5f,"BUILD").getButton();
+        buildMenuBtn.addListener(new InputListener(){
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < 100 && y > 0 && y < 100){
+                    new BuildMenu(game, 8,0);
+                }
+            }
+        });
+
         input = new GestureDetector(this);
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        touch.set(screenX, screenY, 0);
+        cam.unproject(touch);
+        touch.mul(invIsotransform);
+        tileMap.pickedTileX = (int) touch.x;
+        tileMap.pickedTileY = (int) touch.y;
+        return false;
+
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
     @Override
@@ -111,7 +187,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         GL20 gl = Gdx.graphics.getGL20();
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
         furnitureStage.act(delta);
@@ -120,7 +195,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         spriteBatch.begin();
 
         tileMap.renderMap();
-        renderBuildMenu();
 
 
         spriteBatch.end();
@@ -129,7 +203,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         spriteBatch.setTransformMatrix(isoTransform);
 
         cam.update();
-
     }
 
     @Override
@@ -146,36 +219,16 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         cam.update();
     }
 
-    private void renderBuildMenu(){
-
-        float offset = 0.5f;
-        float x_pos = (tileMap.pickedTileX * tileMap.tileWidth /2.0f ) + (tileMap.pickedTileY * tileMap.tileWidth / 2.0f) + offset;
-        float y_pos = - (tileMap.pickedTileX * tileMap.tileHeight / 2.0f) + (tileMap.pickedTileY * tileMap.tileHeight /2.0f) + offset;
-
-        if(y_pos > (3-buildMenuHeight)){
-            y_pos = 3-buildMenuHeight;
-        }
-        if(x_pos > tileMap.tileWidth * 10 - buildMenuWidth){
-            x_pos = tileMap.tileWidth * 10 - buildMenuWidth;
-        }
-        if((tileMap.pickedTileX >= 0 || tileMap.pickedTileY >= 0) && buildMenu == null){
-            buildMenu = new BuildMenu(game, cam, x_pos, y_pos, cameraDistance);
-        }
-    }
-
-    public void resetBuildMenu(){
-        tileMap.pickedTileY = -1;
-        tileMap.pickedTileX = -1;
-        stage.clear();
-        buildMenu = null;
-        Gdx.input.setInputProcessor(input);
-    }
-
     public void updateDrawingOrder(){
 
         //get all actors in the furnitureStage
         Array<Actor> actorsList = furnitureStage.getActors();
+        //furnitureStage.clear();
         actorsList.sort(new ActorComparator());
+
+        for(int i = 0; i < actorsList.size; i++){
+            System.out.println(actorsList.get(i).getY());
+        }
     }
 
     @Override
@@ -202,8 +255,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         furnitureStage.dispose();
     }
 
-    public Stage getfurnitureStage(){
+
+    public Stage getFurnitureStage(){
         return furnitureStage;
+    }
+    public FurnitureMenu getFurnitureMenu(){
+        return furnitureMenu;
     }
     public Stage getStage(){
         return stage;
@@ -219,7 +276,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-
         touch.set(x, y, 0);
         cam.unproject(touch);
         touch.mul(invIsotransform);
@@ -241,7 +297,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-
         cameraPosition.x -= deltaX * panSpeed;
         cameraPosition.y += deltaY * panSpeed;
         resize(800, 480);
@@ -278,6 +333,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public void pinchStop() {
 
     }
+
 
     class ActorComparator implements Comparator<Actor> {
         @Override

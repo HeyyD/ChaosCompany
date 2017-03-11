@@ -1,5 +1,7 @@
 package com.mygdx.furniture;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -8,31 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class Furniture extends Actor{
 
-    private float posX = 0;
-    private float posY = 0;
     private int price = 0;
     private int sellPrice = 0;
-
-    abstract void create();
+    private Texture sheet;
+    private boolean bought = false;
 
     public abstract void sell();
 
+    public abstract void buy();
 
-    public void setPosX(float x){
-        this.posX = x;
-    }
+    abstract void rotate();
 
-    public float getPosX(){
-        return this.posX;
-    }
-
-    public void setPosY(float y){
-        this.posY = y;
-    }
-
-    public float getPosY(){
-        return this.posY;
-    }
 
     public void setPrice(int price){
         this.price = price;
@@ -49,4 +37,19 @@ public abstract class Furniture extends Actor{
     public int getSellPrice(){
         return sellPrice;
     }
+
+    public Texture getSheet(){
+        return sheet;
+    }
+    public void setSheet(Texture t){
+        this.sheet = t;
+    }
+    public boolean getBought(){
+        return bought;
+    }
+
+    public void setBought(boolean bought){
+        this.bought = bought;
+    }
+
 }

@@ -16,4 +16,11 @@ public class Tile {
         batch.draw(texture, x, y, width, height);
     }
 
+    public boolean getIsFull(){
+        return isFull;
+    }
+
+    public void setIsFull(boolean isFull){
+        this.isFull = isFull;
+    }
 }

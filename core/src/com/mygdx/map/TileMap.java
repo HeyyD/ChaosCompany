@@ -57,4 +57,11 @@ public class TileMap {
         }
     }
 
+    public boolean isPickedTileFull(int pickedTileX, int pickedTileY){
+        boolean isFull = false;
+        if(tiles[pickedTileX][pickedTileY].getIsFull()){
+            isFull = true;
+        }
+        return isFull;
+    }
 }
