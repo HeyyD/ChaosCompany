@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Tile {
 
+    private float x;
+    private float y;
     private boolean isFull = false;
     private TextureRegion texture;
 
@@ -22,5 +24,21 @@ public class Tile {
 
     public void setIsFull(boolean isFull){
         this.isFull = isFull;
+    }
+
+    public void setX(float x){
+        this.x = x;
+    }
+
+    public void setY(float y){
+        this.y = y;
+    }
+
+    public float getX(){
+        return x;
+    }
+
+    public float getY(){
+        return y;
     }
 }

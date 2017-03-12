@@ -108,7 +108,7 @@ public class FurnitureMenu extends Actor{
                             (game.getOfficeState().getTileMap().pickedTileY *
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
-                    funitureStage.addActor(new Couch(game, x_pos, y_pos));
+                    //funitureStage.addActor(new Couch(game, x_pos, y_pos));
                     //ChaosCompany.officeState.resetBuildMenu();
                 }
             }

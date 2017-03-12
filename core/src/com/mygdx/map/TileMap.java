@@ -38,21 +38,29 @@ public class TileMap {
                 tiles[i][j] = new Tile(tileSet[map[i][j]]);
             }
         }
-    }
-
-    public void renderMap(){
+        //give tiles coordinates
         for (int x = 0; x < tiles.length; x++){
             for(int y = tiles[x].length - 1; y >= 0; y--){
 
                 float x_pos = (x * tileWidth /2.0f ) + (y * tileWidth / 2.0f);
                 float y_pos = - (x * tileHeight / 2.0f) + (y * tileHeight /2.0f);
 
+                tiles[x][y].setX(x_pos);
+                tiles[x][y].setY(y_pos);
+            }
+        }
+    }
+
+    public void renderMap(){
+        for (int x = 0; x < tiles.length; x++){
+            for(int y = tiles[x].length - 1; y >= 0; y--){
+
                 if(x==pickedTileX && y==pickedTileY)
                     spriteBatch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
                 else
                     spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-                tiles[x][y].draw(spriteBatch, x_pos, y_pos, tileWidth, tileHeight);
+                tiles[x][y].draw(spriteBatch, tiles[x][y].getX(), tiles[x][y].getY(), tileWidth, tileHeight);
             }
         }
     }
