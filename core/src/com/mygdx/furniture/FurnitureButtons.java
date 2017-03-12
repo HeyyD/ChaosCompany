@@ -95,6 +95,7 @@ public class FurnitureButtons {
                 cancel.setPosition(furniture.getX(), furniture.getY() + 1f);
                 rotate.setPosition(furniture.getX()+0.5f, furniture.getY() -0.5f);
                 buySell.setPosition(furniture.getX()+1f, furniture.getY());
+                System.out.println(furniture.getX());
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
@@ -119,7 +120,9 @@ public class FurnitureButtons {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 40 && y > 0 && y < 40){
-                    furniture.remove();
+                    if(furniture.getBought() == false) {
+                        furniture.remove();
+                    }
                     rotate.remove();
                     cancel.remove();
                     move.remove();
@@ -143,19 +146,36 @@ public class FurnitureButtons {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 40 && y > 0 && y < 40){
                     if(furniture.getBought()){
+                        rotate.remove();
+                        cancel.remove();
+                        move.remove();
+                        buySell.remove();
                         furniture.sell();
                         buySellText = "B";
                     }else{
+                        rotate.remove();
+                        cancel.remove();
+                        move.remove();
+                        buySell.remove();
                         furniture.buy();
                         buySellText = "S";
                     }
-                    rotate.remove();
-                    cancel.remove();
-                    move.remove();
-                    buySell.remove();
                 }
             }
         });
         stage.addActor(buySell);
     }
+    public TextButton getMove(){
+        return move;
+    }
+    public TextButton getCancel(){
+        return cancel;
+    }
+    public TextButton getRotate(){
+        return rotate;
+    }
+    public TextButton getBuySell(){
+        return buySell;
+    }
+
 }

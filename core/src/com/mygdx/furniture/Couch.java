@@ -24,7 +24,6 @@ public class Couch extends Furniture {
     public Couch(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setButtons(new FurnitureButtons(g,this));
 
         //Setup Textures
         setSheet(new Texture("couchSheet.png"));
@@ -43,13 +42,16 @@ public class Couch extends Furniture {
         //Set position, price and sellPrice
         setX(x);
         setY(y);
+        System.out.println(getX()+getY());
         setPrice(100);
         setSellPrice(50);
 
         manager.setMoney(manager.getMoney() - getPrice());
 
         //SetBounds
-        setBounds(0,0,1,1);
+        setBounds(getX(),getY(),1,1);
+
+        setButtons(new FurnitureButtons(g,this));
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
@@ -74,12 +76,13 @@ public class Couch extends Furniture {
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch
         remove();
+        setBought(false);
     }
 
     @Override
     public void buy(){
         manager.setWelfare((manager.getWelfare()+welfare));
-        manager.setMoney(manager.getMoney() + getSellPrice());
+        manager.setMoney(manager.getMoney() - getSellPrice());
         setBought(true);
     }
 

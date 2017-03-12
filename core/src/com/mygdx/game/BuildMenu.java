@@ -98,9 +98,8 @@ public class BuildMenu extends Actor{
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
                     //KORJAA
-                    furnitureStage.addActor(new Couch(game, 0, 0));
+                    furnitureStage.addActor(new Couch(game, 1, 1));
                     ChaosCompany.officeState.updateDrawingOrder();
-                    //ChaosCompany.officeState.resetBuildMenu();
                     cancelButton.remove();
                     buildButton.remove();
                     remove();

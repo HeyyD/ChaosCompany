@@ -24,7 +24,9 @@ public class FurnitureListener extends InputListener {
     }
 
     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-        furniture.getButtons().create();
-        System.out.println(furniture.getX()+" YY"+furniture.getY());
+
+        if(x > 0 && x < 40 && y > 0 && y < 40) {
+            furniture.getButtons().create();
+        }
     }
 }
