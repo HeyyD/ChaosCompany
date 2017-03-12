@@ -160,9 +160,11 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
         spriteBatch.end();
 
-        stage.draw();
+
         furnitureStage.draw();
+        stage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
+        updateDrawingOrder();
 
         cam.update();
     }
@@ -185,12 +187,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
         //get all actors in the furnitureStage
         Array<Actor> actorsList = furnitureStage.getActors();
-        //furnitureStage.clear();
         actorsList.sort(new ActorComparator());
-
-        for(int i = 0; i < actorsList.size; i++){
-            System.out.println(actorsList.get(i).getY());
-        }
     }
 
     @Override
@@ -229,6 +226,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     }
     public TileMap getTileMap(){
         return tileMap;
+    }
+    public OrthographicCamera getCam() {
+        return cam;
+    }
+    public Matrix4 getInvIsotransform(){
+        return invIsotransform;
     }
 
     @Override

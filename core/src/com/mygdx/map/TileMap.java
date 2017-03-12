@@ -72,4 +72,8 @@ public class TileMap {
         }
         return isFull;
     }
+    public Tile[][] getTiles(){
+        return tiles;
+    }
+
 }

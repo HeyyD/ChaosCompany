@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.ChaosCompany;
+import com.mygdx.map.Tile;
 
 /**
  * Created by SamiH on 11.3.2017.
@@ -26,6 +29,9 @@ public class FurnitureButtons {
     private Skin            skin;
     private ChaosCompany    game;
     private Stage           stage;
+    private Vector3         touch;
+    private Tile[][]          tiles;
+    private Vector2         screenCoords;
 
     private TextButton.TextButtonStyle textButtonStyle;
 
@@ -34,6 +40,7 @@ public class FurnitureButtons {
         game = g;
         furniture = f;
         stage = game.getOfficeState().getStage();
+        tiles = game.getOfficeState().getTileMap().getTiles();
 
         //CREATE SKIN
         skin = new Skin();
@@ -56,6 +63,10 @@ public class FurnitureButtons {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
         //END OF SKIN CREATION
+
+        touch = new Vector3();
+        screenCoords = new Vector2(0,0);
+
         create();
     }
 
@@ -89,13 +100,29 @@ public class FurnitureButtons {
                 return true;
             }
             public void touchDragged(InputEvent event, float x, float y, int pointer){
-                furniture.setX(Gdx.input.getX()/100);
-                furniture.setY(-Gdx.input.getY()/100 + 0.5f);
+
+                //screenCoords.set(Gdx.input.getX(), Gdx.input.getY());
+                //game.getOfficeState().getFurnitureStage().screenToStageCoordinates(screenCoords);
+                //furniture.setPosition(screenCoords.x-1.2f, screenCoords.y-1.25f);
+                touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                game.getOfficeState().getCam().unproject(touch);
+                touch.mul(game.getOfficeState().getInvIsotransform());
+
+
+                if((int)touch.x > 0 && (int)touch.x < tiles.length && (int)touch.y > 0 && (int)touch.y < tiles[0].length);
+                {
+                    try {
+                        System.out.println((int) touch.x + " " + (int) touch.y);
+                        furniture.setX(tiles[(int) touch.x][(int) touch.y].getX());
+                        furniture.setY(tiles[(int) touch.x][(int) touch.y].getY());
+                    }catch(Exception e){
+                }
+                }
+
                 move.setPosition(furniture.getX()+1f, furniture.getY() + 1f);
                 cancel.setPosition(furniture.getX(), furniture.getY() + 1f);
                 rotate.setPosition(furniture.getX()+0.5f, furniture.getY() -0.5f);
                 buySell.setPosition(furniture.getX()+1f, furniture.getY());
-                System.out.println(furniture.getX());
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
@@ -176,6 +203,15 @@ public class FurnitureButtons {
     }
     public TextButton getBuySell(){
         return buySell;
+    }
+
+    public boolean isButtonsOpen(){
+        boolean isOpen = true;
+        if(buySell.getStage() == null && cancel.getStage() == null &&
+                rotate.getStage() == null && move.getStage() == null){
+            isOpen = false;
+        }
+        return isOpen;
     }
 
 }
