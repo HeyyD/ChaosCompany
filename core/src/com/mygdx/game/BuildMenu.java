@@ -23,12 +23,12 @@ public class BuildMenu extends Actor{
 
     //menu
     private Texture             menuBackground;
-    private float               menuWidth = 2;
-    private float               menuHeight = 2;
+    private float               menuWidth = 3;
+    private float               menuHeight = 3;
 
     private Skin                skin;
-    private int                 buttonWidth = 100;
-    private int                 buttonHeight = 30;
+    private int                 buttonWidth = 64;
+    private int                 buttonHeight = 64;
     private float               buttonScale = 0.01f;
     private TextButton          buildButton;
     private TextButton          cancelButton;
@@ -39,6 +39,7 @@ public class BuildMenu extends Actor{
         game                    = g;
         stage                   = game.getOfficeState().getStage();
         furnitureStage           = game.getOfficeState().getFurnitureStage();
+        game.getOfficeState().setIsBuildMenuOpen(true);
 
         menuBackground = new Texture("white.jpg");
 
@@ -97,20 +98,23 @@ public class BuildMenu extends Actor{
                             (game.getOfficeState().getTileMap().pickedTileY *
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
-                    //KORJAA
-                    furnitureStage.addActor(new Couch(game, 1, 0));
-                    ChaosCompany.officeState.updateDrawingOrder();
-                    cancelButton.remove();
-                    buildButton.remove();
-                    remove();
+                    if(game.getOfficeState().getIsMoving() == false) {
+                        furnitureStage.addActor(new Couch(game, 1, 0));
+                        ChaosCompany.officeState.updateDrawingOrder();
+                        cancelButton.remove();
+                        buildButton.remove();
+                        remove();
+                        game.getOfficeState().setIsMoving(true);
+                    }
+                    game.getOfficeState().setIsBuildMenuOpen(false);
                 }
             }
         });
 
-        cancelButton = new TextButton("CANCEL", textButtonStyle);
+        cancelButton = new TextButton("X", textButtonStyle);
         cancelButton.setTransform(true);
-        cancelButton.setScale(buttonScale);
-        cancelButton.setPosition(buildButton.getX(), buildButton.getY() - buttonOffset);
+        cancelButton.setScale(0.005f);
+        cancelButton.setPosition(getX() + menuWidth - 0.4f, getY() + (menuHeight - 0.4f));
 
         cancelButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -119,11 +123,10 @@ public class BuildMenu extends Actor{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
-                    //Gdx.input.setInputProcessor(ChaosCompany.officeState);
-                    //ChaosCompany.officeState.resetBuildMenu();
                     cancelButton.remove();
                     buildButton.remove();
                     remove();
+                    game.getOfficeState().setIsBuildMenuOpen(false);
                 }
             }
         });
@@ -131,7 +134,6 @@ public class BuildMenu extends Actor{
         stage.addActor(this);
         stage.addActor(buildButton);
         stage.addActor(cancelButton);
-
     }
 
     @Override

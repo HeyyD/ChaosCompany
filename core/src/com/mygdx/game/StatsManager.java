@@ -6,7 +6,7 @@ package com.mygdx.game;
 
 public class StatsManager {
 
-    private int welfare = 50;
+    private int wellBeing = 50;
     private int money = 500;
 
     public int getMoney(){
@@ -16,10 +16,10 @@ public class StatsManager {
     public void setMoney(int money){
         this.money = money;
     }
-    public int getWelfare() {
-        return welfare;
+    public int getWellBeing() {
+        return wellBeing;
     }
-    public void setWelfare(int welfare){
-        this.welfare = welfare;
+    public void setWellBeing(int wellBeing){
+        this.wellBeing = wellBeing;
     }
 }

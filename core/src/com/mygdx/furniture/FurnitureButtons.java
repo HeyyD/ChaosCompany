@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,8 +31,10 @@ public class FurnitureButtons {
     private ChaosCompany    game;
     private Stage           stage;
     private Vector3         touch;
-    private Tile[][]          tiles;
+    private Tile[][]        tiles;
     private Vector2         screenCoords;
+    private Stage           furnitureStage;
+    private SpriteBatch     batch;
 
     private TextButton.TextButtonStyle textButtonStyle;
 
@@ -40,7 +43,9 @@ public class FurnitureButtons {
         game = g;
         furniture = f;
         stage = game.getOfficeState().getStage();
+        furnitureStage = game.getOfficeState().getFurnitureStage();
         tiles = game.getOfficeState().getTileMap().getTiles();
+        batch = game.getOfficeState().getSpriteBatch();
 
         //CREATE SKIN
         skin = new Skin();
@@ -66,11 +71,12 @@ public class FurnitureButtons {
 
         touch = new Vector3();
         screenCoords = new Vector2(0,0);
-
         create();
     }
 
     public void create(){
+        //tell officeState that we are moving object.
+        game.getOfficeState().setIsMoving(true);
         //ROTATE BUTTON
         rotate = new TextButton("R", textButtonStyle);
         rotate.setTransform(true);
@@ -97,6 +103,19 @@ public class FurnitureButtons {
 
         move.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                screenCoords = new Vector2(furniture.getX(),furniture.getY());
+                screenCoords = furnitureStage.toScreenCoordinates(screenCoords, furnitureStage.getBatch().getTransformMatrix());
+
+                touch.set(screenCoords.x, screenCoords.y, 0);
+                game.getOfficeState().getCam().unproject(touch);
+                touch.mul(game.getOfficeState().getInvIsotransform());
+
+                if(!furniture.getIsMoving() && furniture.getBought()) {
+                    tiles[(int) touch.x][(int) touch.y + 1].setIsFull(false);
+                    furniture.setIsMoving(true);
+                    System.out.println(tiles[(int) touch.x][(int) touch.y + 1].getIsFull());
+                }
+
                 return true;
             }
             public void touchDragged(InputEvent event, float x, float y, int pointer){
@@ -108,16 +127,13 @@ public class FurnitureButtons {
                 game.getOfficeState().getCam().unproject(touch);
                 touch.mul(game.getOfficeState().getInvIsotransform());
 
-
-                if((int)touch.x > 0 && (int)touch.x < tiles.length && (int)touch.y > 0 && (int)touch.y < tiles[0].length);
+                if((int)touch.x >= 0 && (int)touch.x < tiles.length && (int)touch.y >= 0 && (int)touch.y < tiles[0].length)
                 {
-                    try {
                         System.out.println((int) touch.x + " " + (int) touch.y);
                         furniture.setX(tiles[(int) touch.x][(int) touch.y].getX());
                         furniture.setY(tiles[(int) touch.x][(int) touch.y].getY());
-                    }catch(Exception e){
                 }
-                }
+
 
                 move.setPosition(furniture.getX()+1f, furniture.getY() + 1f);
                 cancel.setPosition(furniture.getX(), furniture.getY() + 1f);
@@ -146,14 +162,30 @@ public class FurnitureButtons {
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
+                screenCoords = new Vector2(furniture.getX(),furniture.getY());
+                screenCoords = furnitureStage.toScreenCoordinates(screenCoords, furnitureStage.getBatch().getTransformMatrix());
+
+                touch.set(screenCoords.x, screenCoords.y, 0);
+                game.getOfficeState().getCam().unproject(touch);
+                touch.mul(game.getOfficeState().getInvIsotransform());
+
                 if(x > 0 && x < 40 && y > 0 && y < 40){
-                    if(furniture.getBought() == false) {
+                    if(!furniture.getBought()) {
+                        removeButtons();
                         furniture.remove();
+                        game.getOfficeState().setIsMoving(false);
                     }
-                    rotate.remove();
-                    cancel.remove();
-                    move.remove();
-                    buySell.remove();
+                    else if(furniture.getBought()&& !tiles[(int)touch.x][(int)touch.y+1].getIsFull()
+                            && furniture.getIsMoving()) {
+                        removeButtons();
+                        tiles[(int) touch.x][(int) touch.y + 1].setIsFull(true);
+                        game.getOfficeState().setIsMoving(false);
+                        furniture.setIsMoving(false);
+                    }
+                    else if(furniture.getBought() && !furniture.getIsMoving()){
+                        removeButtons();
+                        game.getOfficeState().setIsMoving(false);
+                    }
                 }
             }
         });
@@ -171,26 +203,42 @@ public class FurnitureButtons {
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
+                screenCoords = new Vector2(furniture.getX(),furniture.getY());
+                screenCoords = furnitureStage.toScreenCoordinates(screenCoords, furnitureStage.getBatch().getTransformMatrix());
+
+                touch.set(screenCoords.x, screenCoords.y, 0);
+                game.getOfficeState().getCam().unproject(touch);
+                touch.mul(game.getOfficeState().getInvIsotransform());
+                System.out.println((int)touch.x + " "+ (int)touch.y);
+
+                //I don't know why I have to add +1 to y coordinate, but it works.
                 if(x > 0 && x < 40 && y > 0 && y < 40){
                     if(furniture.getBought()){
-                        rotate.remove();
-                        cancel.remove();
-                        move.remove();
-                        buySell.remove();
+                        removeButtons();
                         furniture.sell();
                         buySellText = "B";
-                    }else{
-                        rotate.remove();
-                        cancel.remove();
-                        move.remove();
-                        buySell.remove();
-                        furniture.buy();
-                        buySellText = "S";
+                        tiles[(int) touch.x][(int) touch.y+1].setIsFull(false);
+                    }else if((int)touch.x > 0 && (int)touch.x < tiles.length
+                            && (int)touch.y+1 > 0 && (int)touch.y+1 < tiles[0].length){
+                        if(tiles[(int)touch.x] [(int) touch.y+1].getIsFull() == false) {
+                            removeButtons();
+                            furniture.buy();
+                            buySellText = "S";
+                            tiles[(int) touch.x][(int) touch.y+1].setIsFull(true);
+                        }
                     }
+                    game.getOfficeState().setIsMoving(false);
                 }
             }
         });
         stage.addActor(buySell);
+    }
+
+    private void removeButtons(){
+        cancel.remove();
+        rotate.remove();
+        buySell.remove();
+        move.remove();
     }
     public TextButton getMove(){
         return move;

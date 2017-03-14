@@ -12,8 +12,11 @@ public abstract class Furniture extends Actor{
 
     private int price = 0;
     private int sellPrice = 0;
+    //Transparency
+    private float alpha = 0.5f;
     private Texture sheet;
     private boolean bought = false;
+    private boolean isMoving = false;
 
     private FurnitureButtons    buttons;
 
@@ -52,6 +55,19 @@ public abstract class Furniture extends Actor{
 
     public void setBought(boolean bought){
         this.bought = bought;
+    }
+
+    public float getAlpha(){
+        return alpha;
+    }
+    public void setAlpha(float alpha){
+        this.alpha = alpha;
+    }
+    public boolean getIsMoving(){
+        return isMoving;
+    }
+    public void setIsMoving(boolean isMoving){
+        this.isMoving = isMoving;
     }
 
     public FurnitureButtons getButtons(){

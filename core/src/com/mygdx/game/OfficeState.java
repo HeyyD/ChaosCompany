@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.furniture.Couch;
-import com.mygdx.furniture.FurnitureMenu;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
 
@@ -48,8 +47,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private Stage               stage;
     private Stage               furnitureStage;
     private BuildMenu           buildMenu = null;
-    private FurnitureMenu       furnitureMenu = null;
     private TextButton          buildMenuBtn = null;
+    private boolean             isMoving = false;
+    private boolean             isBuildMenuOpen = false;
 
     //BuildMenu size
     private final float         buildMenuHeight = 2;
@@ -121,8 +121,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
-                if(x > 0 && x < 100 && y > 0 && y < 100){
-                    new BuildMenu(game, 8,0);
+                if(x > 0 && x < 100 && y > 0 && y < 100 && isBuildMenuOpen == false){
+                    new BuildMenu(game, 7,-1f);
                 }
             }
         });
@@ -218,9 +218,11 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public Stage getFurnitureStage(){
         return furnitureStage;
     }
-    public FurnitureMenu getFurnitureMenu(){
-        return furnitureMenu;
-    }
+    public boolean getIsMoving(){ return isMoving; }
+    public void setIsMoving(boolean isMoving){this.isMoving = isMoving;}
+    public boolean getIsBuildMenuOpen(){ return isBuildMenuOpen; }
+    public void setIsBuildMenuOpen(boolean isBuildMenuOpen){this.isBuildMenuOpen = isBuildMenuOpen;}
+
     public Stage getStage(){
         return stage;
     }
@@ -233,6 +235,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public Matrix4 getInvIsotransform(){
         return invIsotransform;
     }
+    public SpriteBatch getSpriteBatch(){ return spriteBatch; }
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {

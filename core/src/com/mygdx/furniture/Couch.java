@@ -1,5 +1,6 @@
 package com.mygdx.furniture;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -51,15 +52,20 @@ public class Couch extends Furniture {
         //SetBounds
         setBounds(getX(),getY(),1,1);
 
+
         setButtons(new FurnitureButtons(g,this));
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
+
     }
 
     @Override
     public void draw(Batch batch, float alfa) {
+        Color c = batch.getColor();
+        batch.setColor(c.r, c.g, c.b, getAlpha());
         batch.draw(img[dir], getX(), getY(), 1f, 1f);
+        batch.setColor(c.r, c.g, c.b, 1);
     }
 
     @Override
@@ -70,8 +76,8 @@ public class Couch extends Furniture {
     @Override
     public void sell() {
         //minus benfits
-        manager.setWelfare(manager.getWelfare()-welfare);
-        System.out.println(manager.getWelfare());
+        manager.setWellBeing(manager.getWellBeing()-welfare);
+        System.out.println(manager.getWellBeing());
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch
@@ -81,8 +87,9 @@ public class Couch extends Furniture {
 
     @Override
     public void buy(){
-        manager.setWelfare((manager.getWelfare()+welfare));
+        manager.setWellBeing((manager.getWellBeing()+welfare));
         manager.setMoney(manager.getMoney() - getSellPrice());
+        setAlpha(1);
         setBought(true);
     }
 
