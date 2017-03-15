@@ -121,7 +121,7 @@ public class FurnitureButtons {
             public void touchDragged(InputEvent event, float x, float y, int pointer){
 
                 //screenCoords.set(Gdx.input.getX(), Gdx.input.getY());
-                //game.getOfficeState().getFurnitureStage().screenToStageCoordinates(screenCoords);
+                //game.getOfficeState().getobjectStage().screenToStageCoordinates(screenCoords);
                 //furniture.setPosition(screenCoords.x-1.2f, screenCoords.y-1.25f);
                 touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 game.getOfficeState().getCam().unproject(touch);

@@ -99,7 +99,7 @@ public class BuildMenu extends Actor{
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
                     if(game.getOfficeState().getIsMoving() == false) {
-                        furnitureStage.addActor(new Couch(game, 1, 0));
+                        furnitureStage.addActor(new Couch(game, x_pos, y_pos));
                         ChaosCompany.officeState.updateDrawingOrder();
                         cancelButton.remove();
                         buildButton.remove();
