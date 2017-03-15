@@ -11,7 +11,7 @@ import com.mygdx.game.StatsManager;
  * Created by SamiH on 5.3.2017.
  */
 
-public class Couch extends Furniture {
+public class WaterCooler extends Furniture {
 
     private StatsManager        manager;
     private ChaosCompany        game;
@@ -22,16 +22,16 @@ public class Couch extends Furniture {
     private int                 wellBeing = 10;
     private int                 dir = 0;
 
-    public Couch(ChaosCompany g, float x, float y){
+    public WaterCooler(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
 
         //Setup Textures
-        setSheet(new Texture("couchSheet.png"));
+        setSheet(new Texture("WaterCoolerSheet.png"));
         tmp = TextureRegion.split(getSheet(),
                 getSheet().getWidth() / 2,
                 getSheet().getHeight() / 2);
-        
+
         img = new TextureRegion[2*2];
         int index = 0;
         for (int i = 0; i < 2; i++) {
@@ -44,8 +44,8 @@ public class Couch extends Furniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(100);
-        setSellPrice(50);
+        setPrice(250);
+        setSellPrice(125);
 
         manager.setMoney(manager.getMoney() - getPrice());
 
@@ -53,12 +53,10 @@ public class Couch extends Furniture {
         setBounds(getX(),getY(),1,1);
 
 
-        setButtons(new FurnitureButtons(game,this));
-
+        setButtons(new FurnitureButtons(game, this));
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
-
     }
 
     @Override

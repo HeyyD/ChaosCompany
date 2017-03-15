@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.furniture.Couch;
+import com.mygdx.furniture.WaterCooler;
 
 public class BuildMenu extends Actor{
 
@@ -92,14 +93,19 @@ public class BuildMenu extends Actor{
                             (game.getOfficeState().getTileMap().pickedTileY *
                                     game.getOfficeState().getTileMap().tileWidth / 2.0f);
 
+                    if((int)x_pos < 0)
+                        x_pos = 0;
+
                     float y_pos = - (game.getOfficeState().getTileMap().pickedTileX *
                             game.getOfficeState().getTileMap().tileHeight /2.0f )
                             +
                             (game.getOfficeState().getTileMap().pickedTileY *
                                     game.getOfficeState().getTileMap().tileWidth / 4.0f);
+                    if((int)y_pos < 0)
+                        y_pos = 0;
 
                     if(game.getOfficeState().getIsMoving() == false) {
-                        furnitureStage.addActor(new Couch(game, x_pos, y_pos));
+                        furnitureStage.addActor(new WaterCooler(game, x_pos, y_pos));
                         ChaosCompany.officeState.updateDrawingOrder();
                         cancelButton.remove();
                         buildButton.remove();

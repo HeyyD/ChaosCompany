@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Couch;
+import com.mygdx.furniture.WaterCooler;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
 
@@ -135,7 +136,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(furnitureStage);
         multiplexer.addProcessor(input);
 
-        furnitureStage.addActor(new Programmer(tileMap.getTiles()[3][3].getX(), tileMap.getTiles()[3][3].getY(), 0.5f, 0.5f, 0.5f));
+        furnitureStage.addActor(new Programmer(tileMap.getTiles()[3][3].getX(), tileMap.getTiles()[3][3].getY(), 0.6f, 1.1f, 0.5f));
     }
 
 
