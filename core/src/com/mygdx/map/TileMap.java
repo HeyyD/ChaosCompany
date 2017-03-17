@@ -26,7 +26,7 @@ public class TileMap {
         this.spriteBatch = spriteBatch;
 
         textureTileset = new Texture("tileset.png");
-        textureTileset.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        textureTileset.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         tileSet = new TextureRegion[tileSetWidth];
         for(int x = 0; x < tileSet.length; x++){
             tileSet[x] = new TextureRegion(textureTileset, x * TILE_WIDTH_PIXELS, 0, TILE_WIDTH_PIXELS, TILE_HEIGHT_PIXELS);

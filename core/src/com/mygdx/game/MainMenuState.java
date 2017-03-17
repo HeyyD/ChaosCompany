@@ -27,6 +27,7 @@ public class MainMenuState implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
 
+
     private final float SCREEN_WIDTH = 800;
     private final float SCREEN_HEIGHT = 480;
     private final int BUTTON_WIDTH = 200;

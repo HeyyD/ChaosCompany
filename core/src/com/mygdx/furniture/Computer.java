@@ -8,13 +8,12 @@ import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.StatsManager;
 
 /**
- * Created by SamiH on 5.3.2017.
+ * Created by SamiH on 16.3.2017.
  */
 
-public class WaterCooler extends WellBeingFurniture {
-
-    private StatsManager        manager;
-    private ChaosCompany        game;
+public class Computer extends ComputerFurniture {
+    private StatsManager manager;
+    private ChaosCompany game;
     private FurnitureListener   listener;
     private TextureRegion[][]   tmp;
     private TextureRegion[]     img;
@@ -22,13 +21,13 @@ public class WaterCooler extends WellBeingFurniture {
 
     private int                 dir = 0;
 
-    public WaterCooler(ChaosCompany g, float x, float y){
+    public Computer(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setWellBeing(10);
+        setEmployeeSlot(1);
 
         //Setup Textures
-        tex = new Texture("WaterCoolerSheet.png");
+        tex = new Texture("ComputerSheet.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
@@ -47,8 +46,8 @@ public class WaterCooler extends WellBeingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(250);
-        setSellPrice(125);
+        setPrice(500);
+        setSellPrice(250);
 
         manager.setMoney(manager.getMoney() - getPrice());
 
@@ -56,10 +55,12 @@ public class WaterCooler extends WellBeingFurniture {
         setBounds(getX(),getY(),1,1);
 
 
-        setButtons(new FurnitureButtons(game, this));
+        setButtons(new FurnitureButtons(game,this));
+
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
+
     }
 
     @Override
@@ -78,7 +79,7 @@ public class WaterCooler extends WellBeingFurniture {
     @Override
     public void sell() {
         //minus benfits
-        manager.setWellBeing(manager.getWellBeing()- getWellBeing());
+        manager.setWellBeing(manager.getEmployeeSlots()- getEmployeeSlot());
         System.out.println(manager.getWellBeing());
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
@@ -89,7 +90,7 @@ public class WaterCooler extends WellBeingFurniture {
 
     @Override
     public void buy(){
-        manager.setWellBeing((manager.getWellBeing() + getWellBeing()));
+        manager.setWellBeing((manager.getEmployeeSlots()+ getEmployeeSlot()));
         manager.setMoney(manager.getMoney() - getSellPrice());
         setAlpha(1);
         setBought(true);

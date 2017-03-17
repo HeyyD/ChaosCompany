@@ -11,23 +11,26 @@ import com.mygdx.game.StatsManager;
  * Created by SamiH on 5.3.2017.
  */
 
-public class Couch extends Furniture {
+public class Couch extends WellBeingFurniture {
 
     private StatsManager        manager;
     private ChaosCompany        game;
     private FurnitureListener   listener;
     private TextureRegion[][]   tmp;
     private TextureRegion[]     img;
+    private Texture             tex;
 
-    private int                 wellBeing = 10;
     private int                 dir = 0;
 
     public Couch(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
+        setWellBeing(25);
 
         //Setup Textures
-        setSheet(new Texture("couchSheet.png"));
+        tex = new Texture("couchSheet.png");
+        tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
                 getSheet().getWidth() / 2,
                 getSheet().getHeight() / 2);
@@ -77,7 +80,7 @@ public class Couch extends Furniture {
     @Override
     public void sell() {
         //minus benfits
-        manager.setWellBeing(manager.getWellBeing()- wellBeing);
+        manager.setWellBeing(manager.getWellBeing()- getWellBeing());
         System.out.println(manager.getWellBeing());
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
@@ -88,7 +91,7 @@ public class Couch extends Furniture {
 
     @Override
     public void buy(){
-        manager.setWellBeing((manager.getWellBeing()+ wellBeing));
+        manager.setWellBeing((manager.getWellBeing()+ getWellBeing()));
         manager.setMoney(manager.getMoney() - getSellPrice());
         setAlpha(1);
         setBought(true);

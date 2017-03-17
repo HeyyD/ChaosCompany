@@ -24,11 +24,10 @@ import com.mygdx.map.Tile;
 
 public class FurnitureButtons {
     private TextButton      move;
-
-    private ImageButton     moveButton;
-    private TextureRegion   moveRegion;
     private Texture         moveImg;
-
+    private Texture         cancelImg;
+    private Texture         rotateImg;
+    private Texture         sellBuyImg;
 
     private TextButton      rotate;
     private TextButton      buySell;
@@ -55,6 +54,11 @@ public class FurnitureButtons {
         tiles = game.getOfficeState().getTileMap().getTiles();
         batch = game.getOfficeState().getSpriteBatch();
 
+        moveImg = new Texture("UI_ButtonMove.png");
+        moveImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        cancelImg = new Texture("UI_ButtonCancel.png");
+        cancelImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
         //CREATE SKIN
         skin = new Skin();
         Pixmap pixmap = new Pixmap(40,40 , Pixmap.Format.RGBA8888);
@@ -77,7 +81,7 @@ public class FurnitureButtons {
         skin.add("default", textButtonStyle);
 
         //MOVEBUTTON STYLE
-        skin.add("move", new Texture("UI_ButtonMove.png"));
+        skin.add("move", moveImg);
         skin.add("move", bfont);
 
         //Config TextButtonStyle and name it "default"
@@ -90,7 +94,7 @@ public class FurnitureButtons {
         skin.add("move", textButtonStyle);
 
         //CANCELBUTTON STYLE
-        skin.add("cancel", new Texture("UI_ButtonCancel.png"));
+        skin.add("cancel", cancelImg);
         skin.add("cancel", bfont);
 
         //Config TextButtonStyle and name it "default"
@@ -101,7 +105,7 @@ public class FurnitureButtons {
 
         textButtonStyle.font = skin.getFont("default");
         skin.add("cancel", textButtonStyle);
-
+        //END OF SKIN CREATION
 
         touch = new Vector3();
         screenCoords = new Vector2(0,0);
@@ -257,8 +261,8 @@ public class FurnitureButtons {
                         if(!furniture.getIsMoving()) {
                             tiles[(int) touch.x][(int) touch.y + 1].setIsFull(false);
                         }
-                    }else if((int)touch.x > 0 && (int)touch.x < tiles.length
-                            && (int)touch.y+1 > 0 && (int)touch.y+1 < tiles[0].length){
+                    }else if((int)touch.x >= 0 && (int)touch.x < tiles.length
+                            && (int)touch.y+1 >= 0 && (int)touch.y+1 < tiles[0].length){
                         if(tiles[(int)touch.x] [(int) touch.y+1].getIsFull() == false) {
                             removeButtons();
                             furniture.buy();
@@ -300,5 +304,4 @@ public class FurnitureButtons {
         }
         return isOpen;
     }
-
 }

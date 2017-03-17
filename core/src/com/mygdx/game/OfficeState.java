@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
@@ -124,7 +125,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 100 && y > 0 && y < 100 && isBuildMenuOpen == false){
-                    new BuildMenu(game, 7,-1f);
+                    new BuildMenu(game, 6,-1f);
                 }
             }
         });
@@ -160,7 +161,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         spriteBatch.begin();
 
         tileMap.renderMap();
-
 
         spriteBatch.end();
 

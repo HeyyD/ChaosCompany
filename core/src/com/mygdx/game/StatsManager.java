@@ -8,6 +8,7 @@ public class StatsManager {
 
     private int wellBeing = 50;
     private int money = 500;
+    private int employeeSlots = 1;
 
     public int getMoney(){
         return money;
@@ -21,5 +22,11 @@ public class StatsManager {
     }
     public void setWellBeing(int wellBeing){
         this.wellBeing = wellBeing;
+    }
+    public int getEmployeeSlots(){
+        return employeeSlots;
+    }
+    public void setEmployeeSlots(int slot){
+        this.employeeSlots = slot;
     }
 }
