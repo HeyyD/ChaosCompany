@@ -289,7 +289,8 @@ public class BuildMenu extends Actor{
                      "waterCooler", waterCooler);
         addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                      "couch", couch);
-
+        //Add build buttons to marketingFurnitures
+        //Add build buttons to programmingFurnitures
     }
 
     @Override
@@ -306,6 +307,7 @@ public class BuildMenu extends Actor{
 
     private void addFurniture(ArrayList<ImageButton> arrayList, Texture texture, float x, float y,
                               String furnitureName, int furnitureID){
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         skin.add(furnitureName,texture);
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = skin.newDrawable(furnitureName, Color.LIGHT_GRAY);

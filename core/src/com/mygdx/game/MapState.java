@@ -1,11 +1,19 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Created by SamiH on 24.2.2017.
@@ -15,7 +23,15 @@ public class MapState implements Screen {
     private ChaosCompany game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private Texture img;
+    private Texture map;
+    private Texture companyUP;
+    private Texture companyDOWN;
+
+    private ImageButton company;
+    private ImageButton.ImageButtonStyle style;
+
+    private Skin skin;
+    private Stage stage;
 
     public MapState(ChaosCompany g){
         game = g;
@@ -23,22 +39,46 @@ public class MapState implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 8, 4.8f);
         batch.setProjectionMatrix(camera.combined);
-        img = new Texture("UI_ButtonCancel.png");
-        img.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        map = new Texture("map.png");
+        map.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        stage = new Stage();
+
+        companyUP = new Texture("chaosCompany.png");
+        companyDOWN = new Texture("chaosCompanyDown.png");
+        company = new ImageButton(new TextureRegionDrawable(new TextureRegion(companyUP)),
+                new TextureRegionDrawable(new TextureRegion(companyDOWN)));
+
+        company.setPosition(0,330);
+        company.addListener(new InputListener(){
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < 263 && y > 0 && y < 128){
+                    game.setScreen(game.getOfficeState());
+                }
+            }
+        });
+        stage.addActor(company);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        GL20 gl = Gdx.graphics.getGL20();
+        gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.begin();
-        batch.draw(img, 2,1, 0.5f, 0.5f);
+        batch.draw(map, 0, 0, 8f, 4.8f);
         batch.end();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

@@ -27,7 +27,8 @@ public class FurnitureButtons {
     private Texture         moveImg;
     private Texture         cancelImg;
     private Texture         rotateImg;
-    private Texture         sellBuyImg;
+    private Texture         sellImg;
+    private Texture         buyImg;
 
     private TextButton      rotate;
     private TextButton      buySell;
@@ -58,6 +59,12 @@ public class FurnitureButtons {
         moveImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         cancelImg = new Texture("UI_ButtonCancel.png");
         cancelImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        rotateImg = new Texture("UI_ButtonRotate.png");
+        rotateImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        buyImg = new Texture("UI_ButtonSell.png");
+        buyImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        sellImg = new Texture("UI_ButtonBuy.png");
+        sellImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         //CREATE SKIN
         skin = new Skin();
@@ -84,7 +91,6 @@ public class FurnitureButtons {
         skin.add("move", moveImg);
         skin.add("move", bfont);
 
-        //Config TextButtonStyle and name it "default"
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("move", Color.LIGHT_GRAY);
         textButtonStyle.down = skin.newDrawable("move", Color.DARK_GRAY);
@@ -97,7 +103,6 @@ public class FurnitureButtons {
         skin.add("cancel", cancelImg);
         skin.add("cancel", bfont);
 
-        //Config TextButtonStyle and name it "default"
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("cancel", Color.LIGHT_GRAY);
         textButtonStyle.down = skin.newDrawable("cancel", Color.DARK_GRAY);
@@ -105,6 +110,45 @@ public class FurnitureButtons {
 
         textButtonStyle.font = skin.getFont("default");
         skin.add("cancel", textButtonStyle);
+
+        //ROTATEBUTTON STYLE
+        skin.add("rotate", rotateImg);
+        skin.add("rotate", bfont);
+
+        //Config TextButtonStyle and name it "default"
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("rotate", Color.LIGHT_GRAY);
+        textButtonStyle.down = skin.newDrawable("rotate", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("rotate", Color.LIGHT_GRAY);
+
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("rotate", textButtonStyle);
+
+        //SELLBUTTON CREATION
+        skin.add("sell", sellImg);
+        skin.add("sell", bfont);
+
+        //Config TextButtonStyle and name it "default"
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("sell", Color.LIGHT_GRAY);
+        textButtonStyle.down = skin.newDrawable("sell", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("sell", Color.LIGHT_GRAY);
+
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("sell", textButtonStyle);
+
+        //BUYBUTTON CREATION
+        skin.add("buy", buyImg);
+        skin.add("buy", bfont);
+
+        //Config TextButtonStyle and name it "default"
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("buy", Color.LIGHT_GRAY);
+        textButtonStyle.down = skin.newDrawable("buy", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("buy", Color.LIGHT_GRAY);
+
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("buy", textButtonStyle);
         //END OF SKIN CREATION
 
         touch = new Vector3();
@@ -116,18 +160,18 @@ public class FurnitureButtons {
         //tell officeState that we are moving object.
         game.getOfficeState().setIsMoving(true);
         //ROTATE BUTTON
-        textButtonStyle = skin.get("default",TextButton.TextButtonStyle.class);
-        rotate = new TextButton("R", textButtonStyle);
+        textButtonStyle = skin.get("rotate",TextButton.TextButtonStyle.class);
+        rotate = new TextButton("", textButtonStyle);
         rotate.setTransform(true);
         rotate.setScale(buttonScale);
-        rotate.setPosition(furniture.getX()+ 0.5f,furniture.getY() -0.5f);
+        rotate.setPosition(furniture.getX()+ 0.2f,furniture.getY() -0.5f);
         rotate.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
-                if(x > 0 && x < 40 && y > 0 && y < 40){
+                if(x > 0 && x < 64 && y > 0 && y < 64){
                     furniture.rotate();
                 }
             }
@@ -232,8 +276,12 @@ public class FurnitureButtons {
 
 
         //BUY / SELL BUTTON
-        textButtonStyle = skin.get("default",TextButton.TextButtonStyle.class);
-        buySell = new TextButton(buySellText, textButtonStyle);
+        if(furniture.getBought()) {
+            textButtonStyle = skin.get("buy", TextButton.TextButtonStyle.class);
+        }else{
+            textButtonStyle = skin.get("sell", TextButton.TextButtonStyle.class);
+        }
+        buySell = new TextButton("", textButtonStyle);
         buySell.setTransform(true);
         buySell.setScale(buttonScale);
         buySell.setPosition(furniture.getX()+1f, furniture.getY() );
@@ -253,11 +301,10 @@ public class FurnitureButtons {
                 System.out.println((int)touch.x + " "+ (int)touch.y);
 
                 //I don't know why I have to add +1 to y coordinate, but it works.
-                if(x > 0 && x < 40 && y > 0 && y < 40){
+                if(x > 0 && x < 64 && y > 0 && y < 64){
                     if(furniture.getBought()){
                         removeButtons();
                         furniture.sell();
-                        buySellText = "B";
                         if(!furniture.getIsMoving()) {
                             tiles[(int) touch.x][(int) touch.y + 1].setIsFull(false);
                         }
@@ -266,7 +313,6 @@ public class FurnitureButtons {
                         if(tiles[(int)touch.x] [(int) touch.y+1].getIsFull() == false) {
                             removeButtons();
                             furniture.buy();
-                            buySellText = "S";
                             tiles[(int) touch.x][(int) touch.y+1].setIsFull(true);
                         }
                     }

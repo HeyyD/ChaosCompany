@@ -23,7 +23,7 @@ public class HireState implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 8, 4.8f);
         batch.setProjectionMatrix(camera.combined);
-        img = new Texture("badlogic.jpg");
+        img = new Texture("white.jpg");
     }
 
     @Override
