@@ -48,7 +48,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     //menu
     private Stage               stage;
-    private Stage               furnitureStage;
+    private Stage               objectStage;
     private BuildMenu           buildMenu = null;
     private TextButton          buildMenuBtn = null;
     private boolean             isMoving = false;
@@ -78,7 +78,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         cam = new OrthographicCamera();
         cameraPosition = new Vector3(5,0,0);
         stage = new Stage();
-        furnitureStage = new Stage();
+        objectStage = new Stage();
 
         map = new int[][]{
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -134,10 +134,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //Setup multiplexer
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(furnitureStage);
+        multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(input);
 
-        furnitureStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
+        objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
     }
 
 
@@ -145,7 +145,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public void show() {
         Gdx.input.setInputProcessor(multiplexer);	//register this class as input processor
         stage.getViewport().setCamera(cam);
-        furnitureStage.getViewport().setCamera(cam);
+        objectStage.getViewport().setCamera(cam);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
-        furnitureStage.act(delta);
+        objectStage.act(delta);
 
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
@@ -165,7 +165,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         spriteBatch.end();
 
 
-        furnitureStage.draw();
+        objectStage.draw();
         stage.draw();
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
@@ -189,8 +189,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     public void updateDrawingOrder(){
 
-        //get all actors in the furnitureStage
-        Array<Actor> actorsList = furnitureStage.getActors();
+        //get all actors in the objectStage
+        Array<Actor> actorsList = objectStage.getActors();
         actorsList.sort(new ActorComparator());
     }
 
@@ -215,12 +215,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         gl.glDisable(GL20.GL_BLEND);
         gl.glDisable(GL20.GL_TEXTURE_2D);
         stage.dispose();
-        furnitureStage.dispose();
+        objectStage.dispose();
     }
 
 
-    public Stage getFurnitureStage(){
-        return furnitureStage;
+    public Stage getobjectStage(){
+        return objectStage;
     }
     public boolean getIsMoving(){ return isMoving; }
     public void setIsMoving(boolean isMoving){this.isMoving = isMoving;}

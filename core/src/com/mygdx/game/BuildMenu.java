@@ -29,7 +29,7 @@ public class BuildMenu extends Actor{
     //Game
     private ChaosCompany        game;
     private Stage               stage;
-    private Stage               furnitureStage;
+    private Stage               objectStage;
 
     //menu
     private Texture             menuBackground;
@@ -74,7 +74,7 @@ public class BuildMenu extends Actor{
 
         game                    = g;
         stage                   = game.getOfficeState().getStage();
-        furnitureStage           = game.getOfficeState().getFurnitureStage();
+        objectStage           = game.getOfficeState().getobjectStage();
         game.getOfficeState().setIsBuildMenuOpen(true);
 
         //Build buttonlists
@@ -377,13 +377,13 @@ public class BuildMenu extends Actor{
 
                 switch(furnitureID) {
                     case couch:
-                        furnitureStage.addActor(new Couch(game, x_pos, y_pos));
+                        objectStage.addActor(new Couch(game, x_pos, y_pos));
                         break;
                     case waterCooler:
-                        furnitureStage.addActor(new WaterCooler(game, x_pos, y_pos));
+                        objectStage.addActor(new WaterCooler(game, x_pos, y_pos));
                         break;
                     case computer:
-                        furnitureStage.addActor(new Computer(game, x_pos, y_pos));
+                        objectStage.addActor(new Computer(game, x_pos, y_pos));
                         break;
                 }
                 ChaosCompany.officeState.updateDrawingOrder();

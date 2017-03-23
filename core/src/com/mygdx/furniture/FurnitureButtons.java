@@ -41,7 +41,7 @@ public class FurnitureButtons {
     private Vector3         touch;
     private Tile[][]        tiles;
     private Vector2         screenCoords;
-    private Stage           furnitureStage;
+    private Stage           objectStage;
     private SpriteBatch     batch;
 
     private TextButton.TextButtonStyle textButtonStyle;
@@ -51,7 +51,7 @@ public class FurnitureButtons {
         game = g;
         furniture = f;
         stage = game.getOfficeState().getStage();
-        furnitureStage = game.getOfficeState().getFurnitureStage();
+        objectStage = game.getOfficeState().getobjectStage();
         tiles = game.getOfficeState().getTileMap().getTiles();
         batch = game.getOfficeState().getSpriteBatch();
 
@@ -188,7 +188,7 @@ public class FurnitureButtons {
         move.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 screenCoords = new Vector2(furniture.getX(),furniture.getY());
-                screenCoords = furnitureStage.toScreenCoordinates(screenCoords, furnitureStage.getBatch().getTransformMatrix());
+                screenCoords = objectStage.toScreenCoordinates(screenCoords, objectStage.getBatch().getTransformMatrix());
 
                 touch.set(screenCoords.x, screenCoords.y, 0);
                 game.getOfficeState().getCam().unproject(touch);
@@ -246,7 +246,7 @@ public class FurnitureButtons {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 screenCoords = new Vector2(furniture.getX(),furniture.getY());
-                screenCoords = furnitureStage.toScreenCoordinates(screenCoords, furnitureStage.getBatch().getTransformMatrix());
+                screenCoords = objectStage.toScreenCoordinates(screenCoords, objectStage.getBatch().getTransformMatrix());
 
                 touch.set(screenCoords.x, screenCoords.y, 0);
                 game.getOfficeState().getCam().unproject(touch);
@@ -293,7 +293,7 @@ public class FurnitureButtons {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 screenCoords = new Vector2(furniture.getX(),furniture.getY());
-                screenCoords = furnitureStage.toScreenCoordinates(screenCoords, furnitureStage.getBatch().getTransformMatrix());
+                screenCoords = objectStage.toScreenCoordinates(screenCoords, objectStage.getBatch().getTransformMatrix());
 
                 touch.set(screenCoords.x, screenCoords.y, 0);
                 game.getOfficeState().getCam().unproject(touch);
