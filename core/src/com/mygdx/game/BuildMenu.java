@@ -72,8 +72,8 @@ public class BuildMenu extends Actor{
 
     public BuildMenu (ChaosCompany g, float x, float y){
 
-        game                    = g;
-        stage                   = game.getOfficeState().getStage();
+        game                  = g;
+        stage                 = game.getOfficeState().getStage();
         objectStage           = game.getOfficeState().getobjectStage();
         game.getOfficeState().setIsBuildMenuOpen(true);
 
