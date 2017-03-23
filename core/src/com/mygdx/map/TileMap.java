@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TileMap {
 
     public int 				    pickedTileX = -1, pickedTileY = -1;
@@ -35,7 +38,7 @@ public class TileMap {
         //Create tiles according to the map
         for(int i = 0; i < tiles.length; i++){
             for(int j = 0; j < tiles[i].length; j++){
-                tiles[i][j] = new Tile(tileSet[map[i][j]]);
+                tiles[i][j] = new Tile(tileSet[map[i][j]], i, j);
             }
         }
         //give tiles coordinates
@@ -65,6 +68,25 @@ public class TileMap {
         }
     }
 
+    public List<Tile> getNeighbours(Tile tile){
+
+        ArrayList<Tile> neighbours = new ArrayList<Tile>();
+
+        for(int x = -1; x <= 1; x++){
+            for(int y = -1; y <= 1; y++){
+                if(x == 0 && y == 0)
+                    continue;
+
+                int checkX = tile.mapX + x;
+                int checkY = tile.mapY + y;
+
+                if(checkX >= 0 && checkX < map.length && checkY >= 0 && checkY < map[0].length)
+                    neighbours.add(tiles[checkX][checkY]);
+            }
+        }
+        return neighbours;
+    }
+
     public boolean isPickedTileFull(int pickedTileX, int pickedTileY){
         boolean isFull = false;
         if(tiles[pickedTileX][pickedTileY].getIsFull()){
@@ -75,5 +97,4 @@ public class TileMap {
     public Tile[][] getTiles(){
         return tiles;
     }
-
 }

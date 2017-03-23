@@ -137,7 +137,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(furnitureStage);
         multiplexer.addProcessor(input);
 
-        furnitureStage.addActor(new Programmer(tileMap.getTiles()[3][3].getX(), tileMap.getTiles()[3][3].getY(), 0.6f, 1.1f, 0.5f));
+        furnitureStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
     }
 
 

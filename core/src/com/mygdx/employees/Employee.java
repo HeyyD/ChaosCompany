@@ -3,7 +3,13 @@ package com.mygdx.employees;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
+import com.mygdx.map.Tile;
+import com.mygdx.map.TileMap;
+
+import java.util.ArrayList;
 
 public abstract class Employee extends Actor {
 
@@ -14,19 +20,34 @@ public abstract class Employee extends Actor {
     //Boolean to determine if the employee is free to work
     private boolean isAvailable;
 
-    public Employee(Texture texture, float x, float y, float width, float height, float skill){
+    //Pathfinding variables
+    private Tile        currentTile = null;
+    private Tile        targetTile = null;
+    private Vector2     targetPosition = null;
+    private int         currentTileIndex = 0;
+
+    private Pathfinding pathfinding = null;
+    private ArrayList<Tile> path = new ArrayList<Tile>();
+    private TileMap tileMap;
+
+    public Employee(Texture texture, TileMap tileMap, Tile startTile, float width, float height, float skill){
         this.skill = skill;
         isAvailable = true;
         this.texture = texture;
         setSize(width, height);
-        setPosition(x, y);
+        setPosition(startTile.getX(), startTile.getY());
         setBounds(getX(), getY(), getWidth(), getHeight());
+        this.tileMap = tileMap;
+        currentTile = startTile;
+        pathfinding = new Pathfinding(tileMap);
     }
 
     @Override
     public void draw(Batch batch, float alpha){
         act(Gdx.graphics.getDeltaTime());
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+        if(targetPosition != null)
+            move();
     }
 
     @Override
@@ -34,4 +55,31 @@ public abstract class Employee extends Actor {
         super.act(delta);
     }
 
+    private void move(){
+        float speed = Gdx.graphics.getDeltaTime() * 1.5f;
+        Vector2 currentPosition = new Vector2(getX(), getY());
+        float distance = currentPosition.dst(targetPosition);
+        Vector2 direction = new Vector2(targetPosition.x - currentPosition.x, targetPosition.y - currentPosition.y).nor();
+        Vector2 velocity = new Vector2(direction.x * speed, direction.y * speed);
+
+        if(distance >= 0.1f){
+            setPosition(currentPosition.x + velocity.x, currentPosition.y + velocity.y);
+        }
+        else if(currentTileIndex < path.size() - 1){
+            currentTileIndex++;
+            targetPosition = new Vector2(path.get(currentTileIndex).getX(), path.get(currentTileIndex).getY());
+        }
+        else{
+            currentTileIndex = 0;
+            targetPosition = null;
+            path.clear();
+        }
+    }
+
+    public void giveDestination(Tile targetTile){
+
+        path = pathfinding.Path(currentTile, targetTile);
+        targetPosition = new Vector2(path.get(0).getX(), path.get(0).getY());
+
+    }
 }
