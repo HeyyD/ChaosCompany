@@ -16,9 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class EmployeeMenu extends Actor{
 
+    protected TextButton        cancelButton = null;
+
     private Employee            employee = null;
     private Skin                skin;
-    protected TextButton        cancelButton = null;
+    private OrthographicCamera  camera = null;
 
     private int                 buttonWidth = 64;
     private int                 buttonHeight = 32;
@@ -31,13 +33,15 @@ public class EmployeeMenu extends Actor{
 
     EmployeeMenu(Employee employee, Stage stage, OrthographicCamera camera){
         menuBackground = new Texture("white.jpg");
-        setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         this.employee = employee;
+        this.camera = camera;
         createSkin();
+        setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         stage.addActor(this);
         cancelButton = new TextButton("CANCEL", skin);
         cancelButton.setTransform(true);
-        cancelButton.setScale(buttonScale);
+
+        cancelButton.getLabel().setFontScale(0.01f);
         cancelButton.addListener(new MenuListener(employee));
         stage.addActor(cancelButton);
     }
@@ -45,8 +49,10 @@ public class EmployeeMenu extends Actor{
     @Override
     public void draw(Batch batch, float alpha){
         act(Gdx.graphics.getDeltaTime());
+        setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         setPosition(employee.getX(), employee.getY() + menuOffset);
-        cancelButton.setPosition(getX() + cancelButton.getWidth() * buttonScale, getY() + menuHeight * 0.2f);
+        cancelButton.setSize(getWidth() * 0.6f, getHeight() * 0.2f);
+        cancelButton.setPosition(getX() + cancelButton.getWidth()/3, getY() + getHeight() * 0.1f);
         batch.draw(menuBackground, getX(), getY(), getWidth(), getHeight());
 }
 
