@@ -28,7 +28,7 @@ public class WaterCooler extends WellBeingFurniture {
         setWellBeing(10);
 
         //Setup Textures
-        tex = new Texture("WaterCoolerSheet.png");
+        tex = new Texture("waterCoolerSheet.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),

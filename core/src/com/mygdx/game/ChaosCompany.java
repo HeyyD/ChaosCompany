@@ -66,6 +66,11 @@ public class ChaosCompany extends Game {
         return this.officeState;
     }
 
+    public HireState getHireState(){
+        return hireState;
+    }
+
+
     public StatsManager getManager(){
         return manager;
     }

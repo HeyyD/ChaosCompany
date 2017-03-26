@@ -52,7 +52,7 @@ public class EmployeeMenu extends Actor{
         setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         setPosition(employee.getX(), employee.getY() + menuOffset);
         cancelButton.setSize(getWidth() * 0.6f, getHeight() * 0.2f);
-        cancelButton.setPosition(getX() + cancelButton.getWidth()/3, getY() + getHeight() * 0.1f);
+        cancelButton.setPosition(getX(), getY());
         batch.draw(menuBackground, getX(), getY(), getWidth(), getHeight());
 }
 

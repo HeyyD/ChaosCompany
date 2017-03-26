@@ -154,7 +154,7 @@ public class BuildMenu extends Actor{
         imageButtonStyle.up = skin.newDrawable("programming", Color.DARK_GRAY);
         imageButtonStyle.down = skin.newDrawable("programming", Color.LIGHT_GRAY);
 
-        skin.add("computer", imageButtonStyle);
+        skin.add("programming", imageButtonStyle);
 
         programmingButton = new ImageButton(imageButtonStyle);
         programmingButton.setTransform(true);
@@ -352,7 +352,8 @@ public class BuildMenu extends Actor{
         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 
             //if user is not on top of the button anymore, it dosent do anything
-            if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
+            if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight &&
+                    game.getOfficeState().getIsMoving() == false){
 
                 //COORDINATES
                 float x_pos = (game.getOfficeState().getTileMap().pickedTileX *
@@ -374,6 +375,7 @@ public class BuildMenu extends Actor{
                     y_pos = 0;
                 }
                 //END OF COORDINATES
+
 
                 switch(furnitureID) {
                     case couch:

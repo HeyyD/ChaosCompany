@@ -42,7 +42,7 @@ public class MainMenuState implements Screen {
         batch =             new SpriteBatch();
         stage =             new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT));
         camera =            new OrthographicCamera();
-        backgroundImage =   new Texture("menubackground.png");
+        backgroundImage =   new Texture("menubackground.jpeg");
 
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         batch.setProjectionMatrix(camera.combined);

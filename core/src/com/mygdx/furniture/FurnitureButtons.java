@@ -6,13 +6,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.ChaosCompany;
@@ -50,7 +48,7 @@ public class FurnitureButtons {
     public FurnitureButtons(ChaosCompany g, Furniture f){
         game = g;
         furniture = f;
-        stage = game.getOfficeState().getStage();
+        stage = game.getOfficeState().getMovingUiStage();
         objectStage = game.getOfficeState().getobjectStage();
         tiles = game.getOfficeState().getTileMap().getTiles();
         batch = game.getOfficeState().getSpriteBatch();
@@ -184,7 +182,7 @@ public class FurnitureButtons {
         move = new TextButton("", textButtonStyle);
         move.setTransform(true);
         move.setScale(buttonScale);
-        move.setPosition(furniture.getX()+1f, furniture.getY() +1f );
+        move.setPosition(furniture.getX()+1f, furniture.getY());
         move.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 screenCoords = new Vector2(furniture.getX(),furniture.getY());
@@ -208,19 +206,19 @@ public class FurnitureButtons {
                 game.getOfficeState().getCam().unproject(touch);
                 touch.mul(game.getOfficeState().getInvIsotransform());
 
-                if((int)touch.x >= 0 && (int)touch.x < tiles.length && (int)touch.y >= 0 && (int)touch.y < tiles[0].length)
+                if((int)touch.x-1 >= 0 && (int)touch.x -1 < tiles.length && (int)touch.y >= 0 && (int)touch.y < tiles[0].length)
                 {
-                        if(!tiles[(int)touch.x][(int)touch.y].getIsFull()) {
-                            furniture.setX(tiles[(int) touch.x][(int) touch.y].getX());
-                            furniture.setY(tiles[(int) touch.x][(int) touch.y].getY());
+                        if(!tiles[(int)touch.x - 1][(int)touch.y].getIsFull()) {
+                            furniture.setX(tiles[(int) touch.x - 1][(int) touch.y].getX());
+                            furniture.setY(tiles[(int) touch.x - 1][(int) touch.y].getY());
                         }
                 }
 
 
-                move.setPosition(furniture.getX()+1f, furniture.getY() + 1f);
+                move.setPosition(furniture.getX()+1f, furniture.getY());
                 cancel.setPosition(furniture.getX(), furniture.getY() + 1f);
-                rotate.setPosition(furniture.getX()+0.5f, furniture.getY() -0.5f);
-                buySell.setPosition(furniture.getX()+1f, furniture.getY());
+                rotate.setPosition(furniture.getX()+0.2f, furniture.getY() -0.5f);
+                buySell.setPosition(furniture.getX()+1f, furniture.getY() +1);
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
@@ -237,7 +235,7 @@ public class FurnitureButtons {
         cancel = new TextButton("", textButtonStyle);
         cancel.setTransform(true);
         cancel.setScale(buttonScale);
-        cancel.setPosition(furniture.getX(), furniture.getY() +1f );
+        cancel.setPosition(furniture.getX(), furniture.getY() +1f);
 
         cancel.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -284,7 +282,7 @@ public class FurnitureButtons {
         buySell = new TextButton("", textButtonStyle);
         buySell.setTransform(true);
         buySell.setScale(buttonScale);
-        buySell.setPosition(furniture.getX()+1f, furniture.getY() );
+        buySell.setPosition(furniture.getX()+1f, furniture.getY() + 1);
 
         buySell.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {

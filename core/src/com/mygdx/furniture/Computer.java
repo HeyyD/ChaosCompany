@@ -14,6 +14,7 @@ import com.mygdx.game.StatsManager;
 public class Computer extends ComputerFurniture {
     private StatsManager manager;
     private ChaosCompany game;
+
     private FurnitureListener   listener;
     private TextureRegion[][]   tmp;
     private TextureRegion[]     img;
@@ -27,7 +28,7 @@ public class Computer extends ComputerFurniture {
         setEmployeeSlot(1);
 
         //Setup Textures
-        tex = new Texture("ComputerSheet.png");
+        tex = new Texture("computerSheet.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
@@ -45,7 +46,6 @@ public class Computer extends ComputerFurniture {
         //Set position, price and sellPrice
         setX(x);
         setY(y);
-        System.out.println(getX()+getY());
         setPrice(500);
         setSellPrice(250);
 
@@ -80,7 +80,6 @@ public class Computer extends ComputerFurniture {
     public void sell() {
         //minus benfits
         manager.setWellBeing(manager.getEmployeeSlots()- getEmployeeSlot());
-        System.out.println(manager.getWellBeing());
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch

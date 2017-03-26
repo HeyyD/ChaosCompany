@@ -61,7 +61,6 @@ public class Couch extends WellBeingFurniture {
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
-
     }
 
     @Override

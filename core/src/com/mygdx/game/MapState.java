@@ -26,8 +26,11 @@ public class MapState implements Screen {
     private Texture map;
     private Texture companyUP;
     private Texture companyDOWN;
+    private Texture jobCenterUP;
+    private Texture jobCenterDOWN;
 
     private ImageButton company;
+    private ImageButton jobCenter;
     private ImageButton.ImageButtonStyle style;
 
     private Skin skin;
@@ -43,13 +46,15 @@ public class MapState implements Screen {
         map = new Texture("map.png");
         map.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         stage = new Stage();
+        stage.getViewport().setCamera(camera);
 
         companyUP = new Texture("chaosCompany.png");
         companyDOWN = new Texture("chaosCompanyDown.png");
         company = new ImageButton(new TextureRegionDrawable(new TextureRegion(companyUP)),
                 new TextureRegionDrawable(new TextureRegion(companyDOWN)));
 
-        company.setPosition(0,330);
+        company.setPosition(0,3.3f);
+        company.setSize(company.getWidth()/100, company.getHeight()/100);
         company.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -62,6 +67,26 @@ public class MapState implements Screen {
             }
         });
         stage.addActor(company);
+
+        jobCenterUP = new Texture("tyokkari.png");
+        jobCenterDOWN = new Texture("tyokkariDown.png");
+        jobCenter = new ImageButton(new TextureRegionDrawable(new TextureRegion(jobCenterUP)),
+                new TextureRegionDrawable(new TextureRegion(jobCenterDOWN)));
+        jobCenter.setSize(jobCenter.getWidth()/100, jobCenter.getHeight()/100);
+        jobCenter.setPosition(5,2.3f);
+
+        jobCenter.addListener(new InputListener(){
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < 331 && y > 0 && y < 221){
+                    game.setScreen(game.getHireState());
+                }
+            }
+        });
+        stage.addActor(jobCenter);
     }
 
     @Override

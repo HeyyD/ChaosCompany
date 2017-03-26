@@ -2,11 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
@@ -19,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.employees.Programmer;
-import com.mygdx.furniture.Couch;
-import com.mygdx.furniture.WaterCooler;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
 
@@ -42,21 +38,23 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private float               minCameraDistance = 0.7f;
     private Vector3             cameraPosition = null;
     private OrthographicCamera	cam = null;
-
+    private OrthographicCamera  uiCam = null;
 
     private Vector3				touch = null;
 
-    //menu
+    //Stage for menu buttons that stays still
     private Stage               stage;
+    //Stage  for objects like furniture and employees
     private Stage               objectStage;
+    //Stage for things that has to move with camera
+    private Stage               movingUiStage;
+
     private BuildMenu           buildMenu = null;
     private TextButton          buildMenuBtn = null;
+    private TextButton          mapBtn = null;
+
     private boolean             isMoving = false;
     private boolean             isBuildMenuOpen = false;
-
-    //BuildMenu size
-    private final float         buildMenuHeight = 2;
-    private final float         buildMenuWidth = 2;
 
     private TileMap             tileMap = null;
 
@@ -77,8 +75,13 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         spriteBatch = new SpriteBatch();
         cam = new OrthographicCamera();
         cameraPosition = new Vector3(5,0,0);
+
+        uiCam = new OrthographicCamera();
+
+
         stage = new Stage();
         objectStage = new Stage();
+        movingUiStage = new Stage();
 
         map = new int[][]{
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -115,8 +118,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //Stats manager
         manager = game.getManager();
 
-        //TEST
-        buildMenuBtn = new GameButton(game, stage, 8.5f,-2.5f,"BUILD").getButton();
+        //Create BuildMenu button
+        buildMenuBtn = new GameButton(game, stage, 9f, 0,"BUILD").getButton();
         buildMenuBtn.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -125,16 +128,33 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 100 && y > 0 && y < 100 && isBuildMenuOpen == false){
-                    new BuildMenu(game, 6,-1f);
+                    new BuildMenu(game, 6.2f,2);
                 }
             }
         });
+
+        //Create map button
+        buildMenuBtn = new GameButton(game, stage, 0, 5,"MAP").getButton();
+        buildMenuBtn.addListener(new InputListener(){
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < 100 && y > 0 && y < 100){
+                    game.setScreen(game.mapState);
+                }
+            }
+        });
+
 
         input = new GestureDetector(this);
         //Setup multiplexer
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(objectStage);
+        multiplexer.addProcessor(movingUiStage);
         multiplexer.addProcessor(input);
 
         objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
@@ -144,8 +164,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(multiplexer);	//register this class as input processor
-        stage.getViewport().setCamera(cam);
+        stage.getViewport().setCamera(uiCam);
         objectStage.getViewport().setCamera(cam);
+        movingUiStage.getViewport().setCamera(cam);
     }
 
     @Override
@@ -156,6 +177,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
         objectStage.act(delta);
+        movingUiStage.act(delta);
 
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
@@ -166,7 +188,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
 
         objectStage.draw();
+        movingUiStage.draw();
         stage.draw();
+
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
 
@@ -183,7 +207,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         float camHeight = camWidth * ((float)height / (float)width);
 
         cam.setToOrtho(false, camWidth, camHeight);
+        uiCam.setToOrtho(false, 10,6);
         cam.position.set(cameraPosition);
+
+        uiCam.update();
         cam.update();
     }
 
@@ -216,11 +243,15 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         gl.glDisable(GL20.GL_TEXTURE_2D);
         stage.dispose();
         objectStage.dispose();
+        movingUiStage.dispose();
     }
 
 
     public Stage getobjectStage(){
         return objectStage;
+    }
+    public Stage getMovingUiStage() {
+        return movingUiStage;
     }
     public boolean getIsMoving(){ return isMoving; }
     public void setIsMoving(boolean isMoving){this.isMoving = isMoving;}
