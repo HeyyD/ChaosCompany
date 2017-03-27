@@ -94,7 +94,7 @@ public abstract class Employee extends Actor {
 
         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             if(Employee.this.menu == null){
-                Employee.this.menu = new EmployeeMenu(Employee.this, ChaosCompany.officeState.getobjectStage(), ChaosCompany.officeState.getCam());
+                Employee.this.menu = new EmployeeMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), ChaosCompany.officeState.getCam());
             }
         }
     }

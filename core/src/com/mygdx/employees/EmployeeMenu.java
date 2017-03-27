@@ -1,18 +1,23 @@
 package com.mygdx.employees;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class EmployeeMenu extends Actor{
 
@@ -22,9 +27,8 @@ public class EmployeeMenu extends Actor{
     private Skin                skin;
     private OrthographicCamera  camera = null;
 
-    private int                 buttonWidth = 64;
-    private int                 buttonHeight = 32;
-    private float               buttonScale = 0.01f;
+    private int                 buttonWidth = 50;
+    private int                 buttonHeight = 50;
 
     private Texture             menuBackground;
     private float               menuWidth = 0.2f;
@@ -37,12 +41,11 @@ public class EmployeeMenu extends Actor{
         this.camera = camera;
         createSkin();
         setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
-        stage.addActor(this);
-        cancelButton = new TextButton("CANCEL", skin);
+        cancelButton = new TextButton("X", skin);
         cancelButton.setTransform(true);
-
-        cancelButton.getLabel().setFontScale(0.01f);
+        cancelButton.getLabel().setFontScale(2);
         cancelButton.addListener(new MenuListener(employee));
+        stage.addActor(this);
         stage.addActor(cancelButton);
     }
 
@@ -51,8 +54,9 @@ public class EmployeeMenu extends Actor{
         act(Gdx.graphics.getDeltaTime());
         setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         setPosition(employee.getX(), employee.getY() + menuOffset);
-        cancelButton.setSize(getWidth() * 0.6f, getHeight() * 0.2f);
-        cancelButton.setPosition(getX(), getY());
+        cancelButton.setScale(getWidth() * 0.003f);
+        cancelButton.setPosition(getX() + getWidth() * 0.7f, getY() + getHeight() * 0.7f);
+
         batch.draw(menuBackground, getX(), getY(), getWidth(), getHeight());
 }
 
@@ -83,6 +87,7 @@ public class EmployeeMenu extends Actor{
         textButtonStyle.font = skin.getFont("default");
 
         skin.add("default", textButtonStyle);
+
     }
 
     private class MenuListener extends InputListener {

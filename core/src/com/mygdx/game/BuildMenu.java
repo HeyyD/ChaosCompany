@@ -31,6 +31,7 @@ public class BuildMenu extends Actor{
     private ChaosCompany        game;
     private Stage               stage;
     private Stage               objectStage;
+    private Stage               movableUiStage;
 
     //menu
     private Texture             menuBackground;
