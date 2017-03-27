@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -40,6 +41,7 @@ public class BuildMenu extends Actor{
     private int                 buttonWidth = 64;
     private int                 buttonHeight = 64;
     private float               buttonScale = 0.01f;
+    private OrthographicCamera  camera = null;
 
     //Button Textures
     private Texture             compBtn;
@@ -68,7 +70,7 @@ public class BuildMenu extends Actor{
     private final int               waterCooler =       2;
     private final int               computer =          3;
 
-    private float               buttonOffset = 0.1f;
+    private float                   buttonOffset = 0.1f;
 
     public BuildMenu (ChaosCompany g, float x, float y){
 
@@ -76,6 +78,7 @@ public class BuildMenu extends Actor{
         stage                 = game.getOfficeState().getStage();
         objectStage           = game.getOfficeState().getobjectStage();
         game.getOfficeState().setIsBuildMenuOpen(true);
+        camera                = ChaosCompany.officeState.getCam();
 
         //Build buttonlists
         wellBeingButtons = new ArrayList<ImageButton>();
