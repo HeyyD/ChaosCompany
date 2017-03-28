@@ -18,6 +18,7 @@ public class GameButton {
     private TextButton          button;
     private Skin                skin;
     private Stage               stage;
+    private Texture             texture;
 
     private String              buttonName;
     private int                 buttonWidth = 100;
@@ -46,25 +47,43 @@ public class GameButton {
         Gdx.input.setInputProcessor(stage);
         create();
     }
+
+    public GameButton(ChaosCompany g, Stage stage, float x, float y, String name, Texture tex){
+        this.game = g;
+        this.x = x;
+        this.y = y;
+        this.buttonName = name;
+        this.stage = stage;
+        texture = tex;
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        Gdx.input.setInputProcessor(stage);
+        create();
+    }
+
     private void create(){
 
         //button creation
         //Setting up skin color and size of button
         skin = new Skin();
+
         Pixmap pixmap = new Pixmap(buttonWidth, buttonHeight, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fill();
 
-        skin.add("white", new Texture(pixmap));
-
+        if(texture == null) {
+            skin.add("white", new Texture(pixmap));
+        }
+        else{
+            skin.add("white", texture);
+        }
         //Setting up skin font of button.
         BitmapFont bfont = new BitmapFont();
         skin.add("default", bfont);
 
         //Config TextButtonStyle and name it "default"
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.up = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.over = skin.newDrawable("white", Color.DARK_GRAY);
 
         textButtonStyle.font = skin.getFont("default");
@@ -75,6 +94,7 @@ public class GameButton {
         button.setTransform(true);
         button.setScale(buttonScale);
         button.setPosition(x, y);
+        button.setSize(buttonWidth,buttonHeight);
         stage.addActor(button);
     }
 

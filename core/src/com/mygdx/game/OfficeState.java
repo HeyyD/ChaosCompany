@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
@@ -14,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.employees.Programmer;
@@ -52,6 +56,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private BuildMenu           buildMenu = null;
     private TextButton          buildMenuBtn = null;
     private TextButton          mapBtn = null;
+    private Label               label = null;
 
     private boolean             isMoving = false;
     private boolean             isBuildMenuOpen = false;
@@ -119,7 +124,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         manager = game.getManager();
 
         //Create BuildMenu button
-        buildMenuBtn = new GameButton(game, stage, 9f, 0,"BUILD").getButton();
+        buildMenuBtn = new GameButton(game, stage, 8.9f, 0.1f,"", new Texture("buildBtn.png")).getButton();
         buildMenuBtn.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -134,8 +139,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         });
 
         //Create map button
-        buildMenuBtn = new GameButton(game, stage, 0, 5,"MAP").getButton();
-        buildMenuBtn.addListener(new InputListener(){
+        mapBtn = new GameButton(game, stage, 0.1f, 4.9f,"", new Texture("mapBtn.png")).getButton();
+        mapBtn.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
@@ -150,11 +155,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
 
         input = new GestureDetector(this);
+
         //Setup multiplexer
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(movingUiStage);
+        multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(input);
 
         objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
@@ -335,6 +341,19 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     @Override
     public void pinchStop() {
 
+    }
+
+    public void createMoneyUI(){
+        Skin skin = new Skin();
+        Label label;
+        BitmapFont bfont = new BitmapFont();
+        skin.add("default", new Texture("UI_Money.png"));
+        skin.add("default", bfont);
+
+        label = new Label("",skin);
+        label.setPosition(0,0);
+        this.label = label;
+        stage.addActor(this.label);
     }
 
 

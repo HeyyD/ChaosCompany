@@ -59,6 +59,8 @@ public class BuildMenu extends Actor{
     private Texture              marketingButtonTex;
     private Texture              programmingButtonTex;
     private Texture              cancelButtonTex;
+    private Texture              waterCoolerButtonIco;
+    private Texture              desktopButtonIco;
 
     //Buttons for each furniture
     private ArrayList<ImageButton>   wellBeingButtons;
@@ -69,7 +71,7 @@ public class BuildMenu extends Actor{
     //FURNITURE ID
     private final int               couch =             1;
     private final int               waterCooler =       2;
-    private final int               computer =          3;
+    private final int               desktop =          3;
 
     private float                   buttonOffset = 0.1f;
 
@@ -102,11 +104,17 @@ public class BuildMenu extends Actor{
         programmingButtonTex= new Texture("UI_BuildProgrammingBtn.png");
         cancelButtonTex = new Texture("UI_BuildCancelBtn.png");
 
+        desktopButtonIco = new Texture("DesktopIcon.png");
+        waterCoolerButtonIco = new Texture("WaterCoolerIcon.png");
+
         computerButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         wellBeingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         marketingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         programmingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         cancelButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+
+        desktopButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        waterCoolerButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         //setup skin
         skin = new Skin();
@@ -123,8 +131,8 @@ public class BuildMenu extends Actor{
 
         //Config TextButtonStyle and name it "default"
         ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.up = skin.newDrawable("computer", Color.DARK_GRAY);
-        imageButtonStyle.down = skin.newDrawable("computer", Color.LIGHT_GRAY);
+        imageButtonStyle.up = skin.newDrawable("computer", Color.LIGHT_GRAY);
+        imageButtonStyle.down = skin.newDrawable("computer", Color.DARK_GRAY);
 
         skin.add("computer", imageButtonStyle);
 
@@ -155,8 +163,8 @@ public class BuildMenu extends Actor{
 
         //Button to load Programming array
         imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.up = skin.newDrawable("programming", Color.DARK_GRAY);
-        imageButtonStyle.down = skin.newDrawable("programming", Color.LIGHT_GRAY);
+        imageButtonStyle.up = skin.newDrawable("programming", Color.LIGHT_GRAY);
+        imageButtonStyle.down = skin.newDrawable("programming", Color.DARK_GRAY);
 
         skin.add("programming", imageButtonStyle);
 
@@ -185,8 +193,8 @@ public class BuildMenu extends Actor{
         stage.addActor(programmingButton);
 
         imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.up = skin.newDrawable("wellBeing", Color.DARK_GRAY);
-        imageButtonStyle.down = skin.newDrawable("wellBeing", Color.LIGHT_GRAY);
+        imageButtonStyle.up = skin.newDrawable("wellBeing", Color.LIGHT_GRAY);
+        imageButtonStyle.down = skin.newDrawable("wellBeing", Color.DARK_GRAY);
 
         //Button to load wellBeing array
         skin.add("wellBeing", imageButtonStyle);
@@ -215,8 +223,8 @@ public class BuildMenu extends Actor{
         stage.addActor(wellBeingButton);
 
         imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.up = skin.newDrawable("marketing", Color.DARK_GRAY);
-        imageButtonStyle.down = skin.newDrawable("marketing", Color.LIGHT_GRAY);
+        imageButtonStyle.up = skin.newDrawable("marketing", Color.LIGHT_GRAY);
+        imageButtonStyle.down = skin.newDrawable("marketing", Color.DARK_GRAY);
 
         //Button to load marketing array
         skin.add("marketing", imageButtonStyle);
@@ -285,11 +293,11 @@ public class BuildMenu extends Actor{
     private void create(){
 
         //Add build buttons to computerFurnitures
-        addFurniture(computerButtons,computerButtonTex, getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
-                     "computer",computer);
+        addFurniture(computerButtons,desktopButtonIco, getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+                     "desktop",desktop);
 
         //Add build buttons to wellBeingFurnitures
-        addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+        addFurniture(wellBeingButtons,waterCoolerButtonIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
                      "waterCooler", waterCooler);
         addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                      "couch", couch);
@@ -388,7 +396,7 @@ public class BuildMenu extends Actor{
                     case waterCooler:
                         objectStage.addActor(new WaterCooler(game, x_pos, y_pos));
                         break;
-                    case computer:
+                    case desktop:
                         objectStage.addActor(new Computer(game, x_pos, y_pos));
                         break;
                 }

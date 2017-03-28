@@ -61,7 +61,7 @@ public class MapState implements Screen {
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
-                if(x > 0 && x < 263 && y > 0 && y < 128){
+                if(x > 0 && x < company.getWidth() && y > 0 && y < company.getHeight()){
                     game.setScreen(game.getOfficeState());
                 }
             }
