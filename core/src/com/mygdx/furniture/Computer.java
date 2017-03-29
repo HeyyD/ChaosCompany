@@ -49,8 +49,6 @@ public class Computer extends ComputerFurniture {
         setPrice(500);
         setSellPrice(250);
 
-        manager.setMoney(manager.getMoney() - getPrice());
-
         //SetBounds
         setBounds(getX(),getY(),1,1);
 
@@ -90,7 +88,7 @@ public class Computer extends ComputerFurniture {
     @Override
     public void buy(){
         manager.setWellBeing((manager.getEmployeeSlots()+ getEmployeeSlot()));
-        manager.setMoney(manager.getMoney() - getSellPrice());
+        manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);
     }

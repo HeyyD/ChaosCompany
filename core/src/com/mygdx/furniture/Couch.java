@@ -46,11 +46,8 @@ public class Couch extends WellBeingFurniture {
         //Set position, price and sellPrice
         setX(x);
         setY(y);
-        System.out.println(getX()+getY());
         setPrice(100);
         setSellPrice(50);
-
-        manager.setMoney(manager.getMoney() - getPrice());
 
         //SetBounds
         setBounds(getX(),getY(),1,1);
@@ -91,7 +88,7 @@ public class Couch extends WellBeingFurniture {
     @Override
     public void buy(){
         manager.setWellBeing((manager.getWellBeing()+ getWellBeing()));
-        manager.setMoney(manager.getMoney() - getSellPrice());
+        manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);
     }

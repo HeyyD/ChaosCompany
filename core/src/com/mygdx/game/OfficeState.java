@@ -3,11 +3,13 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
@@ -43,6 +46,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private Vector3             cameraPosition = null;
     private OrthographicCamera	cam = null;
     private OrthographicCamera  uiCam = null;
+    private OrthographicCamera  textCam = null;
+
 
     private Vector3				touch = null;
 
@@ -56,7 +61,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private BuildMenu           buildMenu = null;
     private TextButton          buildMenuBtn = null;
     private TextButton          mapBtn = null;
+
     private Label               label = null;
+    private Skin                labelskin = null;
 
     private boolean             isMoving = false;
     private boolean             isBuildMenuOpen = false;
@@ -67,7 +74,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     protected GestureDetector     input = null;
     private InputMultiplexer      multiplexer = null;
 
-
+    //Font
+    private BitmapFont            font = null;
+    private MoneyUi               moneyUI = null;
 
     public OfficeState(ChaosCompany g) {
 
@@ -82,6 +91,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         cameraPosition = new Vector3(5,0,0);
 
         uiCam = new OrthographicCamera();
+        textCam = new OrthographicCamera();
+        textCam.setToOrtho(false, 800, 480);
 
 
         stage = new Stage();
@@ -153,6 +164,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             }
         });
 
+        createMoneyUI();
 
         input = new GestureDetector(this);
 
@@ -164,6 +176,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(input);
 
         objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
+
+        font = new BitmapFont();
+        font.setColor(Color.BLACK);
+        moneyUI = new MoneyUi();
+
+        stage.addActor(moneyUI);
     }
 
 
@@ -187,16 +205,15 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
-
         tileMap.renderMap();
 
         spriteBatch.end();
-
 
         objectStage.draw();
         movingUiStage.draw();
         stage.draw();
 
+        drawMoneyText(spriteBatch);
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
 
@@ -344,19 +361,15 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     }
 
     public void createMoneyUI(){
-        Skin skin = new Skin();
-        Label label;
-        BitmapFont bfont = new BitmapFont();
-        skin.add("default", new Texture("UI_Money.png"));
-        skin.add("default", bfont);
 
-        label = new Label("",skin);
-        label.setPosition(0,0);
-        this.label = label;
-        stage.addActor(this.label);
     }
 
-
+    public void drawMoneyText(SpriteBatch batch){
+        batch.setProjectionMatrix(textCam.combined);
+        batch.begin();
+        font.draw(batch,""+manager.getMoney(),710, 447);
+        batch.end();
+    }
     class ActorComparator implements Comparator<Actor> {
         @Override
         //compares the Y-position of the furniture
