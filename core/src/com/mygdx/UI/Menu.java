@@ -12,14 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public abstract class Menu extends Actor {
 
-    protected Skin textButtonSkin;
+    protected Skin skin;
     private Texture background;
 
     public Menu(float x, float y, float width, float height){
         background = new Texture("white.png");
         setPosition(x, y);
         setSize(width, height);
-        textButtonSkin = createTextButtonSkin();
+        //textButtonSkin = createTextButtonSkin();
+        skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
     }
 
     @Override
