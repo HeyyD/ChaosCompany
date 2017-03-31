@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.UI.OfficeStateUI;
 import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
 import java.util.Comparator;
@@ -31,6 +32,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     private ChaosCompany        game;
     private StatsManager        manager;
+    private OfficeStateUI       UI;
     private Matrix4 			isoTransform = null;
     private Matrix4				invIsotransform = null;
     private Matrix4				id = null;
@@ -165,7 +167,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         });
 
         createMoneyUI();
-
         input = new GestureDetector(this);
 
         //Setup multiplexer
@@ -182,6 +183,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         moneyUI = new MoneyUi();
 
         stage.addActor(moneyUI);
+        UI = new OfficeStateUI(stage);
     }
 
 

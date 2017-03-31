@@ -20,6 +20,7 @@ public abstract class Employee extends Actor {
     //texture of the employee
     protected Texture texture;
     protected EmployeeMenu menu = null;
+    protected String profession = null;
     //The float that determines how well the employee can do his/her job 0-1
     private float skill;
     //Boolean to determine if the employee is free to work

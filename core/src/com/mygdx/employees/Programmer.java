@@ -10,5 +10,6 @@ public class Programmer extends Employee{
         super(new Texture("employee.png"), tileMap, startTile, width, height, skill);
         //test
         giveDestination(tileMap.getTiles()[8][8]);
+        this.profession = "PROGRAMMER";
     }
 }

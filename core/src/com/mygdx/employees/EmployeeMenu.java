@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -22,10 +23,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class EmployeeMenu extends Actor{
 
     protected TextButton        cancelButton = null;
+    protected Label             label = null;
 
     private Employee            employee = null;
     private Skin                skin;
     private OrthographicCamera  camera = null;
+    private BitmapFont          font = null;
+    private String              profession = null;
 
     private int                 buttonWidth = 50;
     private int                 buttonHeight = 50;
@@ -39,6 +43,9 @@ public class EmployeeMenu extends Actor{
         menuBackground = new Texture("white.jpg");
         this.employee = employee;
         this.camera = camera;
+        this.profession = employee.profession;
+        font = new BitmapFont();
+        font.setColor(Color.BLACK);
         createSkin();
         setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         cancelButton = new TextButton("X", skin);
@@ -54,8 +61,10 @@ public class EmployeeMenu extends Actor{
         act(Gdx.graphics.getDeltaTime());
         setSize(camera.viewportWidth * menuWidth, camera.viewportHeight * menuHeight);
         setPosition(employee.getX(), employee.getY() + menuOffset);
-        cancelButton.setScale(getWidth() * 0.003f);
+
+        cancelButton.setScale(getWidth() * 0.0035f);
         cancelButton.setPosition(getX() + getWidth() * 0.7f, getY() + getHeight() * 0.7f);
+        cancelButton.setPosition(getX() + getWidth() * 0.5f, getY() + getHeight() * 0.7f);
 
         batch.draw(menuBackground, getX(), getY(), getWidth(), getHeight());
 }
@@ -76,10 +85,16 @@ public class EmployeeMenu extends Actor{
 
         //Setting up skin font of button.
         BitmapFont bfont = new BitmapFont();
+        bfont.setUseIntegerPositions(false);
         skin.add("default", bfont);
 
         //Config TextButtonStyle and name it "default"
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+
+        labelStyle.font = bfont;
+        labelStyle.fontColor = Color.BLACK;
+
         textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.down = skin.newDrawable("white", Color.LIGHT_GRAY);
         textButtonStyle.over = skin.newDrawable("white", Color.DARK_GRAY);
@@ -87,6 +102,7 @@ public class EmployeeMenu extends Actor{
         textButtonStyle.font = skin.getFont("default");
 
         skin.add("default", textButtonStyle);
+        skin.add("default", labelStyle);
 
     }
 
