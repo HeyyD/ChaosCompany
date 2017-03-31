@@ -6,12 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
-
-import java.util.ArrayList;
 
 public class DevelopMenu extends Menu {
 
@@ -29,10 +26,10 @@ public class DevelopMenu extends Menu {
         objectStage = ChaosCompany.officeState.getobjectStage();
 
         //cancel button
-        cancelButton = new TextButton("CANCEL", textButtonSkin);
+        cancelButton = new TextButton("CANCEL", skin);
         cancelButton.setTransform(true);
         cancelButton.setScale(buttonScale);
-        cancelButton.setPosition(getX() + cancelButton.getWidth() / 1.5f * buttonScale, getY() + 0.2f);
+        cancelButton.setPosition(getX() + (getWidth()/2 - (cancelButton.getWidth()/2*buttonScale)), getY() + 0.2f);
 
         cancelButton.addListener(new InputListener() {
 
@@ -51,10 +48,10 @@ public class DevelopMenu extends Menu {
         uiStage.addActor(cancelButton);
 
         // developButton
-        developButton = new TextButton("START DEVELOPING", textButtonSkin);
+        developButton = new TextButton("START DEVELOPING", skin);
         developButton.setTransform(true);
         developButton.setScale(buttonScale);
-        developButton.setPosition(cancelButton.getX(), cancelButton.getY() + cancelButton.getHeight() * buttonScale + buttonOffset);
+        developButton.setPosition(getX() + (getWidth()/2 - (developButton.getWidth()/2*buttonScale)), cancelButton.getY() + cancelButton.getHeight() * buttonScale + buttonOffset);
 
         developButton.addListener(new InputListener() {
 
@@ -101,7 +98,11 @@ public class DevelopMenu extends Menu {
 
             if(programmer != null && computer != null) {
                 programmer.giveDestination(computer.getTile());
-                break;
+                if(programmer.getPath() == null){
+                    computer = null;
+                    continue;
+                }
+                else break;
             }
             else if(i == actors.size - 1)
                 System.out.println("Couldn't find a employee or a computer");

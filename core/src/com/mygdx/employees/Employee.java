@@ -94,7 +94,7 @@ public abstract class Employee extends Actor {
         path = pathfinding.Path(currentTile, targetTile);
         targetTile.setIsFull(true);
 
-        if(path.size() > 0)
+        if(path != null && path.size() > 0)
             targetPosition = new Vector2(path.get(0).getX(), path.get(0).getY());
 
     }
@@ -110,5 +110,9 @@ public abstract class Employee extends Actor {
                 Employee.this.menu = new EmployeeMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), ChaosCompany.officeState.getCam());
             }
         }
+    }
+
+    public ArrayList<Tile> getPath(){
+        return path;
     }
 }
