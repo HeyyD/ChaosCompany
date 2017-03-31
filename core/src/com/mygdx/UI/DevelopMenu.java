@@ -6,12 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
-
-import java.util.ArrayList;
 
 public class DevelopMenu extends Menu {
 
@@ -101,7 +98,11 @@ public class DevelopMenu extends Menu {
 
             if(programmer != null && computer != null) {
                 programmer.giveDestination(computer.getTile());
-                break;
+                if(programmer.getPath() == null){
+                    computer = null;
+                    continue;
+                }
+                else break;
             }
             else if(i == actors.size - 1)
                 System.out.println("Couldn't find a employee or a computer");
