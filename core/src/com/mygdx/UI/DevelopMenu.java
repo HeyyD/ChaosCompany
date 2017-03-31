@@ -66,6 +66,7 @@ public class DevelopMenu extends Menu {
                 //if user is not on top of the button anymore, it dosent do anything
                 if (x > 0 && x < developButton.getWidth() && y > 0 && y < developButton.getHeight()) {
                     findEmployee();
+                    hideMenu();
                 }
             }
         });
@@ -98,8 +99,12 @@ public class DevelopMenu extends Menu {
             else if(actors.get(i).getClass() == Computer.class)
                 computer = (Computer) actors.get(i);
 
-            //if(programmer != null && computer != null)
-                //programmer.giveDestination();
+            if(programmer != null && computer != null) {
+                programmer.giveDestination(computer.getTile());
+                break;
+            }
+            else if(i == actors.size - 1)
+                System.out.println("Couldn't find a employee or a computer");
         }
     }
 }

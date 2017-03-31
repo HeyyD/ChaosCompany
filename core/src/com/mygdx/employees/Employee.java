@@ -3,6 +3,7 @@ package com.mygdx.employees;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -34,6 +35,9 @@ public abstract class Employee extends Actor {
     private Pathfinding pathfinding = null;
     private ArrayList<Tile> path = new ArrayList<Tile>();
 
+    //test
+    private TileMap map;
+
     public Employee(Texture texture, TileMap tileMap, Tile startTile, float width, float height, float skill){
         this.skill = skill;
         isAvailable = true;
@@ -44,6 +48,9 @@ public abstract class Employee extends Actor {
         currentTile = startTile;
         pathfinding = new Pathfinding(tileMap);
         this.addListener(new EmployeeListener());
+
+        //test
+        map = tileMap;
     }
 
     @Override
@@ -66,7 +73,7 @@ public abstract class Employee extends Actor {
         Vector2 direction = new Vector2(targetPosition.x - currentPosition.x, targetPosition.y - currentPosition.y).nor();
         Vector2 velocity = new Vector2(direction.x * speed, direction.y * speed);
 
-        if(distance >= 0.1f){
+        if(distance >= 0.02f){
             setPosition(currentPosition.x + velocity.x, currentPosition.y + velocity.y);
         }
         else if(currentTileIndex < path.size() - 1){
@@ -76,14 +83,19 @@ public abstract class Employee extends Actor {
         else{
             currentTileIndex = 0;
             targetPosition = null;
+            currentTile = path.get(path.size() - 1);
             path.clear();
         }
     }
 
     public void giveDestination(Tile targetTile){
 
+        targetTile.setIsFull(false);
         path = pathfinding.Path(currentTile, targetTile);
-        targetPosition = new Vector2(path.get(0).getX(), path.get(0).getY());
+        targetTile.setIsFull(true);
+
+        if(path.size() > 0)
+            targetPosition = new Vector2(path.get(0).getX(), path.get(0).getY());
 
     }
 
