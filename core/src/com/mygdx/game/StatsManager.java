@@ -7,7 +7,7 @@ package com.mygdx.game;
 public class StatsManager {
 
     private int wellBeing = 50;
-    private int money = 500;
+    private int money = 1000;
     private int employeeSlots = 1;
 
     public int getMoney(){

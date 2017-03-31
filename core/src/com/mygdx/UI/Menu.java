@@ -16,7 +16,7 @@ public abstract class Menu extends Actor {
     private Texture background;
 
     public Menu(float x, float y, float width, float height){
-        background = new Texture("white.jpg");
+        background = new Texture("white.png");
         setPosition(x, y);
         setSize(width, height);
         textButtonSkin = createTextButtonSkin();

@@ -18,8 +18,10 @@ public class TileMap {
     private Texture             textureTileset = null;
     private final int           TILE_WIDTH_PIXELS = 128;
     private final int           TILE_HEIGHT_PIXELS = 64;
-    private TextureRegion[]		tileSet = null;
+    private TextureRegion[][]   tileSetTmp = null;
+    private TextureRegion[]     tileSet = null;
     private int                 tileSetWidth = 2;
+    private int                 tileSetHeight = 5;
     private Tile[][]            tiles = null;
 
     public TileMap (int[][] map, SpriteBatch spriteBatch){
@@ -30,15 +32,33 @@ public class TileMap {
 
         textureTileset = new Texture("tileset.png");
         textureTileset.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
-        tileSet = new TextureRegion[tileSetWidth];
-        for(int x = 0; x < tileSet.length; x++){
-            tileSet[x] = new TextureRegion(textureTileset, x * TILE_WIDTH_PIXELS, 0, TILE_WIDTH_PIXELS, TILE_HEIGHT_PIXELS);
+
+        tileSetTmp = new TextureRegion[tileSetWidth][tileSetHeight];
+
+        for(int j = 0; j < tileSetTmp.length; j++){
+            for (int i = 0; i < tileSetTmp[j].length; i++) {
+                tileSetTmp[j][i] = new TextureRegion(textureTileset, j * TILE_WIDTH_PIXELS, i * TILE_HEIGHT_PIXELS, TILE_WIDTH_PIXELS, TILE_HEIGHT_PIXELS);
+            }
+        }
+
+        int k = 0;
+        tileSet = new TextureRegion[tileSetWidth * tileSetHeight];
+
+        for (int i = 0; i < tileSetTmp.length; i++) {
+            for (int j = 0; j < tileSetTmp[i].length; j++) {
+                tileSet[k] = tileSetTmp[i][j];
+                k++;
+            }
         }
 
         //Create tiles according to the map
         for(int i = 0; i < tiles.length; i++){
             for(int j = 0; j < tiles[i].length; j++){
                 tiles[i][j] = new Tile(tileSet[map[i][j]], i, j);
+                //If map ID is not 5, set the tile full
+                if(map[i][j] != 5){
+                    tiles[i][j].setIsFull(true);
+                }
             }
         }
         //give tiles coordinates

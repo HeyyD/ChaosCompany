@@ -90,7 +90,7 @@ public class BuildMenu extends Actor{
         marketingButtons = new ArrayList<ImageButton>();
 
 
-        menuBackground = new Texture("white.jpg");
+        menuBackground = new Texture("white.png");
         setSize(menuWidth, menuHeight);
         setPosition(x, y);
         setBounds(getX(), getY(), getWidth(), getHeight());

@@ -102,16 +102,18 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         movingUiStage = new Stage();
 
         map = new int[][]{
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0 ,0, 0, 0, 0, 0, 0, 0}
+                {5, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8},
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 6},
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5}
         };
 
         tileMap = new TileMap(map, spriteBatch);
@@ -166,7 +168,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             }
         });
 
-        createMoneyUI();
         input = new GestureDetector(this);
 
         //Setup multiplexer
@@ -359,10 +360,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     @Override
     public void pinchStop() {
-
-    }
-
-    public void createMoneyUI(){
 
     }
 

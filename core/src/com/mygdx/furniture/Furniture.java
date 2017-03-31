@@ -3,6 +3,7 @@ package com.mygdx.furniture;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.map.Tile;
 
 /**
  * Created by SamiH on 4.3.2017.
@@ -17,6 +18,7 @@ public abstract class Furniture extends Actor{
     private Texture sheet;
     private boolean bought = false;
     private boolean isMoving = false;
+    private Tile tile;
 
     private FurnitureButtons    buttons;
 
@@ -76,5 +78,11 @@ public abstract class Furniture extends Actor{
 
     public void setButtons(FurnitureButtons buttons){
         this.buttons = buttons;
+    }
+    public void setTile(Tile tile){
+        this.tile = tile;
+    }
+    public Tile getTile(){
+        return tile;
     }
 }

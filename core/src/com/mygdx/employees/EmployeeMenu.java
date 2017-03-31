@@ -40,7 +40,7 @@ public class EmployeeMenu extends Actor{
     private float               menuOffset = 1f;
 
     EmployeeMenu(Employee employee, Stage stage, OrthographicCamera camera){
-        menuBackground = new Texture("white.jpg");
+        menuBackground = new Texture("white.png");
         this.employee = employee;
         this.camera = camera;
         this.profession = employee.profession;
