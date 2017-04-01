@@ -91,9 +91,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         gl.glEnable(GL20.GL_TEXTURE_2D);
         gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch = new SpriteBatch();
+
         cam = new OrthographicCamera();
         cameraPosition = new Vector3(5,0,0);
-
         uiCam = new OrthographicCamera();
         textCam = new OrthographicCamera();
         textCam.setToOrtho(false, 800, 480);
@@ -105,7 +105,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         textStage = new Stage();
 
         map = new int[][]{
-                {5, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8},
+                {0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8},
                 {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 7},
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
@@ -116,7 +116,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 7},
                 {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 6},
-                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5}
+                {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0}
         };
 
         tileMap = new TileMap(map, spriteBatch);
@@ -180,7 +180,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(input);
 
-        objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 0.6f, 1.1f, 0.5f));
+        objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 1f, 1f, 0.5f));
 
         font = new BitmapFont();
         font.setColor(Color.BLACK);
