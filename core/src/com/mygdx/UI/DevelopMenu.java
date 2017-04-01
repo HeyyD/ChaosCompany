@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.employees.Programmer;
@@ -14,16 +16,28 @@ public class DevelopMenu extends Menu {
 
     private TextButton cancelButton;
     private TextButton developButton;
+    private CheckBox violence;
+    private CheckBox drugs;
+    private CheckBox fear;
+    private CheckBox sex;
+    private CheckBox badLanguage;
+    private CheckBox gambling;
+    private CheckBox discrimination;
+    private Label.LabelStyle labelStyle;
+    private Label warnings;
     private Stage uiStage;
+    private Stage textStage;
     private Stage objectStage;
     private float buttonScale = .01f;
     private float buttonOffset = .1f;
 
     public DevelopMenu(Stage uiStage) {
         super(1, 0.5f, 5, 4.3f);
-        uiStage.addActor(this);
         this.uiStage = uiStage;
+        uiStage.addActor(this);
+        labelStyle = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.BLACK);
         objectStage = ChaosCompany.officeState.getobjectStage();
+        textStage = ChaosCompany.officeState.getTextStage();
 
         //cancel button
         cancelButton = new TextButton("CANCEL", skin);
@@ -69,17 +83,83 @@ public class DevelopMenu extends Menu {
         });
 
         uiStage.addActor(developButton);
+
+        //warnings label
+        /*warnings = new Label("Warnings", skin);
+        warnings.setPosition(110, 200);
+        textStage.addActor(warnings);*/
+
+        //checkboxes
+        violence = new CheckBox("Violence", skin);
+        violence.setTransform(true);
+        violence.setPosition(getX() + 0.2f ,developButton.getY() + 1.5f);
+        violence.setScale(buttonScale);
+        uiStage.addActor(violence);
+
+        drugs = new CheckBox("Drugs", skin);
+        drugs.setTransform(true);
+        drugs.setPosition(violence.getX(), violence.getY() - drugs.getHeight()*buttonScale);
+        drugs.setScale(buttonScale);
+        uiStage.addActor(drugs);
+
+        fear = new CheckBox("Fear", skin);
+        fear.setTransform(true);
+        fear.setPosition(drugs.getX(), drugs.getY() - fear.getHeight()*buttonScale);
+        fear.setScale(buttonScale);
+        uiStage.addActor(fear);
+
+        gambling = new CheckBox("Gambling", skin);
+        gambling.setTransform(true);
+        gambling.setPosition(fear.getX(), fear.getY() - gambling.getHeight()*buttonScale);
+        gambling.setScale(buttonScale);
+        uiStage.addActor(gambling);
+
+        sex = new CheckBox("Sex", skin);
+        sex.setTransform(true);
+        sex.setPosition(violence.getX() + violence.getWidth() * buttonScale + 1, violence.getY());
+        sex.setScale(buttonScale);
+        uiStage.addActor(sex);
+
+        badLanguage = new CheckBox("Bad Language", skin);
+        badLanguage.setTransform(true);
+        badLanguage.setPosition(sex.getX(), sex.getY() - gambling.getHeight()*buttonScale);
+        badLanguage.setScale(buttonScale);
+        uiStage.addActor(badLanguage);
+
+        discrimination = new CheckBox("Discrimination", skin);
+        discrimination.setTransform(true);
+        discrimination.setPosition(badLanguage.getX(), badLanguage.getY() - discrimination.getHeight()*buttonScale);
+        discrimination.setScale(buttonScale);
+        uiStage.addActor(discrimination);
+
+
     }
 
     public void showMenu() {
         uiStage.addActor(this);
         uiStage.addActor(cancelButton);
         uiStage.addActor(developButton);
+        uiStage.addActor(violence);
+        uiStage.addActor(drugs);
+        uiStage.addActor(fear);
+        uiStage.addActor(sex);
+        uiStage.addActor(badLanguage);
+        uiStage.addActor(discrimination);
+        uiStage.addActor(gambling);
+        //textStage.addActor(warnings);
     }
 
     public void hideMenu() {
         cancelButton.remove();
         developButton.remove();
+        violence.remove();
+        drugs.remove();
+        fear.remove();
+        sex.remove();
+        badLanguage.remove();
+        discrimination.remove();
+        gambling.remove();
+        //warnings.remove();
         remove();
     }
 

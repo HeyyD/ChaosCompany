@@ -59,6 +59,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private Stage               objectStage;
     //Stage for things that has to move with camera
     private Stage               movingUiStage;
+    //Stage for labels etc.
+    private Stage               textStage;
 
     private BuildMenu           buildMenu = null;
     private TextButton          buildMenuBtn = null;
@@ -100,6 +102,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         stage = new Stage();
         objectStage = new Stage();
         movingUiStage = new Stage();
+        textStage = new Stage();
 
         map = new int[][]{
                 {5, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8},
@@ -194,6 +197,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         stage.getViewport().setCamera(uiCam);
         objectStage.getViewport().setCamera(cam);
         movingUiStage.getViewport().setCamera(cam);
+        textStage.getViewport().setCamera(textCam);
     }
 
     @Override
@@ -205,6 +209,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         stage.act(delta);
         objectStage.act(delta);
         movingUiStage.act(delta);
+        textStage.act(delta);
 
         spriteBatch.setTransformMatrix(id);
         spriteBatch.begin();
@@ -215,6 +220,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         objectStage.draw();
         movingUiStage.draw();
         stage.draw();
+        textStage.draw();
 
         drawMoneyText(spriteBatch);
         spriteBatch.setTransformMatrix(isoTransform);
@@ -270,6 +276,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         stage.dispose();
         objectStage.dispose();
         movingUiStage.dispose();
+        textStage.dispose();
     }
 
 
@@ -279,6 +286,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public Stage getMovingUiStage() {
         return movingUiStage;
     }
+    public Stage getTextStage(){return textStage;}
     public boolean getIsMoving(){ return isMoving; }
     public void setIsMoving(boolean isMoving){this.isMoving = isMoving;}
     public boolean getIsBuildMenuOpen(){ return isBuildMenuOpen; }
@@ -369,6 +377,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         font.draw(batch,""+manager.getMoney(),710, 447);
         batch.end();
     }
+
     class ActorComparator implements Comparator<Actor> {
         @Override
         //compares the Y-position of the furniture
