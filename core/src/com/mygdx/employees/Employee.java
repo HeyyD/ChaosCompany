@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.UI.EmpMenu;
 import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.OfficeState;
 import com.mygdx.map.Tile;
@@ -28,7 +29,12 @@ public abstract class Employee extends Actor {
 
     //direction
     private int         dir = 2;
+
+    //boolean which tells if employee is moving
     private boolean     moving = false;
+
+    //boolean which tells if employee is hired or not
+    private boolean     hired = false;
 
     //split into 4 different arrays for 4 different animations
     protected TextureRegion[]   frames0;
@@ -49,7 +55,7 @@ public abstract class Employee extends Actor {
     private final int           FRAME_COLS = 4;
     private final int           FRAME_ROWS = 4;
 
-    protected EmployeeMenu menu = null;
+    protected EmpMenu menu = null;
     protected String profession = null;
 
     //The float that determines how well the employee can do his/her job 0-1
@@ -83,7 +89,7 @@ public abstract class Employee extends Actor {
         //Load sheet and use Texture Filter
         sheet = texture;
         sheet.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        //Setup textures
+        //Split sheet to 2D TextureRegion array
         tmp = TextureRegion.split(
                 sheet,
                 sheet.getWidth() / FRAME_COLS,
@@ -122,6 +128,7 @@ public abstract class Employee extends Actor {
         if(moving) {
             currentFrame = animations[dir].getKeyFrame(stateTime, true);
         }else{
+            //If employee is not moving, get texture from orginal TextureRegion arrays.
             switch(dir){
                 case 0:
                     currentFrame = frames0[0];
@@ -139,6 +146,7 @@ public abstract class Employee extends Actor {
         }
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
 
+        //Move if position is given and update moving status
         if(targetPosition != null) {
             move();
             moving = true;
@@ -152,6 +160,9 @@ public abstract class Employee extends Actor {
         super.act(delta);
     }
 
+
+    public abstract void hire();
+
     private void move(){
         float speed = Gdx.graphics.getDeltaTime() * 1.5f;
         Vector2 currentPosition = new Vector2(getX(), getY());
@@ -159,6 +170,7 @@ public abstract class Employee extends Actor {
         Vector2 direction = new Vector2(targetPosition.x - currentPosition.x, targetPosition.y - currentPosition.y).nor();
         Vector2 velocity = new Vector2(direction.x * speed, direction.y * speed);
 
+        //Change direction of Employee
         if(direction.x > 0 && direction.y > 0){
             dir = 1;
         }else if(direction.x > 0){
@@ -203,7 +215,11 @@ public abstract class Employee extends Actor {
 
         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             if(Employee.this.menu == null){
-                Employee.this.menu = new EmployeeMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), ChaosCompany.officeState.getCam());
+                if(hired) {
+                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), 0,0);
+                }else{
+                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.hireState.getMovingUiStage(), 0,0);
+                }
             }
         }
     }
@@ -224,4 +240,34 @@ public abstract class Employee extends Actor {
         }
         return frames;
     }
+
+    public boolean getHired(){
+        return this.hired;
+    }
+    public void setHired(boolean hired) {
+        this.hired = hired;
+    }
+    public void setMenu(EmpMenu menu){
+        this.menu = menu;
+    }
+    public void setUiStage(Stage uiStage){
+
+    }
+
+    public Pathfinding getPathfinding() {
+        return pathfinding;
+    }
+
+    public void setPathfinding(Pathfinding pathfinding) {
+        this.pathfinding = pathfinding;
+    }
+
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
+
 }

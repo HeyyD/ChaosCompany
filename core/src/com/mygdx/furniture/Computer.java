@@ -58,7 +58,6 @@ public class Computer extends ComputerFurniture {
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
-
     }
 
     @Override

@@ -180,7 +180,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(input);
 
-        objectStage.addActor(new Programmer(tileMap, tileMap.getTiles()[3][3], 1f, 1f, 0.5f));
+        Programmer programmer = new Programmer(tileMap, tileMap.getTiles()[3][3], 1f, 1f, 0.5f);
+        programmer.setHired(true);
+        objectStage.addActor(programmer);
 
         font = new BitmapFont();
         font.setColor(Color.BLACK);

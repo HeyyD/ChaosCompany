@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.employees.Employee;
+import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
 
 import java.util.Comparator;
@@ -33,6 +36,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     private ChaosCompany                game;
     private SpriteBatch                 spriteBatch;
 
+    //Camera settings
     private float                       cameraDistance = 1f;
     private float                       zoomSpeed = 0.0001f;
     private float                       panSpeed = 0.01f;
@@ -66,6 +70,8 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
     private InputMultiplexer            multiplexer;
 
+    //List of Employees you can hire
+    Employee[] employees;
 
     public HireState(ChaosCompany g){
         game = g;
@@ -142,16 +148,20 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         input = new GestureDetector(this);
 
         multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(input);
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(movingUiStage);
         multiplexer.addProcessor(objectStage);
-        multiplexer.addProcessor(input);
 
         font = new BitmapFont();
         font.setColor(Color.BLACK);
         moneyUI = new MoneyUi();
 
         stage.addActor(moneyUI);
+
+        //Create hirable employees
+        employees = new Employee[5];
+        createEmployees();
     }
 
     @Override
@@ -211,6 +221,21 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
         uiCam.update();
         cam.update();
+    }
+
+    private void createEmployees(){
+        for (int i = 0; i < 5; i++) {
+            int x = 9;
+            int y = 9;
+            while(tileMap.getTiles()[x][y].getIsFull()){
+                x = MathUtils.random(0,7);
+                y = MathUtils.random(0,7);
+            }
+            employees[i] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 1f));
+            objectStage.addActor(employees[i]);
+        }
+
+
     }
 
     @Override
@@ -312,5 +337,12 @@ public class HireState implements GestureDetector.GestureListener, Screen {
                 return 0;
             }
         }
+    }
+
+    public OrthographicCamera getCam() {
+        return cam;
+    }
+    public Stage getMovingUiStage(){
+        return movingUiStage;
     }
 }
