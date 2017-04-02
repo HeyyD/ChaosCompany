@@ -383,9 +383,7 @@ public class BuildMenu extends Actor{
                         +
                         (game.getOfficeState().getTileMap().pickedTileY *
                                 game.getOfficeState().getTileMap().tileWidth / 4.0f);
-                if((int)y_pos < 0) {
-                    y_pos = 0;
-                }
+
                 //END OF COORDINATES
 
 
