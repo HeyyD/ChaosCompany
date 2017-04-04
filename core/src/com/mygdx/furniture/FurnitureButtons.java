@@ -192,11 +192,21 @@ public class FurnitureButtons {
                 game.getOfficeState().getCam().unproject(touch);
                 touch.mul(game.getOfficeState().getInvIsotransform());
 
+                int indexX;
+                int indexY;
+
+                if(touch.y < 0)
+                    indexY = 0;
+                else
+                    indexY = (int) touch.y + 1;
+
+                indexX = (int)touch.x;
+
                 if(!furniture.getIsMoving() && furniture.getBought()) {
-                    tiles[(int) touch.x][(int) touch.y + 1].setIsFull(false);
+                    tiles[indexX][indexY].setIsFull(false);
                     furniture.setTile(null);
                     furniture.setIsMoving(true);
-                    System.out.println(tiles[(int) touch.x][(int) touch.y + 1].getIsFull());
+                    System.out.println(tiles[indexX][indexY].getIsFull());
                 }
 
                 return true;
@@ -206,6 +216,7 @@ public class FurnitureButtons {
                 touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 game.getOfficeState().getCam().unproject(touch);
                 touch.mul(game.getOfficeState().getInvIsotransform());
+
 
                 if((int)touch.x-1 >= 0 && (int)touch.x -1 < tiles.length && (int)touch.y >= 0 && (int)touch.y < tiles[0].length)
                 {
@@ -251,19 +262,31 @@ public class FurnitureButtons {
                 game.getOfficeState().getCam().unproject(touch);
                 touch.mul(game.getOfficeState().getInvIsotransform());
 
+                int indexX;
+                int indexY;
+
+                if(touch.y < 0)
+                    indexY = 0;
+                else
+                    indexY = (int) touch.y + 1;
+
+                indexX = (int)touch.x;
+
+                System.out.println(touch.x+"  y:"+touch.y);
+                System.out.println(indexX+"  y:"+indexY);
                 if(x > 0 && x < 64 && y > 0 && y < 64){
                     if(!furniture.getBought()) {
                         removeButtons();
                         furniture.remove();
                         game.getOfficeState().setIsMoving(false);
                     }
-                    else if(furniture.getBought()&& !tiles[(int)touch.x][(int)touch.y+1].getIsFull()
+                    else if(furniture.getBought()&& !tiles[indexX][indexY].getIsFull()
                             && furniture.getIsMoving()) {
                         removeButtons();
-                        tiles[(int) touch.x][(int) touch.y + 1].setIsFull(true);
+                        tiles[indexX][indexY].setIsFull(true);
                         game.getOfficeState().setIsMoving(false);
                         furniture.setIsMoving(false);
-                        furniture.setTile(tiles[(int)touch.x][(int) touch.y +1]);
+                        furniture.setTile(tiles[indexX][indexY]);
                     }
                     else if(furniture.getBought() && !furniture.getIsMoving()){
                         removeButtons();
@@ -300,23 +323,32 @@ public class FurnitureButtons {
                 touch.mul(game.getOfficeState().getInvIsotransform());
                 System.out.println((int)touch.x + " "+ (int)touch.y);
 
+                int indexX;
+                int indexY;
+
+                if(touch.y < 0)
+                    indexY = 0;
+                else
+                    indexY = (int) touch.y + 1;
+
+                indexX = (int)touch.x;
                 //I don't know why I have to add +1 to y coordinate, but it works.
                 if(x > 0 && x < 64 && y > 0 && y < 64){
                     if(furniture.getBought()){
                         removeButtons();
                         furniture.sell();
                         if(!furniture.getIsMoving()) {
-                            tiles[(int) touch.x][(int) touch.y + 1].setIsFull(false);
+                            tiles[indexX][indexY].setIsFull(false);
                             furniture.setTile(null);
                         }
-                    }else if((int)touch.x >= 0 && (int)touch.x < tiles.length
-                            && (int)touch.y+1 >= 0 && (int)touch.y+1 < tiles[0].length){
-                        if(tiles[(int)touch.x] [(int) touch.y+1].getIsFull() == false &&
+                    }else if(indexX >= 0 && indexX < tiles.length
+                            && indexY >= 0 && indexY < tiles[0].length){
+                        if(tiles[indexX] [indexY].getIsFull() == false &&
                                 game.getManager().getMoney() >= furniture.getPrice()) {
                             removeButtons();
                             furniture.buy();
-                            tiles[(int) touch.x][(int) touch.y+1].setIsFull(true);
-                            furniture.setTile(tiles[(int)touch.x][(int) touch.y+1]);
+                            tiles[indexX][indexY].setIsFull(true);
+                            furniture.setTile(tiles[indexX][indexY]);
                         }
                     }
                     game.getOfficeState().setIsMoving(false);
