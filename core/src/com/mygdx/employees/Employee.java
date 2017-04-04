@@ -270,4 +270,12 @@ public abstract class Employee extends Actor {
         this.currentTile = currentTile;
     }
 
+    public boolean getIsAvailabel(){
+        return this.isAvailable;
+    }
+
+    public void setIsAvailable(boolean isAvailable){
+        this.isAvailable = isAvailable;
+    }
+
 }

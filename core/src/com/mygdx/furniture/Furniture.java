@@ -22,6 +22,9 @@ public abstract class Furniture extends Actor{
 
     private FurnitureButtons    buttons;
 
+    //check if computer is available for use
+    private boolean isAvailable = true;
+
     public abstract void sell();
 
     public abstract void buy();
@@ -84,5 +87,13 @@ public abstract class Furniture extends Actor{
     }
     public Tile getTile(){
         return tile;
+    }
+
+    public boolean getIsAvailabel(){
+        return this.isAvailable;
+    }
+
+    public void setIsAvailable(boolean isAvailable){
+        this.isAvailable = isAvailable;
     }
 }

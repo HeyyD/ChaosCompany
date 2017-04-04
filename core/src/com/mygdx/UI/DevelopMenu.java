@@ -5,14 +5,18 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.development.Game;
+import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
 
 public class DevelopMenu extends Menu {
+
+    public static Game currentlyDevelopedGame = null;
 
     private TextButton cancelButton;
     private TextButton developButton;
@@ -23,21 +27,23 @@ public class DevelopMenu extends Menu {
     private CheckBox badLanguage;
     private CheckBox gambling;
     private CheckBox discrimination;
-    private Label.LabelStyle labelStyle;
-    private Label warnings;
     private Stage uiStage;
-    private Stage textStage;
     private Stage objectStage;
     private float buttonScale = .01f;
     private float buttonOffset = .1f;
+    private boolean checkForEmployees = true;
+
+    //if there is a game that is currently being developed we need these variables
+    private ProgressBar developmentTimeBar;
+    private boolean canDevelop = false;
+    private Stage textUiStage;
 
     public DevelopMenu(Stage uiStage) {
         super(1, 0.5f, 5, 4.3f);
         this.uiStage = uiStage;
         uiStage.addActor(this);
-        labelStyle = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.BLACK);
         objectStage = ChaosCompany.officeState.getobjectStage();
-        textStage = ChaosCompany.officeState.getTextStage();
+        textUiStage = ChaosCompany.officeState.getTextStage();
 
         //cancel button
         cancelButton = new TextButton("CANCEL", skin);
@@ -54,7 +60,10 @@ public class DevelopMenu extends Menu {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if (x > 0 && x < cancelButton.getWidth() && y > 0 && y < cancelButton.getHeight()) {
-                    hideMenu();
+                    if(currentlyDevelopedGame == null)
+                        hideMenu();
+                    else
+                        hideDevelopingMenu();
                 }
             }
         });
@@ -76,18 +85,18 @@ public class DevelopMenu extends Menu {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if (x > 0 && x < developButton.getWidth() && y > 0 && y < developButton.getHeight()) {
-                    findEmployee();
+                    while(checkForEmployees)
+                        findEmployee();
                     hideMenu();
+                    if(canDevelop) {
+                        startDeveloping();
+                        canDevelop = false;
+                    }
                 }
             }
         });
 
         uiStage.addActor(developButton);
-
-        //warnings label
-        /*warnings = new Label("Warnings", skin);
-        warnings.setPosition(110, 200);
-        textStage.addActor(warnings);*/
 
         //checkboxes
         violence = new CheckBox("Violence", skin);
@@ -131,22 +140,41 @@ public class DevelopMenu extends Menu {
         discrimination.setPosition(badLanguage.getX(), badLanguage.getY() - discrimination.getHeight()*buttonScale);
         discrimination.setScale(buttonScale);
         uiStage.addActor(discrimination);
-
-
     }
 
     public void showMenu() {
+
+        //background
         uiStage.addActor(this);
+
+        if(currentlyDevelopedGame == null) {
+            uiStage.addActor(developButton);
+            uiStage.addActor(violence);
+            uiStage.addActor(drugs);
+            uiStage.addActor(fear);
+            uiStage.addActor(sex);
+            uiStage.addActor(badLanguage);
+            uiStage.addActor(discrimination);
+            uiStage.addActor(gambling);
+
+        }else{
+            textUiStage.addActor(developmentTimeBar);
+        }
+
         uiStage.addActor(cancelButton);
-        uiStage.addActor(developButton);
-        uiStage.addActor(violence);
-        uiStage.addActor(drugs);
-        uiStage.addActor(fear);
-        uiStage.addActor(sex);
-        uiStage.addActor(badLanguage);
-        uiStage.addActor(discrimination);
-        uiStage.addActor(gambling);
-        //textStage.addActor(warnings);
+    }
+
+    public void startDeveloping(){
+
+        int height = 20;
+
+        currentlyDevelopedGame = new Game(100);
+        developmentTimeBar = new ProgressBar(0, currentlyDevelopedGame.developmentTime, 1, false, skin);
+        developmentTimeBar.getStyle().background.setMinHeight(height);
+        developmentTimeBar.getStyle().knobBefore.setMinHeight(height);
+        developmentTimeBar.setPosition(210, 350);
+        developmentTimeBar.setValue(currentlyDevelopedGame.currentTime);
+        currentlyDevelopedGame.setProgressBar(developmentTimeBar);
     }
 
     public void hideMenu() {
@@ -159,33 +187,57 @@ public class DevelopMenu extends Menu {
         badLanguage.remove();
         discrimination.remove();
         gambling.remove();
-        //warnings.remove();
+        checkForEmployees = true;
+        remove();
+    }
+
+    //this is used if there is currently a game being developed
+    public void hideDevelopingMenu(){
+        developmentTimeBar.remove();
+        cancelButton.remove();
         remove();
     }
 
     public void findEmployee() {
         Array<Actor> actors = objectStage.getActors();
 
-        Programmer programmer = null;
+        Employee currentEmployee;
+        Computer currentComputer;
+        Employee employee = null;
         Computer computer = null;
 
         for (int i = 0; i < actors.size; i++) {
-            if (actors.get(i).getClass() == Programmer.class)
-                programmer = (Programmer) actors.get(i);
+            if (actors.get(i).getClass() == Programmer.class){
+                currentEmployee = (Employee) actors.get(i);
+                if(currentEmployee.getIsAvailabel()) {
+                    employee = (Employee) actors.get(i);
+                }
+            }
 
-            else if(actors.get(i).getClass() == Computer.class)
-                computer = (Computer) actors.get(i);
+            else if(actors.get(i).getClass() == Computer.class) {
+                currentComputer = (Computer) actors.get(i);
+                if(currentComputer.getIsAvailabel())
+                    computer = (Computer) actors.get(i);
+            }
 
-            if(programmer != null && computer != null) {
-                programmer.giveDestination(computer.getTile());
-                if(programmer.getPath() == null){
+            if(employee != null && computer != null) {
+                employee.giveDestination(computer.getTile());
+                if(employee.getPath() == null){
                     computer = null;
+                    employee = null;
                     continue;
                 }
-                else break;
+                else {
+                    employee.setIsAvailable(false);
+                    computer.setIsAvailable(false);
+                    canDevelop = true;
+                    break;
+                }
             }
-            else if(i == actors.size - 1)
+            else if(i == actors.size - 1){
+                checkForEmployees = false;
                 System.out.println("Couldn't find a employee or a computer");
+            }
         }
     }
 }

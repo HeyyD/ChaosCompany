@@ -24,8 +24,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.UI.OfficeStateUI;
+import com.mygdx.development.Game;
 import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class OfficeState implements GestureDetector.GestureListener, Screen{
@@ -81,6 +84,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     //Font
     private BitmapFont            font = null;
     private MoneyUi               moneyUI = null;
+
+    //Developed games
+    public ArrayList<Game> games = new ArrayList<Game>();
 
     public OfficeState(ChaosCompany g) {
 
@@ -206,6 +212,11 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public void render(float delta) {
         GL20 gl = Gdx.graphics.getGL20();
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //update games
+        for(Game game: games){
+            game.update();
+        }
 
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);
