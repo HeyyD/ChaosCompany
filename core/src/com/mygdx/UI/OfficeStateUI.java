@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.employees.Employee;
 import com.mygdx.game.BuildMenu;
+import com.mygdx.game.ChaosCompany;
+import com.mygdx.game.GameButton;
 
 import java.util.ArrayList;
 
@@ -27,16 +29,13 @@ public class OfficeStateUI {
     public float buttonOffset = 0.2f;
     private Skin skin = null;
 
-    public OfficeStateUI(final Stage uiStage){
+    public OfficeStateUI(final Stage uiStage, ChaosCompany game){
 
         createSkin();
         this.uiStage = uiStage;
 
         //develop button
-        developButton = new TextButton("DEVELOP", skin);
-        developButton.setTransform(true);
-        developButton.setScale(buttonScale);
-        developButton.setPosition(buttonOffset + developButton.getHeight() * buttonScale, 4.9f);
+        developButton = new GameButton(game, uiStage, 1.1f, 4.9f,"", new Texture("UI_DevelopBtn.png")).getButton();
 
         developButton.addListener(new InputListener() {
 
@@ -65,7 +64,7 @@ public class OfficeStateUI {
         pixmap.setColor(Color.RED);
         pixmap.fill();
 
-        skin.add("white", new Texture(pixmap));
+        skin.add("white", new Texture("UI_DevelopBtn.png"));
 
         //Setting up skin font of button.
         BitmapFont bfont = new BitmapFont();
