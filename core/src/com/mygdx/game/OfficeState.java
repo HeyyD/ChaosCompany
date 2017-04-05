@@ -195,7 +195,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         moneyUI = new MoneyUi();
 
         stage.addActor(moneyUI);
-        UI = new OfficeStateUI(stage);
+        UI = new OfficeStateUI(stage, game);
     }
 
 
