@@ -14,6 +14,8 @@ import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
 
+import java.util.ArrayList;
+
 public class DevelopMenu extends Menu {
 
     public static Game currentlyDevelopedGame = null;
@@ -31,12 +33,14 @@ public class DevelopMenu extends Menu {
     private Stage uiStage;
     private Stage objectStage;
     private float buttonScale = .01f;
+    private float checkBoxScale = .013f;
     private float buttonOffset = .1f;
     private boolean checkForEmployees = true;
 
     //if there is a game that is currently being developed we need these variables
     private boolean canDevelop = false;
     private Stage textUiStage;
+    private ArrayList<Programmer> programmers = new ArrayList<Programmer>();
 
     public DevelopMenu(Stage uiStage) {
         super(1, 0.5f, 5, 4.3f);
@@ -101,44 +105,44 @@ public class DevelopMenu extends Menu {
         //checkboxes
         violence = new CheckBox("Violence", skin);
         violence.setTransform(true);
-        violence.setPosition(getX() + 0.2f ,developButton.getY() + 1.5f);
-        violence.setScale(buttonScale);
+        violence.setPosition(getX() + 0.2f ,developButton.getY() + 3f);
+        violence.setScale(checkBoxScale);
         uiStage.addActor(violence);
 
         drugs = new CheckBox("Drugs", skin);
         drugs.setTransform(true);
-        drugs.setPosition(violence.getX(), violence.getY() - drugs.getHeight()*buttonScale);
-        drugs.setScale(buttonScale);
+        drugs.setPosition(violence.getX(), violence.getY() - drugs.getHeight()*checkBoxScale);
+        drugs.setScale(checkBoxScale);
         uiStage.addActor(drugs);
 
         fear = new CheckBox("Fear", skin);
         fear.setTransform(true);
-        fear.setPosition(drugs.getX(), drugs.getY() - fear.getHeight()*buttonScale);
-        fear.setScale(buttonScale);
+        fear.setPosition(drugs.getX(), drugs.getY() - fear.getHeight()*checkBoxScale);
+        fear.setScale(checkBoxScale);
         uiStage.addActor(fear);
 
         gambling = new CheckBox("Gambling", skin);
         gambling.setTransform(true);
-        gambling.setPosition(fear.getX(), fear.getY() - gambling.getHeight()*buttonScale);
-        gambling.setScale(buttonScale);
+        gambling.setPosition(fear.getX(), fear.getY() - gambling.getHeight()*checkBoxScale);
+        gambling.setScale(checkBoxScale);
         uiStage.addActor(gambling);
 
         sex = new CheckBox("Sex", skin);
         sex.setTransform(true);
-        sex.setPosition(violence.getX() + violence.getWidth() * buttonScale + 1, violence.getY());
-        sex.setScale(buttonScale);
+        sex.setPosition(violence.getX(), gambling.getY() - sex.getHeight() * checkBoxScale);
+        sex.setScale(checkBoxScale);
         uiStage.addActor(sex);
 
         badLanguage = new CheckBox("Bad Language", skin);
         badLanguage.setTransform(true);
-        badLanguage.setPosition(sex.getX(), sex.getY() - gambling.getHeight()*buttonScale);
-        badLanguage.setScale(buttonScale);
+        badLanguage.setPosition(sex.getX(), sex.getY() - gambling.getHeight()*checkBoxScale);
+        badLanguage.setScale(checkBoxScale);
         uiStage.addActor(badLanguage);
 
         discrimination = new CheckBox("Discrimination", skin);
         discrimination.setTransform(true);
-        discrimination.setPosition(badLanguage.getX(), badLanguage.getY() - discrimination.getHeight()*buttonScale);
-        discrimination.setScale(buttonScale);
+        discrimination.setPosition(badLanguage.getX(), badLanguage.getY() - discrimination.getHeight()*checkBoxScale);
+        discrimination.setScale(checkBoxScale);
         uiStage.addActor(discrimination);
     }
 
@@ -168,13 +172,14 @@ public class DevelopMenu extends Menu {
 
         int height = 20;
 
-        currentlyDevelopedGame = new Game(100);
+        currentlyDevelopedGame = new Game(100, programmers);
         developmentTimeBar = new ProgressBar(0, currentlyDevelopedGame.developmentTime, 1, false, skin);
         developmentTimeBar.getStyle().background.setMinHeight(height);
         developmentTimeBar.getStyle().knobBefore.setMinHeight(height);
         developmentTimeBar.setPosition(210, 350);
         developmentTimeBar.setValue(currentlyDevelopedGame.currentTime);
         currentlyDevelopedGame.setProgressBar(developmentTimeBar);
+        programmers.clear();
     }
 
     public void hideMenu() {
@@ -230,6 +235,10 @@ public class DevelopMenu extends Menu {
                 else {
                     employee.setIsAvailable(false);
                     computer.setIsAvailable(false);
+
+                    if(employee.getClass() == Programmer.class)
+                        programmers.add((Programmer) employee);
+
                     canDevelop = true;
                     break;
                 }

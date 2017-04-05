@@ -11,6 +11,8 @@ import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.StatsManager;
 
+import java.util.ArrayList;
+
 public class Game {
 
     public float developmentTime;
@@ -19,16 +21,24 @@ public class Game {
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
-    private float developmentSpeed = 5;
+    private float developmentSpeed;
     private int value = 100;
     private float setMoneyTime = 50;
     private float currentMoneyTime = setMoneyTime;
     private boolean beingDeveloped = true;
+    private ArrayList<Programmer> programmers = new ArrayList<Programmer>();
 
-    public Game(float developmentTime){
+    public Game(float developmentTime, ArrayList<Programmer> programmers){
         statsManager = ChaosCompany.manager;
         this.developmentTime = developmentTime;
         this.currentTime = 0;
+        ArrayList<Programmer> temporaryList = programmers;
+
+        //clone the programmers list for later use
+        for(Programmer programmer: temporaryList){
+            this.programmers.add(programmer);
+        }
+        developmentSpeed = calculateDevelopmentTime();
         ChaosCompany.officeState.games.add(this);
     }
 
@@ -59,21 +69,35 @@ public class Game {
     }
 
     public void freeEmployeesAndComputers(){
+
+        for(Programmer programmer: programmers){
+            programmer.setIsAvailable(true);
+            programmer.findRandomPlace();
+        }
+
         for (Actor actor: ChaosCompany.officeState.getobjectStage().getActors()){
             if(actor.getClass() == Computer.class){
                 Computer computer = (Computer) actor;
                 computer.setIsAvailable(true);
-            }
-
-            if(actor.getClass() == Programmer.class){
+            } /*else if(actor.getClass() == Programmer.class){
                 Employee employee = (Employee) actor;
                 employee.setIsAvailable(true);
-            }
+                employee.findRandomPlace();
+            }*/
 
         }
     }
 
     public void setProgressBar(ProgressBar bar){
         this.progressBar = bar;
+    }
+
+    private float calculateDevelopmentTime(){
+        float developmentTime = 0;
+        for(Programmer programmer: programmers){
+            developmentTime += programmer.skill;
+        }
+
+        return developmentTime;
     }
 }

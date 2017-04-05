@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -58,8 +60,8 @@ public abstract class Employee extends Actor {
     protected EmpMenu menu = null;
     protected String profession = null;
 
-    //The float that determines how well the employee can do his/her job 0-1
-    private float skill;
+    //The float that determines how well the employee can do his/her job 0-5
+    public float skill;
 
     //Boolean to determine if the employee is free to work
     private boolean isAvailable;
@@ -198,9 +200,12 @@ public abstract class Employee extends Actor {
 
     public void giveDestination(Tile targetTile){
 
+        boolean setFull = targetTile.getIsFull();
+
         targetTile.setIsFull(false);
         path = pathfinding.Path(currentTile, targetTile);
-        targetTile.setIsFull(true);
+        if(setFull)
+            targetTile.setIsFull(true);
 
         if(path != null && path.size() > 0)
             targetPosition = new Vector2(path.get(0).getX(), path.get(0).getY());
@@ -254,8 +259,24 @@ public abstract class Employee extends Actor {
 
     }
 
+    public void findRandomPlace(){
+        int x = 0;
+        int y = 0;
+
+        while(map.getTiles()[x][y].getIsFull()){
+            x = MathUtils.random(0, map.getTiles().length - 1);
+            y = MathUtils.random(0, map.getTiles()[0].length - 1);
+        }
+
+        giveDestination(map.getTiles()[x][y]);
+    }
+
     public Pathfinding getPathfinding() {
         return pathfinding;
+    }
+
+    public void setMap(TileMap map){
+        this.map = map;
     }
 
     public void setPathfinding(Pathfinding pathfinding) {

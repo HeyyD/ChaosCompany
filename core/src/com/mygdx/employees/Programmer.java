@@ -27,6 +27,8 @@ public class Programmer extends Employee{
             x = MathUtils.random(0,9);
             y = MathUtils.random(0,9);
         }
+        setMap(ChaosCompany.officeState.getTileMap());
+        setMap(ChaosCompany.officeState.getTileMap());
         setCurrentTile(ChaosCompany.officeState.getTileMap().getTiles()[x][y]);
         setPosition(getCurrentTile().getX(), getCurrentTile().getY());
         setPathfinding(new Pathfinding(ChaosCompany.officeState.getTileMap()));
