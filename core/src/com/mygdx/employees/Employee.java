@@ -221,9 +221,9 @@ public abstract class Employee extends Actor {
         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             if(Employee.this.menu == null){
                 if(hired) {
-                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), 0,0);
+                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), getX()+1,getY());
                 }else{
-                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.hireState.getMovingUiStage(), 0,0);
+                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.hireState.getMovingUiStage(), getX()+1, getY());
                 }
             }
         }

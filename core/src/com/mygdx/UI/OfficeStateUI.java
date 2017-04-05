@@ -81,5 +81,4 @@ public class OfficeStateUI {
 
         skin.add("default", textButtonStyle);
     }
-
 }

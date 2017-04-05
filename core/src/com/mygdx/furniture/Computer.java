@@ -28,7 +28,7 @@ public class Computer extends ComputerFurniture {
         setEmployeeSlot(1);
 
         //Setup Textures
-        tex = new Texture("ComputerSheet.png");
+        tex = new Texture("computerSheet.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
