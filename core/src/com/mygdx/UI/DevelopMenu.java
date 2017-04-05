@@ -17,6 +17,7 @@ import com.mygdx.game.ChaosCompany;
 public class DevelopMenu extends Menu {
 
     public static Game currentlyDevelopedGame = null;
+    public static ProgressBar developmentTimeBar;
 
     private TextButton cancelButton;
     private TextButton developButton;
@@ -34,7 +35,6 @@ public class DevelopMenu extends Menu {
     private boolean checkForEmployees = true;
 
     //if there is a game that is currently being developed we need these variables
-    private ProgressBar developmentTimeBar;
     private boolean canDevelop = false;
     private Stage textUiStage;
 

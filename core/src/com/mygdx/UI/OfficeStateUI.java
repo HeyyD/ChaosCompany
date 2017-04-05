@@ -19,12 +19,13 @@ import java.util.ArrayList;
 
 public class OfficeStateUI {
 
+    public static DevelopMenu developMenu = null;
+
     public Stage uiStage = null;
     public TextButton developButton;
     public float buttonScale = 0.01f;
     public float buttonOffset = 0.2f;
     private Skin skin = null;
-    private DevelopMenu developMenu = null;
 
     public OfficeStateUI(final Stage uiStage){
 

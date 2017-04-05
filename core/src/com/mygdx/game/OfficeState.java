@@ -87,6 +87,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     //Developed games
     public ArrayList<Game> games = new ArrayList<Game>();
+    private ArrayList<Game> deleteGames = new ArrayList<Game>();
 
     public OfficeState(ChaosCompany g) {
 
@@ -216,7 +217,15 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //update games
         for(Game game: games){
             game.update();
+            if(game.moneyCycles <= 0)
+                deleteGames.add(game);
         }
+
+        for(Game game: deleteGames){
+            games.remove(game);
+        }
+
+        deleteGames.clear();
 
         spriteBatch.setProjectionMatrix(cam.combined);
         stage.act(delta);

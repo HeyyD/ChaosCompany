@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.mygdx.UI.DevelopMenu;
+import com.mygdx.UI.OfficeStateUI;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
@@ -14,13 +15,14 @@ public class Game {
 
     public float developmentTime;
     public float currentTime;
+    public int moneyCycles = 5;
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
     private float developmentSpeed = 5;
     private int value = 100;
     private float setMoneyTime = 50;
-    private int moneyCycles = 5;
+    private float currentMoneyTime = setMoneyTime;
     private boolean beingDeveloped = true;
 
     public Game(float developmentTime){
@@ -38,12 +40,21 @@ public class Game {
             }
             else{
                 DevelopMenu.currentlyDevelopedGame = null;
+                OfficeStateUI.developMenu.hideDevelopingMenu();
                 freeEmployeesAndComputers();
                 beingDeveloped = false;
             }
 
         } else{
-            System.out.println(ChaosCompany.officeState.games.size());
+            if(moneyCycles > 0){
+                if(currentMoneyTime > 0){
+                    currentMoneyTime -= Gdx.graphics.getDeltaTime() * developmentSpeed;
+                }else {
+                    currentMoneyTime = setMoneyTime;
+                    statsManager.setMoney(statsManager.getMoney() + value);
+                    moneyCycles--;
+                }
+            }
         }
     }
 
