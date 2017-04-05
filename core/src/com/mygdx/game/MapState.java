@@ -40,21 +40,21 @@ public class MapState implements Screen {
         game = g;
         batch = game.getSpriteBatch();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 8, 4.8f);
+        camera.setToOrtho(false, 800, 480f);
         batch.setProjectionMatrix(camera.combined);
 
-        map = new Texture("map.png");
+        map = new Texture("Overworld_Screen.png");
         map.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         stage = new Stage();
         stage.getViewport().setCamera(camera);
 
-        companyUP = new Texture("chaosCompany.png");
-        companyDOWN = new Texture("chaosCompanyDown.png");
+        companyUP = new Texture("Overworld_Company.png");
+        companyDOWN = new Texture("Overworld_Company.png");
         company = new ImageButton(new TextureRegionDrawable(new TextureRegion(companyUP)),
                 new TextureRegionDrawable(new TextureRegion(companyDOWN)));
 
-        company.setPosition(0,3.3f);
-        company.setSize(company.getWidth()/100, company.getHeight()/100);
+        company.setPosition(306,264);
+        company.setSize(company.getWidth(), company.getHeight());
         company.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -68,12 +68,12 @@ public class MapState implements Screen {
         });
         stage.addActor(company);
 
-        jobCenterUP = new Texture("tyokkari.png");
-        jobCenterDOWN = new Texture("tyokkariDown.png");
+        jobCenterUP = new Texture("Overworld_Jobcenter.png");
+        jobCenterDOWN = new Texture("Overworld_Jobcenter.png");
         jobCenter = new ImageButton(new TextureRegionDrawable(new TextureRegion(jobCenterUP)),
                 new TextureRegionDrawable(new TextureRegion(jobCenterDOWN)));
-        jobCenter.setSize(jobCenter.getWidth()/100, jobCenter.getHeight()/100);
-        jobCenter.setPosition(5,2.3f);
+        jobCenter.setSize(jobCenter.getWidth(), jobCenter.getHeight());
+        jobCenter.setPosition(597,86);
 
         jobCenter.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -100,7 +100,7 @@ public class MapState implements Screen {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(map, 0, 0, 8f, 4.8f);
+        batch.draw(map, 0, 0);
         batch.end();
         stage.act(delta);
         stage.draw();
