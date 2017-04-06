@@ -70,6 +70,7 @@ public abstract class Employee extends Actor {
     private Tile        currentTile = null;
     private Vector2     targetPosition = null;
     private int         currentTileIndex = 0;
+    private boolean     walking = false;
 
     private Pathfinding pathfinding = null;
     private ArrayList<Tile> path = new ArrayList<Tile>();
@@ -190,11 +191,12 @@ public abstract class Employee extends Actor {
             currentTileIndex++;
             targetPosition = new Vector2(path.get(currentTileIndex).getX(), path.get(currentTileIndex).getY());
         }
-        else{
+        else {
             currentTileIndex = 0;
             targetPosition = null;
             currentTile = path.get(path.size() - 1);
             path.clear();
+            walking = false;
         }
     }
 
@@ -202,8 +204,15 @@ public abstract class Employee extends Actor {
 
         boolean setFull = targetTile.getIsFull();
 
+        if (walking) {
+            targetPosition = null;
+            currentTile = path.get(currentTileIndex);
+            currentTileIndex = 0;
+        }
+
         targetTile.setIsFull(false);
         path = pathfinding.Path(currentTile, targetTile);
+        walking = true;
         if(setFull)
             targetTile.setIsFull(true);
 
