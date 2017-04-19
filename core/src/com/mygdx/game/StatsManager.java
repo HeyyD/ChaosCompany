@@ -10,6 +10,9 @@ public class StatsManager {
     private int money = 2000;
     private int employeeSlots = 1;
 
+    //karma can range from -100 to 100
+    private int karma = 0;
+
     public int getMoney(){
         return money;
     }
@@ -26,6 +29,20 @@ public class StatsManager {
     public int getEmployeeSlots(){
         return employeeSlots;
     }
+
+    public int getKarma(){
+        return karma;
+    }
+
+    public void setKarma(int karma){
+        if(karma <= -100)
+            this.karma = -100;
+        else if(karma >= 100)
+            this.karma = 100;
+        else
+            this.karma = karma;
+    }
+
     public void setEmployeeSlots(int slot){
         this.employeeSlots = slot;
     }

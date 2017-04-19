@@ -79,11 +79,7 @@ public class Game {
             if(actor.getClass() == Computer.class){
                 Computer computer = (Computer) actor;
                 computer.setIsAvailable(true);
-            } /*else if(actor.getClass() == Programmer.class){
-                Employee employee = (Employee) actor;
-                employee.setIsAvailable(true);
-                employee.findRandomPlace();
-            }*/
+            }
 
         }
     }

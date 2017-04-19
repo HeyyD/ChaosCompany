@@ -23,6 +23,9 @@ public class DevelopMenu extends Menu {
 
     private TextButton cancelButton;
     private TextButton developButton;
+
+    //warnings
+    private ArrayList<CheckBox> warnings = new ArrayList<CheckBox>();
     private CheckBox violence;
     private CheckBox drugs;
     private CheckBox fear;
@@ -30,6 +33,14 @@ public class DevelopMenu extends Menu {
     private CheckBox badLanguage;
     private CheckBox gambling;
     private CheckBox discrimination;
+    //ages
+    private ArrayList<CheckBox> ageButtons = new ArrayList<CheckBox>();
+    private CheckBox k3; //karma 1
+    private CheckBox k7; // karma 2
+    private CheckBox k12; //karma 3
+    private CheckBox k16; //karma 4
+    private CheckBox k18; //karma 5
+
     private Stage uiStage;
     private Stage objectStage;
     private float buttonScale = .01f;
@@ -40,10 +51,11 @@ public class DevelopMenu extends Menu {
     //if there is a game that is currently being developed we need these variables
     private boolean canDevelop = false;
     private Stage textUiStage;
+    private int gameAgeKarma = 1;
     private ArrayList<Programmer> programmers = new ArrayList<Programmer>();
 
     public DevelopMenu(Stage uiStage) {
-        super(1, 0.5f, 5, 4.3f);
+        super(1, 0.5f, 7, 4.3f);
         this.uiStage = uiStage;
         uiStage.addActor(this);
         objectStage = ChaosCompany.officeState.getobjectStage();
@@ -107,44 +119,97 @@ public class DevelopMenu extends Menu {
         violence.setTransform(true);
         violence.setPosition(getX() + 0.2f ,developButton.getY() + 3f);
         violence.setScale(checkBoxScale);
+        warnings.add(violence);
         uiStage.addActor(violence);
 
         drugs = new CheckBox("Drugs", skin);
         drugs.setTransform(true);
         drugs.setPosition(violence.getX(), violence.getY() - drugs.getHeight()*checkBoxScale);
         drugs.setScale(checkBoxScale);
+        warnings.add(drugs);
         uiStage.addActor(drugs);
 
         fear = new CheckBox("Fear", skin);
         fear.setTransform(true);
         fear.setPosition(drugs.getX(), drugs.getY() - fear.getHeight()*checkBoxScale);
         fear.setScale(checkBoxScale);
+        warnings.add(fear);
         uiStage.addActor(fear);
 
         gambling = new CheckBox("Gambling", skin);
         gambling.setTransform(true);
         gambling.setPosition(fear.getX(), fear.getY() - gambling.getHeight()*checkBoxScale);
         gambling.setScale(checkBoxScale);
+        warnings.add(gambling);
         uiStage.addActor(gambling);
 
         sex = new CheckBox("Sex", skin);
         sex.setTransform(true);
-        sex.setPosition(violence.getX(), gambling.getY() - sex.getHeight() * checkBoxScale);
+        sex.setPosition(getWidth()/2, violence.getY());
         sex.setScale(checkBoxScale);
+        warnings.add(sex);
         uiStage.addActor(sex);
 
         badLanguage = new CheckBox("Bad Language", skin);
         badLanguage.setTransform(true);
         badLanguage.setPosition(sex.getX(), sex.getY() - gambling.getHeight()*checkBoxScale);
         badLanguage.setScale(checkBoxScale);
+        warnings.add(badLanguage);
         uiStage.addActor(badLanguage);
 
         discrimination = new CheckBox("Discrimination", skin);
         discrimination.setTransform(true);
         discrimination.setPosition(badLanguage.getX(), badLanguage.getY() - discrimination.getHeight()*checkBoxScale);
         discrimination.setScale(checkBoxScale);
+        warnings.add(discrimination);
         uiStage.addActor(discrimination);
-    }
+
+
+        float ageButtonScale = checkBoxScale * 1.3f;
+        float offset = 0.4f;
+        //age CheckBoxes
+        k3 = new CheckBox("3", skin);
+        k3.setChecked(true);
+        k3.setTransform(true);
+        k3.setPosition(getX() + getWidth()/10, getY() + getHeight()/3);
+        k3.setScale(ageButtonScale);
+        ageButtons.add(k3);
+        k3.addListener(new ToggleListener(k3));
+        uiStage.addActor(k3);
+
+        k7 = new CheckBox("7", skin);
+        k7.setTransform(true);
+        k7.setPosition(k3.getX() + k3.getWidth() * ageButtonScale + offset, k3.getY());
+        k7.setScale(ageButtonScale);
+        ageButtons.add(k7);
+        k7.addListener(new ToggleListener(k7));
+        uiStage.addActor(k7);
+
+        k12 = new CheckBox("12", skin);
+        k12.setTransform(true);
+        k12.setPosition(k7.getX() + k7.getWidth() * ageButtonScale + offset, k7.getY());
+        k12.setScale(ageButtonScale);
+        ageButtons.add(k12);
+        k12.addListener(new ToggleListener(k12));
+        uiStage.addActor(k12);
+
+        k16 = new CheckBox("16", skin);
+        k16.setTransform(true);
+        k16.setPosition(k12.getX() + k7.getWidth() * ageButtonScale + offset, k12.getY());
+        k16.setScale(ageButtonScale);
+        ageButtons.add(k16);
+        k16.addListener(new ToggleListener(k16));
+        uiStage.addActor(k16);
+
+        k18 = new CheckBox("18", skin);
+        k18.setTransform(true);
+        k18.setPosition(k16.getX() + k7.getWidth() * ageButtonScale + offset, k16.getY());
+        k18.setScale(ageButtonScale);
+        ageButtons.add(k18);
+        k18.addListener(new ToggleListener(k18));
+        uiStage.addActor(k18);
+
+}
 
     public void showMenu() {
 
@@ -160,6 +225,11 @@ public class DevelopMenu extends Menu {
             uiStage.addActor(badLanguage);
             uiStage.addActor(discrimination);
             uiStage.addActor(gambling);
+            uiStage.addActor(k3);
+            uiStage.addActor(k7);
+            uiStage.addActor(k12);
+            uiStage.addActor(k16);
+            uiStage.addActor(k18);
 
         }else{
             textUiStage.addActor(developmentTimeBar);
@@ -171,14 +241,21 @@ public class DevelopMenu extends Menu {
     public void startDeveloping(){
 
         int height = 20;
+        int warningsKarma = 0;
 
         currentlyDevelopedGame = new Game(100, programmers);
         developmentTimeBar = new ProgressBar(0, currentlyDevelopedGame.developmentTime, 1, false, skin);
         developmentTimeBar.getStyle().background.setMinHeight(height);
         developmentTimeBar.getStyle().knobBefore.setMinHeight(height);
-        developmentTimeBar.setPosition(210, 350);
+        developmentTimeBar.setPosition(295, 350);
         developmentTimeBar.setValue(currentlyDevelopedGame.currentTime);
         currentlyDevelopedGame.setProgressBar(developmentTimeBar);
+        for(CheckBox warning: warnings){
+            if(warning.isChecked())
+                warningsKarma++;
+        }
+        ChaosCompany.manager.setKarma(ChaosCompany.manager.getKarma() + (gameAgeKarma - warningsKarma));
+        System.out.println(ChaosCompany.manager.getKarma());
         programmers.clear();
     }
 
@@ -193,6 +270,11 @@ public class DevelopMenu extends Menu {
         discrimination.remove();
         gambling.remove();
         checkForEmployees = true;
+        k3.remove();
+        k7.remove();
+        k12.remove();
+        k16.remove();
+        k18.remove();
         remove();
     }
 
@@ -249,4 +331,42 @@ public class DevelopMenu extends Menu {
             }
         }
     }
+
+    public void UnCheckOtherCheckBoxes(CheckBox trueCheckBox){
+        for(CheckBox checkBox: ageButtons){
+            if(checkBox != trueCheckBox)
+                checkBox.setChecked(false);
+        }
+
+        //set karma
+        if(trueCheckBox == k3)
+            gameAgeKarma = 1;
+        else if(trueCheckBox == k7)
+            gameAgeKarma = 2;
+        else if(trueCheckBox == k12)
+            gameAgeKarma = 3;
+        else if(trueCheckBox == k16)
+            gameAgeKarma = 4;
+        else
+            gameAgeKarma = 5;
+    }
+
+    private class ToggleListener extends InputListener{
+
+        private CheckBox checkBox;
+
+        public ToggleListener(CheckBox checkBox){
+            this.checkBox = checkBox;
+        }
+
+        public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            checkBox.toggle();
+            checkBox.setChecked(true);
+            DevelopMenu.this.UnCheckOtherCheckBoxes(checkBox);
+        }
+        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            return true;
+        }
+    }
+
 }
