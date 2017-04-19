@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
@@ -26,6 +27,7 @@ public class MainMenuState implements Screen {
     private Stage stage;
     private SpriteBatch batch;
     private OrthographicCamera camera;
+    private I18NBundle bundle = ChaosCompany.myBundle;
 
 
     private final float SCREEN_WIDTH = 800;
@@ -70,9 +72,9 @@ public class MainMenuState implements Screen {
         skin.add("default", textButtonStyle);
 
         //Create TextButton three TextButtons
-        final TextButton playBtn = new TextButton("PLAY",textButtonStyle);
+        final TextButton playBtn = new TextButton(bundle.get("play"),textButtonStyle);
         final TextButton settingsBtn = new TextButton("SETTINGS", textButtonStyle);
-        final TextButton exitBtn = new TextButton("EXIT", textButtonStyle);
+        final TextButton exitBtn = new TextButton(bundle.get("exit"), textButtonStyle);
 
 
         //PLAYBUTTON

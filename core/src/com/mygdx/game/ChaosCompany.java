@@ -6,6 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.I18NBundle;
+
+import java.util.Locale;
 
 public class ChaosCompany extends Game {
 
@@ -17,6 +20,10 @@ public class ChaosCompany extends Game {
 
     //Manager
     public static StatsManager    manager;
+    public static Locale          locale;
+    public static Locale          defaultLocale;
+    public static I18NBundle      myBundle;
+
 
 	protected SpriteBatch   batch;
 
@@ -26,6 +33,10 @@ public class ChaosCompany extends Game {
 
 	@Override
 	public void create () {
+
+        locale = new Locale("en", "UK");
+        defaultLocale = Locale.getDefault();
+        myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale);
 
         //Stats Manager
         manager                 = new StatsManager();

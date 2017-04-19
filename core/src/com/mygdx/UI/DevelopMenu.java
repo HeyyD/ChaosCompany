@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.development.Game;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
@@ -23,6 +24,7 @@ public class DevelopMenu extends Menu {
 
     private TextButton cancelButton;
     private TextButton developButton;
+    private I18NBundle bundle = ChaosCompany.myBundle;
 
     //warnings
     private ArrayList<CheckBox> warnings = new ArrayList<CheckBox>();
@@ -62,7 +64,7 @@ public class DevelopMenu extends Menu {
         textUiStage = ChaosCompany.officeState.getTextStage();
 
         //cancel button
-        cancelButton = new TextButton("CANCEL", skin);
+        cancelButton = new TextButton(bundle.get("cancel"), skin);
         cancelButton.setTransform(true);
         cancelButton.setScale(buttonScale);
         cancelButton.setPosition(getX() + (getWidth()/2 - (cancelButton.getWidth()/2*buttonScale)), getY() + 0.2f);
@@ -87,7 +89,7 @@ public class DevelopMenu extends Menu {
         uiStage.addActor(cancelButton);
 
         // developButton
-        developButton = new TextButton("START DEVELOPING", skin);
+        developButton = new TextButton(bundle.get("startDeveloping"), skin);
         developButton.setTransform(true);
         developButton.setScale(buttonScale);
         developButton.setPosition(getX() + (getWidth()/2 - (developButton.getWidth()/2*buttonScale)), cancelButton.getY() + cancelButton.getHeight() * buttonScale + buttonOffset);
@@ -115,49 +117,49 @@ public class DevelopMenu extends Menu {
         uiStage.addActor(developButton);
 
         //checkboxes
-        violence = new CheckBox("Violence", skin);
+        violence = new CheckBox(bundle.get("violence"), skin);
         violence.setTransform(true);
         violence.setPosition(getX() + 0.2f ,developButton.getY() + 3f);
         violence.setScale(checkBoxScale);
         warnings.add(violence);
         uiStage.addActor(violence);
 
-        drugs = new CheckBox("Drugs", skin);
+        drugs = new CheckBox(bundle.get("drugs"), skin);
         drugs.setTransform(true);
         drugs.setPosition(violence.getX(), violence.getY() - drugs.getHeight()*checkBoxScale);
         drugs.setScale(checkBoxScale);
         warnings.add(drugs);
         uiStage.addActor(drugs);
 
-        fear = new CheckBox("Fear", skin);
+        fear = new CheckBox(bundle.get("fear"), skin);
         fear.setTransform(true);
         fear.setPosition(drugs.getX(), drugs.getY() - fear.getHeight()*checkBoxScale);
         fear.setScale(checkBoxScale);
         warnings.add(fear);
         uiStage.addActor(fear);
 
-        gambling = new CheckBox("Gambling", skin);
+        gambling = new CheckBox(bundle.get("gambling"), skin);
         gambling.setTransform(true);
         gambling.setPosition(fear.getX(), fear.getY() - gambling.getHeight()*checkBoxScale);
         gambling.setScale(checkBoxScale);
         warnings.add(gambling);
         uiStage.addActor(gambling);
 
-        sex = new CheckBox("Sex", skin);
+        sex = new CheckBox(bundle.get("sex"), skin);
         sex.setTransform(true);
         sex.setPosition(getWidth()/2, violence.getY());
         sex.setScale(checkBoxScale);
         warnings.add(sex);
         uiStage.addActor(sex);
 
-        badLanguage = new CheckBox("Bad Language", skin);
+        badLanguage = new CheckBox(bundle.get("badLanguage"), skin);
         badLanguage.setTransform(true);
         badLanguage.setPosition(sex.getX(), sex.getY() - gambling.getHeight()*checkBoxScale);
         badLanguage.setScale(checkBoxScale);
         warnings.add(badLanguage);
         uiStage.addActor(badLanguage);
 
-        discrimination = new CheckBox("Discrimination", skin);
+        discrimination = new CheckBox(bundle.get("discrimination"), skin);
         discrimination.setTransform(true);
         discrimination.setPosition(badLanguage.getX(), badLanguage.getY() - discrimination.getHeight()*checkBoxScale);
         discrimination.setScale(checkBoxScale);

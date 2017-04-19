@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.employees.Employee;
 import com.mygdx.game.ChaosCompany;
 
@@ -16,6 +17,7 @@ public class EmpMenu extends Menu {
     private ChaosCompany        game;
     private Employee            employee;
     private Stage               uiStage;
+    private I18NBundle          bundle = ChaosCompany.myBundle;
 
     private TextButton          hireButton;
     private TextButton          cancelButton;
@@ -31,7 +33,7 @@ public class EmpMenu extends Menu {
         this.employee = employee;
 
 
-        cancelButton = new TextButton("CANCEL", skin);
+        cancelButton = new TextButton(bundle.get("cancel"), skin);
         cancelButton.setTransform(true);
         cancelButton.setScale(buttonScale);
         cancelButton.setPosition(getX() + (getWidth()/2 - (cancelButton.getWidth()/2*buttonScale)), getY() + 0.2f);
@@ -55,7 +57,7 @@ public class EmpMenu extends Menu {
 
 
         if(!employee.getHired()) {
-            hireButton = new TextButton("HIRE", skin);
+            hireButton = new TextButton(bundle.get("hire"), skin);
             hireButton.setTransform(true);
             hireButton.setScale(buttonScale);
             hireButton.setPosition(getX() + (getWidth() / 2 - (hireButton.getWidth() / 2 * buttonScale)), cancelButton.getY() + cancelButton.getHeight() * buttonScale + buttonOffset);
