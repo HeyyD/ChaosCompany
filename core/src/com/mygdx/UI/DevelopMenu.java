@@ -147,7 +147,7 @@ public class DevelopMenu extends Menu {
 
         sex = new CheckBox(bundle.get("sex"), skin);
         sex.setTransform(true);
-        sex.setPosition(getWidth()/2, violence.getY());
+        sex.setPosition(getWidth() * 0.6f, violence.getY());
         sex.setScale(checkBoxScale);
         warnings.add(sex);
         uiStage.addActor(sex);
