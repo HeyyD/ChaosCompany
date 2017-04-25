@@ -108,6 +108,7 @@ public class DevelopMenu extends Menu {
                     hideMenu();
                     if(canDevelop) {
                         startDeveloping();
+                        ChaosCompany.officeState.setDeveloping(true);
                         canDevelop = false;
                     }
                 }
@@ -370,5 +371,4 @@ public class DevelopMenu extends Menu {
             return true;
         }
     }
-
 }

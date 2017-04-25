@@ -25,7 +25,6 @@ public class Computer extends ComputerFurniture {
     public Computer(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setEmployeeSlot(1);
 
         //Setup Textures
         tex = new Texture("ComputerSheet.png");
@@ -76,7 +75,7 @@ public class Computer extends ComputerFurniture {
     @Override
     public void sell() {
         //minus benfits
-        manager.setWellBeing(manager.getEmployeeSlots()- getEmployeeSlot());
+        manager.setEmployeeSlots(manager.getEmployeeSlots()- getEmployeeSlot());
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch
@@ -86,7 +85,7 @@ public class Computer extends ComputerFurniture {
 
     @Override
     public void buy(){
-        manager.setWellBeing((manager.getEmployeeSlots()+ getEmployeeSlot()));
+        manager.setEmployeeSlots((manager.getEmployeeSlots()+ 1));
         manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);

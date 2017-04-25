@@ -8,7 +8,8 @@ public class StatsManager {
 
     private int wellBeing = 50;
     private int money = 2000;
-    private int employeeSlots = 1;
+    private int employeeSlots = 0;
+    private int employees = 0;
 
     //karma can range from -100 to 100
     private int karma = 0;
@@ -45,5 +46,11 @@ public class StatsManager {
 
     public void setEmployeeSlots(int slot){
         this.employeeSlots = slot;
+    }
+    public void setEmployees(int employees){
+        this.employees = employees;
+    }
+    public int getEmployees(){
+        return employees;
     }
 }

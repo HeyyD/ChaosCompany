@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.UI.EmpMenu;
 import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.OfficeState;
+import com.mygdx.game.StatsManager;
 import com.mygdx.map.Tile;
 import com.mygdx.map.TileMap;
 
@@ -75,9 +76,12 @@ public abstract class Employee extends Actor {
     private Pathfinding pathfinding = null;
     private ArrayList<Tile> path = new ArrayList<Tile>();
 
-    //test
     private TileMap map;
     private TextureRegion[] regions;
+
+
+    //Manager
+    private StatsManager manager = null;
 
     public Employee(Texture texture, TileMap tileMap, Tile startTile, float width, float height, float skill){
         this.skill = skill;
@@ -118,8 +122,9 @@ public abstract class Employee extends Actor {
 
         currentFrame = animations[0].getKeyFrame(stateTime, true);
 
-        //test
         map = tileMap;
+
+        manager = ChaosCompany.manager;
     }
 
     @Override
@@ -202,8 +207,15 @@ public abstract class Employee extends Actor {
 
     public void giveDestination(Tile targetTile){
 
-        boolean setFull = targetTile.getIsFull();
+        if(!walking) {
+            if(!ChaosCompany.officeState.getDeveloping()) {
+                currentTile.setIsFull(false);
+                ChaosCompany.officeState.setDeveloping(false);
+            }
+            targetTile.setIsFull(true);
+        }
 
+        boolean setFull = targetTile.getIsFull();
         if (walking) {
             targetPosition = null;
             currentTile = path.get(currentTileIndex);
@@ -306,6 +318,10 @@ public abstract class Employee extends Actor {
 
     public void setIsAvailable(boolean isAvailable){
         this.isAvailable = isAvailable;
+    }
+
+    public StatsManager getManager(){
+        return manager;
     }
 
 }

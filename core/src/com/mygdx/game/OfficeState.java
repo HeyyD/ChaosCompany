@@ -88,10 +88,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     //Developed games
     public ArrayList<Game> games = new ArrayList<Game>();
     private ArrayList<Game> deleteGames = new ArrayList<Game>();
+    private boolean developing;
 
     public OfficeState(ChaosCompany g) {
 
         game = g;
+        developing = false;
 
         GL20 gl = Gdx.graphics.getGL20();
         gl.glEnable(GL20.GL_BLEND);
@@ -186,10 +188,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(movingUiStage);
         multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(input);
-
-        Programmer programmer = new Programmer(tileMap, tileMap.getTiles()[3][3], 1f, 1f, 5);
-        programmer.setHired(true);
-        objectStage.addActor(programmer);
 
         font = new BitmapFont();
         font.setColor(Color.BLACK);
@@ -327,6 +325,12 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         return invIsotransform;
     }
     public SpriteBatch getSpriteBatch(){ return spriteBatch; }
+    public void setDeveloping(boolean developing){
+        this.developing = developing;
+    }
+    public boolean getDeveloping(){
+        return developing;
+    }
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {

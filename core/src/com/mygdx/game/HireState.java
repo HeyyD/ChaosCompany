@@ -20,7 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
+import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
 
@@ -227,12 +229,24 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         for (int i = 0; i < 5; i++) {
             int x = 9;
             int y = 9;
-            while(tileMap.getTiles()[x][y].getIsFull()){
-                x = MathUtils.random(0,7);
-                y = MathUtils.random(0,7);
+            while(tileMap.getTiles()[x][y].getIsFull()) {
+                x = MathUtils.random(0, 7);
+                y = MathUtils.random(0, 7);
             }
-            employees[i] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+            int random = MathUtils.random(1, 3);
+            switch (random){
+                case 1: employees[i] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+                        objectStage.addActor(employees[i]);
+                        break;
+                case 2: employees[i] = new Artist(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+                        objectStage.addActor(employees[i]);
+                        break;
+                case 3: employees[i] = new MarketingExecutive(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+                        objectStage.addActor(employees[i]);
+                        break;
+            }
             objectStage.addActor(employees[i]);
+            tileMap.getTiles()[x][y].setIsFull(true);
         }
 
 
