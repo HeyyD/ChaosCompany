@@ -75,7 +75,7 @@ public class Computer extends ComputerFurniture {
     @Override
     public void sell() {
         //minus benfits
-        manager.setEmployeeSlots(manager.getEmployeeSlots()- getEmployeeSlot());
+        manager.setEmployeeSlots(manager.getEmployeeSlots()- 1);
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch

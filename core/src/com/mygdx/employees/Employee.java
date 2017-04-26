@@ -210,6 +210,7 @@ public abstract class Employee extends Actor {
         if(!walking) {
             if(!ChaosCompany.officeState.getDeveloping()) {
                 currentTile.setIsFull(false);
+            }else{
                 ChaosCompany.officeState.setDeveloping(false);
             }
             targetTile.setIsFull(true);
