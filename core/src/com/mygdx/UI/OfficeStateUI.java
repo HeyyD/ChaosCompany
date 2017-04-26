@@ -1,6 +1,7 @@
 package com.mygdx.UI;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 public class OfficeStateUI {
 
     public static DevelopMenu developMenu = null;
+    public static ProgressBar developmentTimeBar;
 
     public Stage uiStage = null;
     public TextButton developButton;
@@ -30,10 +33,16 @@ public class OfficeStateUI {
     public float buttonOffset = 0.2f;
     private Skin skin = null;
 
-    public OfficeStateUI(final Stage uiStage, ChaosCompany game){
+    public OfficeStateUI(final Stage uiStage, Stage textStage, ChaosCompany game){
 
         createSkin();
         this.uiStage = uiStage;
+        developmentTimeBar = new ProgressBar(0, 100, 1, false, new Skin(Gdx.files.internal("flat-earth-ui.json")));
+        developmentTimeBar.getStyle().background.setMinHeight(20);
+        developmentTimeBar.getStyle().knobBefore.setMinHeight(20);
+        developmentTimeBar.setPosition(465, 435);
+        developmentTimeBar.setValue(0);
+        textStage.addActor(developmentTimeBar);
 
         //develop button
         developButton = new GameButton(game, uiStage, 1.1f, 4.9f,"", new Texture("UI_DevelopBtn.png")).getButton();
@@ -49,7 +58,7 @@ public class OfficeStateUI {
                 if(x > 0 && x < developButton.getWidth() && y > 0 && y < developButton.getHeight()){
                     if(developMenu == null)
                         developMenu = new DevelopMenu(uiStage);
-                    else
+                    else if(DevelopMenu.currentlyDevelopedGame == null)
                         developMenu.showMenu();
                 }
             }

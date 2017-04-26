@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class DevelopMenu extends Menu {
 
     public static Game currentlyDevelopedGame = null;
-    public static ProgressBar developmentTimeBar;
+    //public static ProgressBar developmentTimeBar;
 
     private TextButton cancelButton;
     private TextButton developButton;
@@ -237,7 +237,7 @@ public class DevelopMenu extends Menu {
             uiStage.addActor(k18);
 
         }else{
-            textUiStage.addActor(developmentTimeBar);
+           // textUiStage.addActor(developmentTimeBar);
         }
 
         uiStage.addActor(cancelButton);
@@ -249,12 +249,8 @@ public class DevelopMenu extends Menu {
         int warningsKarma = 0;
 
         currentlyDevelopedGame = new Game(100, employees);
-        developmentTimeBar = new ProgressBar(0, currentlyDevelopedGame.developmentTime, 1, false, skin);
-        developmentTimeBar.getStyle().background.setMinHeight(height);
-        developmentTimeBar.getStyle().knobBefore.setMinHeight(height);
-        developmentTimeBar.setPosition(295, 350);
-        developmentTimeBar.setValue(currentlyDevelopedGame.currentTime);
-        currentlyDevelopedGame.setProgressBar(developmentTimeBar);
+        OfficeStateUI.developmentTimeBar.setValue(currentlyDevelopedGame.currentTime);
+        currentlyDevelopedGame.setProgressBar(OfficeStateUI.developmentTimeBar);
         for(CheckBox warning: warnings){
             if(warning.isChecked())
                 warningsKarma++;
@@ -285,7 +281,7 @@ public class DevelopMenu extends Menu {
 
     //this is used if there is currently a game being developed
     public void hideDevelopingMenu(){
-        developmentTimeBar.remove();
+        //developmentTimeBar.remove();
         cancelButton.remove();
         remove();
     }

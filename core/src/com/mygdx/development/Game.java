@@ -71,6 +71,7 @@ public class Game {
                 DevelopMenu.currentlyDevelopedGame = null;
                 OfficeStateUI.developMenu.hideDevelopingMenu();
                 freeEmployeesAndComputers();
+                progressBar.setValue(0);
                 beingDeveloped = false;
             }
 
