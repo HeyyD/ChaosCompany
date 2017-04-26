@@ -105,8 +105,7 @@ public class DevelopMenu extends Menu {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if (x > 0 && x < developButton.getWidth() && y > 0 && y < developButton.getHeight()) {
-                    while(checkForEmployees)
-                        findEmployee();
+                    findEmployee();
                     hideMenu();
                     if(canDevelop) {
                         startDeveloping();
@@ -245,7 +244,6 @@ public class DevelopMenu extends Menu {
 
     public void startDeveloping(){
 
-        int height = 20;
         int warningsKarma = 0;
 
         currentlyDevelopedGame = new Game(100, employees);
@@ -256,7 +254,6 @@ public class DevelopMenu extends Menu {
                 warningsKarma++;
         }
         ChaosCompany.manager.setKarma(ChaosCompany.manager.getKarma() + (gameAgeKarma - warningsKarma));
-        System.out.println(ChaosCompany.manager.getKarma());
         employees.clear();
     }
 
@@ -287,51 +284,49 @@ public class DevelopMenu extends Menu {
     }
 
     public void findEmployee() {
+
         Array<Actor> actors = objectStage.getActors();
+        ArrayList<Employee> workers = new ArrayList<Employee>();
+        ArrayList<Computer> computers = new ArrayList<Computer>();
 
-        Employee currentEmployee;
-        Computer currentComputer;
-        Employee employee = null;
-        Computer computer = null;
+        // Collecting all the computers and employees to separate lists
+        for(Actor actor: actors){
+            if(actor.getClass() == Computer.class)
+                computers.add((Computer) actor);
+            else if(actor.getClass() == Programmer.class || actor.getClass() == Artist.class || actor.getClass() == MarketingExecutive.class)
+                workers.add((Employee) actor);
+        }
 
-        for (int i = 0; i < actors.size; i++) {
-            if (actors.get(i).getClass() == Programmer.class ||
-                    actors.get(i).getClass() == Artist.class ||
-                    actors.get(i).getClass() == MarketingExecutive.class){
-                currentEmployee = (Employee) actors.get(i);
-                if(currentEmployee.getIsAvailabel()) {
-                    employee = (Employee) actors.get(i);
+        //Try to get a employee for each computer
+        for(Computer computer: computers){
+            if(computer.getIsAvailabel()){
+                //set the tile free for a moment so the pathfinding can possibly find a path
+                boolean isBlocked = true;
+                computer.getTile().setIsFull(false);
+
+                for(Employee worker: workers){
+                    if(worker.getIsAvailabel()){
+                        if(worker.getPathfinding().Path(worker.getCurrentTile(), computer.getTile()) != null) {
+                            employees.add(worker);
+                            canDevelop = true;
+                            isBlocked = false;
+                            worker.giveDestination(computer.getTile());
+                            worker.setIsAvailable(false);
+                            computer.setIsAvailable(false);
+                            computer.getTile().setIsFull(true);
+                            continue;
+                        }
+                    }
                 }
-            }
+                if(isBlocked)
+                    System.out.println("No way to reach a computer");
 
-            else if(actors.get(i).getClass() == Computer.class) {
-                currentComputer = (Computer) actors.get(i);
-                if(currentComputer.getIsAvailabel())
-                    computer = (Computer) actors.get(i);
-            }
-
-            if(employee != null && computer != null) {
-                employee.giveDestination(computer.getTile());
-                if(employee.getPath() == null){
-                    computer = null;
-                    employee = null;
-                    continue;
-                }
-                else {
-                    employee.setIsAvailable(false);
-                    computer.setIsAvailable(false);
-
-                    employees.add(employee);
-
-                    canDevelop = true;
-                    break;
-                }
-            }
-            else if(i == actors.size - 1){
-                checkForEmployees = false;
-                System.out.println("Couldn't find a employee or a computer");
+                //set the tile with the computer full again
+                computer.getTile().setIsFull(true);
             }
         }
+
+        System.out.println("Done checking computers");
     }
 
     public void UnCheckOtherCheckBoxes(CheckBox trueCheckBox){

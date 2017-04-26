@@ -29,7 +29,6 @@ public class Programmer extends Employee{
             ChaosCompany.officeState.getTileMap().getTiles()[x][y].setIsFull(true);
 
             setMap(ChaosCompany.officeState.getTileMap());
-            setMap(ChaosCompany.officeState.getTileMap());
             setCurrentTile(ChaosCompany.officeState.getTileMap().getTiles()[x][y]);
             setPosition(getCurrentTile().getX(), getCurrentTile().getY());
             setPathfinding(new Pathfinding(ChaosCompany.officeState.getTileMap()));

@@ -23,7 +23,7 @@ public class Game {
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
-    private float developmentSpeed;
+    private float developmentSpeed = 10;
     private int value = 100;
     private float setMoneyTime = 50;
     private float currentMoneyTime = setMoneyTime;
@@ -99,6 +99,7 @@ public class Game {
             if(actor.getClass() == Computer.class){
                 Computer computer = (Computer) actor;
                 computer.setIsAvailable(true);
+                computer.getTile().setIsFull(true);
             }
 
         }
@@ -129,11 +130,12 @@ public class Game {
     }
 
     private float calculateDevelopmentTime(){
-        float developmentTime = 0;
+        float developmentTime = this.developmentSpeed;
         for(Programmer programmer: programmers){
             developmentTime += programmer.skill;
         }
 
         return developmentTime;
     }
+
 }

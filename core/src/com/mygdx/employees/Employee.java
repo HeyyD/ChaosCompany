@@ -200,37 +200,26 @@ public abstract class Employee extends Actor {
             currentTileIndex = 0;
             targetPosition = null;
             currentTile = path.get(path.size() - 1);
-            path.clear();
+            path = null;
             walking = false;
         }
     }
 
     public void giveDestination(Tile targetTile){
 
-        if(!walking) {
-            if(!ChaosCompany.officeState.getDeveloping()) {
-                currentTile.setIsFull(false);
-            }else{
-                ChaosCompany.officeState.setDeveloping(false);
-            }
-            targetTile.setIsFull(true);
-        }
-
-        boolean setFull = targetTile.getIsFull();
         if (walking) {
             targetPosition = null;
-            currentTile = path.get(currentTileIndex);
+            if(path != null)
+                currentTile = path.get(currentTileIndex);
             currentTileIndex = 0;
         }
 
-        targetTile.setIsFull(false);
         path = pathfinding.Path(currentTile, targetTile);
-        walking = true;
-        if(setFull)
-            targetTile.setIsFull(true);
 
-        if(path != null && path.size() > 0)
+        if(path != null && path.size() > 0) {
+            walking = true;
             targetPosition = new Vector2(path.get(0).getX(), path.get(0).getY());
+        }
 
     }
 
