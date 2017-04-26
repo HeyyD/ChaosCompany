@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.mygdx.UI.DevelopMenu;
 import com.mygdx.UI.OfficeStateUI;
+import com.mygdx.employees.Artist;
+import com.mygdx.employees.Employee;
+import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
@@ -16,7 +19,7 @@ public class Game {
 
     public float developmentTime;
     public float currentTime;
-    public int moneyCycles = 5;
+    public int moneyCycles = 3;
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
@@ -25,20 +28,37 @@ public class Game {
     private float setMoneyTime = 50;
     private float currentMoneyTime = setMoneyTime;
     private boolean beingDeveloped = true;
+    private ArrayList<Employee> employees = new ArrayList<Employee>();
     private ArrayList<Programmer> programmers = new ArrayList<Programmer>();
+    private ArrayList<Artist> artists = new ArrayList<Artist>();
+    private ArrayList<MarketingExecutive> marketingExecutives = new ArrayList<MarketingExecutive>();
 
-    public Game(float developmentTime, ArrayList<Programmer> programmers){
+    public Game(float developmentTime, ArrayList<Employee> employees){
         statsManager = ChaosCompany.manager;
         this.developmentTime = developmentTime;
         this.currentTime = 0;
-        ArrayList<Programmer> temporaryList = programmers;
+        ArrayList<Employee> temporaryList = employees;
 
         //clone the programmers list for later use
-        for(Programmer programmer: temporaryList){
-            this.programmers.add(programmer);
+        for(Employee employee: temporaryList){
+            if(employee.getClass() == Programmer.class)
+                this.programmers.add((Programmer) employee);
+            else if(employee.getClass() == Artist.class)
+                this.artists.add((Artist) employee);
+            else
+                this.marketingExecutives.add((MarketingExecutive) employee);
+
+            this.employees.add(employee);
+
         }
         developmentSpeed = calculateDevelopmentTime();
+        value = calculateValue();
+        moneyCycles = calculateMoneyCycles();
         ChaosCompany.officeState.games.add(this);
+
+        System.out.println("developentSpeed: " + developmentSpeed +
+                            " value: " + value +
+                            " moneyCycles: " + moneyCycles);
     }
 
     public void update(){
@@ -69,9 +89,9 @@ public class Game {
 
     public void freeEmployeesAndComputers(){
 
-        for(Programmer programmer: programmers){
-            programmer.setIsAvailable(true);
-            programmer.findRandomPlace();
+        for(Employee employee: employees){
+            employee.setIsAvailable(true);
+            employee.findRandomPlace();
         }
 
         for (Actor actor: ChaosCompany.officeState.getobjectStage().getActors()){
@@ -85,6 +105,26 @@ public class Game {
 
     public void setProgressBar(ProgressBar bar){
         this.progressBar = bar;
+    }
+
+    private int calculateMoneyCycles(){
+        int moneyCycles = this.moneyCycles;
+
+        for(MarketingExecutive marketer: marketingExecutives){
+            moneyCycles += (int) marketer.skill;
+        }
+
+        return  moneyCycles;
+    }
+
+    private int calculateValue(){
+        int value = this.value;
+
+        for(Artist artist: artists){
+            value += artist.skill * 10f;
+        }
+
+        return value;
     }
 
     private float calculateDevelopmentTime(){

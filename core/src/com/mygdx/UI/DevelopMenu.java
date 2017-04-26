@@ -10,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.development.Game;
+import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
+import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.game.ChaosCompany;
@@ -54,7 +56,7 @@ public class DevelopMenu extends Menu {
     private boolean canDevelop = false;
     private Stage textUiStage;
     private int gameAgeKarma = 1;
-    private ArrayList<Programmer> programmers = new ArrayList<Programmer>();
+    private ArrayList<Employee> employees = new ArrayList<Employee>();
 
     public DevelopMenu(Stage uiStage) {
         super(1, 0.5f, 7, 4.3f);
@@ -246,7 +248,7 @@ public class DevelopMenu extends Menu {
         int height = 20;
         int warningsKarma = 0;
 
-        currentlyDevelopedGame = new Game(100, programmers);
+        currentlyDevelopedGame = new Game(100, employees);
         developmentTimeBar = new ProgressBar(0, currentlyDevelopedGame.developmentTime, 1, false, skin);
         developmentTimeBar.getStyle().background.setMinHeight(height);
         developmentTimeBar.getStyle().knobBefore.setMinHeight(height);
@@ -259,7 +261,7 @@ public class DevelopMenu extends Menu {
         }
         ChaosCompany.manager.setKarma(ChaosCompany.manager.getKarma() + (gameAgeKarma - warningsKarma));
         System.out.println(ChaosCompany.manager.getKarma());
-        programmers.clear();
+        employees.clear();
     }
 
     public void hideMenu() {
@@ -297,7 +299,9 @@ public class DevelopMenu extends Menu {
         Computer computer = null;
 
         for (int i = 0; i < actors.size; i++) {
-            if (actors.get(i).getClass() == Programmer.class){
+            if (actors.get(i).getClass() == Programmer.class ||
+                    actors.get(i).getClass() == Artist.class ||
+                    actors.get(i).getClass() == MarketingExecutive.class){
                 currentEmployee = (Employee) actors.get(i);
                 if(currentEmployee.getIsAvailabel()) {
                     employee = (Employee) actors.get(i);
@@ -321,8 +325,7 @@ public class DevelopMenu extends Menu {
                     employee.setIsAvailable(false);
                     computer.setIsAvailable(false);
 
-                    if(employee.getClass() == Programmer.class)
-                        programmers.add((Programmer) employee);
+                    employees.add(employee);
 
                     canDevelop = true;
                     break;

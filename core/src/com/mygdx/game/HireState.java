@@ -241,7 +241,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
                 case 2: employees[i] = new Artist(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
                         objectStage.addActor(employees[i]);
                         break;
-                case 3: employees[i] = new MarketingExecutive(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+                case 3: employees[i] = new MarketingExecutive(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
                         objectStage.addActor(employees[i]);
                         break;
             }
