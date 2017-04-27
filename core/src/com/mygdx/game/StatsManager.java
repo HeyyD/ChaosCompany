@@ -7,7 +7,8 @@ package com.mygdx.game;
 public class StatsManager {
 
     private int wellBeing = 50;
-    private int money = 2000;
+    private int programmingPower = 0;
+    private int money = 250000;
     private int employeeSlots = 0;
     private int employees = 0;
 
@@ -26,6 +27,12 @@ public class StatsManager {
     }
     public void setWellBeing(int wellBeing){
         this.wellBeing = wellBeing;
+    }
+    public int getProgrammingPower(){
+        return programmingPower;
+    }
+    public void setProgrammingPower(int programmingPower){
+        this.programmingPower = programmingPower;
     }
     public int getEmployeeSlots(){
         return employeeSlots;

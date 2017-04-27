@@ -246,7 +246,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
                         break;
             }
             objectStage.addActor(employees[i]);
-            //tileMap.getTiles()[x][y].setIsFull(true);
+            tileMap.getTiles()[x][y].setIsFull(true);
         }
 
 

@@ -19,8 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.furniture.CoffeeMachine;
 import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.Couch;
+import com.mygdx.furniture.Laptop;
 import com.mygdx.furniture.WaterCooler;
 
 import java.util.ArrayList;
@@ -58,9 +60,12 @@ public class BuildMenu extends Actor{
     private Texture              wellBeingButtonTex;
     private Texture              marketingButtonTex;
     private Texture              programmingButtonTex;
+
     private Texture              cancelButtonTex;
     private Texture              waterCoolerButtonIco;
     private Texture              desktopButtonIco;
+    private Texture              coffeeMachineButtonIco;
+    private Texture              laptopIco;
 
     //Buttons for each furniture
     private ArrayList<ImageButton>   wellBeingButtons;
@@ -71,7 +76,9 @@ public class BuildMenu extends Actor{
     //FURNITURE ID
     private final int               couch =             1;
     private final int               waterCooler =       2;
-    private final int               desktop =          3;
+    private final int               desktop =           3;
+    private final int               coffeeMachine =     4;
+    private final int               laptop =            5;
 
     private float                   buttonOffset = 0.1f;
 
@@ -106,6 +113,8 @@ public class BuildMenu extends Actor{
 
         desktopButtonIco = new Texture("DesktopIcon.png");
         waterCoolerButtonIco = new Texture("WaterCoolerIcon.png");
+        coffeeMachineButtonIco = new Texture("WaterCoolerIcon.png");
+        laptopIco = new Texture("WaterCoolerIcon.png");
 
         computerButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         wellBeingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
@@ -115,6 +124,8 @@ public class BuildMenu extends Actor{
 
         desktopButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         waterCoolerButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        coffeeMachineButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        laptopIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         //setup skin
         skin = new Skin();
@@ -295,6 +306,8 @@ public class BuildMenu extends Actor{
         //Add build buttons to computerFurnitures
         addFurniture(computerButtons,desktopButtonIco, getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
                      "desktop",desktop);
+        addFurniture(computerButtons,laptopIco, getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
+                "laptop",laptop);
 
         //Add build buttons to wellBeingFurnitures
         addFurniture(wellBeingButtons,waterCoolerButtonIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
@@ -303,6 +316,8 @@ public class BuildMenu extends Actor{
                      "couch", couch);
         //Add build buttons to marketingFurnitures
         //Add build buttons to programmingFurnitures
+        addFurniture(programmingButtons,coffeeMachineButtonIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+                "coffeeMachine", coffeeMachine);
     }
 
     @Override
@@ -396,6 +411,12 @@ public class BuildMenu extends Actor{
                         break;
                     case desktop:
                         objectStage.addActor(new Computer(game, x_pos, y_pos));
+                        break;
+                    case coffeeMachine:
+                        objectStage.addActor(new CoffeeMachine(game, x_pos, y_pos));
+                        break;
+                    case laptop:
+                        objectStage.addActor(new Laptop(game, x_pos, y_pos));
                         break;
                 }
                 ChaosCompany.officeState.updateDrawingOrder();

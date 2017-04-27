@@ -365,4 +365,8 @@ public class DevelopMenu extends Menu {
             return true;
         }
     }
+
+    public boolean getCanDevelop(){
+        return canDevelop;
+    }
 }
