@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.UI.EmpMenu;
 import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
@@ -67,19 +68,26 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     private Stage                       stage;
     private Stage                       objectStage;
     private Stage                       movingUiStage;
+    private Stage                       textStage;
+    private Stage                       movingTextStage;
 
     private GestureDetector             input;
 
     private InputMultiplexer            multiplexer;
+
+    private EmpMenu                      empMenu = null;
 
     //List of Employees you can hire
     Employee[] employees;
 
     public HireState(ChaosCompany g){
         game = g;
+
         stage = new Stage();
         objectStage = new Stage();
         movingUiStage = new Stage();
+        textStage = new Stage();
+        movingTextStage = new Stage();
 
         GL20 gl = Gdx.graphics.getGL20();
         gl.glEnable(GL20.GL_BLEND);
@@ -172,6 +180,8 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         stage.getViewport().setCamera(uiCam);
         objectStage.getViewport().setCamera(cam);
         movingUiStage.getViewport().setCamera(cam);
+        textStage.getViewport().setCamera(textCam);
+        movingTextStage.getViewport().setCamera(cam);
     }
 
     @Override
@@ -192,7 +202,9 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
         objectStage.draw();
         movingUiStage.draw();
+        movingTextStage.draw();
         stage.draw();
+        textStage.draw();
 
         drawMoneyText(spriteBatch);
         spriteBatch.setTransformMatrix(isoTransform);
@@ -235,10 +247,10 @@ public class HireState implements GestureDetector.GestureListener, Screen {
             }
             int random = MathUtils.random(1, 3);
             switch (random){
-                case 1: employees[i] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+                case 1: employees[i] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
                         objectStage.addActor(employees[i]);
                         break;
-                case 2: employees[i] = new Artist(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(0f, 5f));
+                case 2: employees[i] = new Artist(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
                         objectStage.addActor(employees[i]);
                         break;
                 case 3: employees[i] = new MarketingExecutive(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
@@ -358,5 +370,17 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     }
     public Stage getMovingUiStage(){
         return movingUiStage;
+    }
+    public Stage getTextStage(){ return textStage; }
+    public Stage getStage(){ return stage;}
+    public Stage getMovingTextStage(){ return movingTextStage; }
+    public Stage getobjectStage() { return objectStage; }
+
+    public void setEmpMenu(EmpMenu empMenu) {
+        this.empMenu = empMenu;
+    }
+
+    public EmpMenu getEmpMenu() {
+        return empMenu;
     }
 }

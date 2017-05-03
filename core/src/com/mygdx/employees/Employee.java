@@ -61,8 +61,12 @@ public abstract class Employee extends Actor {
     protected EmpMenu menu = null;
     protected String profession = null;
 
-    //The float that determines how well the employee can do his/her job 0-5
+    //The float that determines how well the employee can do his/her job 1-5
     public float skill;
+
+    //Salary variables of employee expensiveness gives a bit randomness to employees salary
+    float salary;
+    float expensiveness;
 
     //Boolean to determine if the employee is free to work
     private boolean isAvailable;
@@ -85,6 +89,9 @@ public abstract class Employee extends Actor {
 
     public Employee(Texture texture, TileMap tileMap, Tile startTile, float width, float height, float skill){
         this.skill = skill;
+        expensiveness = MathUtils.random(0.7f, 1.3f);
+        salary = skill * 1000 * expensiveness;
+
         isAvailable = true;
         setSize(width, height);
         setPosition(startTile.getX(), startTile.getY());
@@ -171,6 +178,14 @@ public abstract class Employee extends Actor {
 
     public abstract void hire();
 
+    public void fire(){
+        if(!isAvailable) {
+            currentTile.setIsFull(false);
+        }
+        remove();
+        setHired(false);
+        manager.setEmployees(manager.getEmployees()-1);
+    }
     private void move(){
         float speed = Gdx.graphics.getDeltaTime() * 1.5f;
         Vector2 currentPosition = new Vector2(getX(), getY());
@@ -232,9 +247,40 @@ public abstract class Employee extends Actor {
         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             if(Employee.this.menu == null){
                 if(hired) {
-                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getMovingUiStage(), getX()+1,getY());
+                    //Find all employees of officeState and set their menu as null
+                    for (int i = 0;
+                         i < ChaosCompany.officeState.getobjectStage().getActors().size; i++) {
+                            if(ChaosCompany.officeState.getobjectStage().getActors().get(i).getClass() == Programmer.class ||
+                               ChaosCompany.officeState.getobjectStage().getActors().get(i).getClass() == Artist.class ||
+                               ChaosCompany.officeState.getobjectStage().getActors().get(i).getClass() == MarketingExecutive.class){
+                                    Employee temp = (Employee)ChaosCompany.officeState.getobjectStage().getActors().get(i);
+                                    if(temp.menu != null) {
+                                        temp.menu.hideMenu();
+                                        temp.menu = null;
+                                    }
+                            }
+                    }
+
+                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getStage(),
+                            ChaosCompany.officeState.getTextStage(), 0.2f, 1);
                 }else{
-                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.hireState.getMovingUiStage(), getX()+1, getY());
+
+                    //Find all employees of hireState and set their menu as null
+                    for (int i = 0;
+                         i < ChaosCompany.hireState.getobjectStage().getActors().size; i++) {
+                        if(ChaosCompany.hireState.getobjectStage().getActors().get(i).getClass() == Programmer.class ||
+                                ChaosCompany.hireState.getobjectStage().getActors().get(i).getClass() == Artist.class ||
+                                ChaosCompany.hireState.getobjectStage().getActors().get(i).getClass() == MarketingExecutive.class){
+                            Employee temp = (Employee)ChaosCompany.hireState.getobjectStage().getActors().get(i);
+                            if(temp.menu != null) {
+                                temp.menu.hideMenu();
+                                temp.menu = null;
+                            }
+                        }
+                    }
+
+                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.hireState.getStage(),
+                            ChaosCompany.hireState.getTextStage(), 0.2f, 1);
                 }
             }
         }
@@ -313,5 +359,12 @@ public abstract class Employee extends Actor {
     public StatsManager getManager(){
         return manager;
     }
+
+    public String getProfession(){ return profession; }
+
+    public float getSkill(){ return skill; }
+
+    public int getSalary() { return (int) salary; }
+
 
 }
