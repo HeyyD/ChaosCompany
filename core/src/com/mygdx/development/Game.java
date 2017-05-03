@@ -10,6 +10,7 @@ import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
+import com.mygdx.furniture.ComputerFurniture;
 import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.StatsManager;
 
@@ -96,8 +97,8 @@ public class Game {
         }
 
         for (Actor actor: ChaosCompany.officeState.getobjectStage().getActors()){
-            if(actor.getClass() == Computer.class){
-                Computer computer = (Computer) actor;
+            if(actor.getClass().getSuperclass() == ComputerFurniture.class){
+                ComputerFurniture computer = (ComputerFurniture) actor;
                 computer.setIsAvailable(true);
                 computer.getTile().setIsFull(true);
             }

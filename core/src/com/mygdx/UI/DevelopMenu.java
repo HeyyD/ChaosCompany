@@ -5,16 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.development.Game;
-import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
-import com.mygdx.employees.MarketingExecutive;
-import com.mygdx.employees.Programmer;
-import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.ComputerFurniture;
 import com.mygdx.game.ChaosCompany;
 
