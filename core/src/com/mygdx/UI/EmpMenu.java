@@ -1,9 +1,14 @@
 package com.mygdx.UI;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.employees.Employee;
@@ -22,14 +27,22 @@ public class EmpMenu extends Menu {
 
     private TextButton          hireButton;
     private TextButton          cancelButton;
+    private TextButton          fireButton;
 
-    private float buttonScale = .01f;
-    private float buttonOffset = .1f;
+    private float               buttonScale = .01f;
+    private float               buttonOffset = .1f;
 
-    private StatsManager manager = null;
-    private BitmapFont teksti = null;
+    private StatsManager        manager = null;
 
-    public EmpMenu(final Employee employee, Stage uiStage, float x, float y){
+    //Texts of Employee menu
+    private Label               profession = null;
+    private Label               salaryText = null;
+    private Label               description = null;
+
+    //Bars for Employee menu
+    private ProgressBar         professionBar = null;
+
+    public EmpMenu(final Employee employee, Stage uiStage, Stage textStage, float x, float y){
         super(x, y, 4, 3.5f);
 
         this.uiStage = uiStage;
@@ -90,13 +103,96 @@ public class EmpMenu extends Menu {
             });
 
             uiStage.addActor(hireButton);
+        }else{
+            fireButton = new TextButton(bundle.get("fire"), skin);
+            fireButton.setTransform(true);
+            fireButton.setScale(buttonScale);
+            fireButton.setPosition(getX() + (getWidth() / 2 - (fireButton.getWidth() / 2 * buttonScale)), cancelButton.getY() + cancelButton.getHeight() * buttonScale + buttonOffset);
+
+            fireButton.addListener(new InputListener() {
+
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    //if user is not on top of the button anymore, it dosent do anything
+                    if (x > 0 && x < fireButton.getWidth() && y > 0 && y < fireButton.getHeight()) {
+                            employee.fire();
+                            employee.remove();
+                            hideMenu();
+                            employee.setMenu(null);
+                    }
+                }
+            });
+
+            uiStage.addActor(fireButton);
+
         }
+
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        BitmapFont labelFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        labelStyle.font = labelFont;
+        labelStyle.fontColor = Color.WHITE;
+
+        Label.LabelStyle labelStyle2 = new Label.LabelStyle();
+        labelStyle2.font = new BitmapFont();
+        labelStyle2.fontColor = Color.WHITE;
+
+        String value = null;
+
+        //Add profession skills text
+        if(employee.getProfession() == "PROGRAMMER") {
+                value = bundle.get("programming");
+        }else if(employee.getProfession() == "MARKETING") {
+                value = bundle.get("marketing");
+        }else{
+                value = bundle.get("art");
+        }
+        profession = new Label(value, labelStyle);
+        profession.setPosition(30f, 320f);
+        textStage.addActor(profession);
+
+        //Add bar that shows how good the skill is
+        professionBar = new ProgressBar(0, 500, 1, false, new Skin(Gdx.files.internal("flat-earth-ui.json")));
+        professionBar.getStyle().background.setMinHeight(20);
+        professionBar.getStyle().knobBefore.setMinHeight(20);
+        professionBar.setPosition(30, 292);
+        professionBar.setValue(employee.getSkill()*100);
+        textStage.addActor(professionBar);
+
+        value = bundle.get("salary") + " "+employee.getSalary()+"$";
+        salaryText = new Label(value, labelStyle);
+        salaryText.setPosition(30f, 260f);
+        textStage.addActor(salaryText);
+
+        if(employee.getProfession() == "PROGRAMMER") {
+            value = bundle.get("pDescription");
+        }else if(employee.getProfession() == "MARKETING") {
+            value = bundle.get("mDescription");
+        }else{
+            value = bundle.get("aDescription");
+        }
+
+        description = new Label(value, labelStyle2);
+        description.setWrap(true);
+        description.setWidth(300f);
+        description.setPosition(30f, 220f);
+        textStage.addActor(description);
     }
 
     public void hideMenu() {
         cancelButton.remove();
         if(hireButton != null) {
             hireButton.remove();
+        }
+        profession.remove();
+        professionBar.remove();
+        salaryText.remove();
+        description.remove();
+        if(fireButton != null) {
+            fireButton.remove();
         }
         remove();
     }
