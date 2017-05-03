@@ -15,6 +15,7 @@ import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
+import com.mygdx.furniture.ComputerFurniture;
 import com.mygdx.game.ChaosCompany;
 
 import java.util.ArrayList;
@@ -287,18 +288,18 @@ public class DevelopMenu extends Menu {
 
         Array<Actor> actors = objectStage.getActors();
         ArrayList<Employee> workers = new ArrayList<Employee>();
-        ArrayList<Computer> computers = new ArrayList<Computer>();
+        ArrayList<ComputerFurniture> computers = new ArrayList<ComputerFurniture>();
 
         // Collecting all the computers and employees to separate lists
         for(Actor actor: actors){
-            if(actor.getClass() == Computer.class)
-                computers.add((Computer) actor);
-            else if(actor.getClass() == Programmer.class || actor.getClass() == Artist.class || actor.getClass() == MarketingExecutive.class)
+            if(actor.getClass().getSuperclass() == ComputerFurniture.class)
+                computers.add((ComputerFurniture) actor);
+            else if(actor.getClass().getSuperclass() == Employee.class)
                 workers.add((Employee) actor);
         }
 
         //Try to get a employee for each computer
-        for(Computer computer: computers){
+        for(ComputerFurniture computer: computers){
             if(computer.getIsAvailabel()){
                 //set the tile free for a moment so the pathfinding can possibly find a path
                 boolean isBlocked = true;
@@ -314,7 +315,7 @@ public class DevelopMenu extends Menu {
                             worker.setIsAvailable(false);
                             computer.setIsAvailable(false);
                             computer.getTile().setIsFull(true);
-                            continue;
+                            break;
                         }
                     }
                 }
