@@ -113,8 +113,8 @@ public class BuildMenu extends Actor{
 
         desktopButtonIco = new Texture("DesktopIcon.png");
         waterCoolerButtonIco = new Texture("WaterCoolerIcon.png");
-        coffeeMachineButtonIco = new Texture("WaterCoolerIcon.png");
-        laptopIco = new Texture("WaterCoolerIcon.png");
+        coffeeMachineButtonIco = new Texture("coffeeIcon.png");
+        laptopIco = new Texture("laptopIcon.png");
 
         computerButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         wellBeingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);

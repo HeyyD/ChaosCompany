@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.UI.EmpSlotUI;
 import com.mygdx.UI.OfficeStateUI;
 import com.mygdx.development.Game;
 import com.mygdx.employees.Programmer;
@@ -81,9 +82,15 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     protected GestureDetector     input = null;
     private InputMultiplexer      multiplexer = null;
 
-    //Font
+    //Font for Money UI
     private BitmapFont            font = null;
+
+    //Font for Emp Slots
+    private BitmapFont            font2 = null;
+
+
     private MoneyUi               moneyUI = null;
+    private EmpSlotUI             empUI = null;
 
     //Developed games
     public ArrayList<Game> games = new ArrayList<Game>();
@@ -160,7 +167,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 100 && y > 0 && y < 100 && isBuildMenuOpen == false){
-                    new BuildMenu(game, 6.2f,2);
+                    new BuildMenu(game, 6.2f,1.1f);
                 }
             }
         });
@@ -189,11 +196,21 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         multiplexer.addProcessor(objectStage);
         multiplexer.addProcessor(input);
 
+        //Setup fonts
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+
+        font2 = new BitmapFont();
+        font2.setColor(Color.BLACK);
+        font2.getData().setScale(2,2);
+
+        //Add money and employeeslot UI
         moneyUI = new MoneyUi();
+        empUI = new EmpSlotUI();
 
         stage.addActor(moneyUI);
+        stage.addActor(empUI);
+
         UI = new OfficeStateUI(stage, textStage, game);
     }
 
@@ -243,6 +260,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         textStage.draw();
 
         drawMoneyText(spriteBatch);
+        empSlotText(spriteBatch);
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
 
@@ -401,6 +419,14 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         batch.setProjectionMatrix(textCam.combined);
         batch.begin();
         font.draw(batch,""+manager.getMoney(),710, 447);
+        batch.end();
+    }
+
+    public void empSlotText(SpriteBatch batch){
+        batch.setProjectionMatrix(textCam.combined);
+        String text = ""+manager.getEmployees()+"/"+manager.getEmployeeSlots();
+        batch.begin();
+        font2.draw(batch,text, 730, 370);
         batch.end();
     }
 
