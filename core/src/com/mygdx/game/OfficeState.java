@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -21,12 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.UI.EmpSlotUI;
-import com.mygdx.UI.OfficeStateUI;
+import com.mygdx.UI.*;
 import com.mygdx.development.Game;
-import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
 
 import java.util.ArrayList;
@@ -89,7 +85,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private BitmapFont            font2 = null;
 
 
-    private MoneyUi               moneyUI = null;
+    private com.mygdx.UI.MoneyUi moneyUI = null;
     private EmpSlotUI             empUI = null;
 
     //Developed games
@@ -205,7 +201,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         font2.getData().setScale(2,2);
 
         //Add money and employeeslot UI
-        moneyUI = new MoneyUi();
+        moneyUI = new com.mygdx.UI.MoneyUi();
         empUI = new EmpSlotUI();
 
         stage.addActor(moneyUI);

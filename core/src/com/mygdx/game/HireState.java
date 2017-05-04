@@ -20,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.UI.EmpMenu;
+import com.mygdx.UI.*;
 import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
@@ -28,8 +28,6 @@ import com.mygdx.employees.Programmer;
 import com.mygdx.map.TileMap;
 
 import java.util.Comparator;
-
-import static com.badlogic.gdx.Gdx.input;
 
 /**
  * Created by SamiH on 24.2.2017.
@@ -53,7 +51,10 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     //Textures and buttons
     private TextButton                  mapBtn;
     private BitmapFont                  font;
-    private MoneyUi                     moneyUI;
+
+    private com.mygdx.UI.MoneyUi        moneyUI;
+    private EmpSlotUI                   empUI;
+    private BitmapFont                  font2;
 
     //Manager
     private StatsManager                manager;
@@ -75,7 +76,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
     private InputMultiplexer            multiplexer;
 
-    private EmpMenu                      empMenu = null;
+
 
     //List of Employees you can hire
     Employee[] employees;
@@ -165,9 +166,17 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        moneyUI = new MoneyUi();
+
+        font2 = new BitmapFont();
+        font2.setColor(Color.BLACK);
+        font2.getData().setScale(2, 2);
+
+        moneyUI = new com.mygdx.UI.MoneyUi();
+
+        empUI = new EmpSlotUI();
 
         stage.addActor(moneyUI);
+        stage.addActor(empUI);
 
         //Create hirable employees
         employees = new Employee[5];
@@ -207,6 +216,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         textStage.draw();
 
         drawMoneyText(spriteBatch);
+        empSlotText(spriteBatch);
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
 
@@ -351,6 +361,14 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         batch.end();
     }
 
+    public void empSlotText(SpriteBatch batch){
+        batch.setProjectionMatrix(textCam.combined);
+        String text = ""+manager.getEmployees()+"/"+manager.getEmployeeSlots();
+        batch.begin();
+        font2.draw(batch,text, 730, 370);
+        batch.end();
+    }
+
     class ActorComparator implements Comparator<Actor> {
         @Override
         //compares the Y-position of the furniture
@@ -375,12 +393,4 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     public Stage getStage(){ return stage;}
     public Stage getMovingTextStage(){ return movingTextStage; }
     public Stage getobjectStage() { return objectStage; }
-
-    public void setEmpMenu(EmpMenu empMenu) {
-        this.empMenu = empMenu;
-    }
-
-    public EmpMenu getEmpMenu() {
-        return empMenu;
-    }
 }
