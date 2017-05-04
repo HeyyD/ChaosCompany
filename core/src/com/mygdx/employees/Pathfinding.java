@@ -48,8 +48,9 @@ public class Pathfinding {
                     neighbour.hCost = getDistance(neighbour, targetPos);
                     neighbour.parent = currentNode;
 
-                    if(!openSet.contains(neighbour))
+                    if(!openSet.contains(neighbour)) {
                         openSet.add(neighbour);
+                    }
                 }
             }
         }

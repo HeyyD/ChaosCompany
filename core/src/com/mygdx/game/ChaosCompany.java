@@ -70,7 +70,12 @@ public class ChaosCompany extends Game {
     }
     @Override
     public void dispose () {
+        mainMenuState.dispose();
+        officeState.dispose();
+        mapState.dispose();
+        hireState.dispose();
         batch.dispose();
+        System.exit(0);
     }
 
     public OfficeState getOfficeState(){
