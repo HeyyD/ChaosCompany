@@ -84,6 +84,9 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     //First employee player gets
     private Programmer                  firstEmp;
 
+    //Level of employees spawning to hireState
+    private int                         level = 1;
+
     //Bundle
     private I18NBundle bundle = ChaosCompany.myBundle;
 
@@ -267,31 +270,76 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         cam.update();
     }
 
-    private void createEmployees(){
-        for (int i = 0; i < 5; i++) {
-            int x = 9;
-            int y = 9;
-            while(tileMap.getTiles()[x][y].getIsFull()) {
-                x = MathUtils.random(0, 7);
-                y = MathUtils.random(0, 7);
+    public void createEmployees(){
+
+        if(level < 5)
+            level++;
+
+
+        for (int i = 0; i < employees.length; i++) {
+            if(employees[i] != null){
+                employees[i].getCurrentTile().setIsFull(false);
+                if(!employees[i].getHired()) {
+                    employees[i].remove();
+                }
+                employees[i] = null;
+            }
+        }
+
+
+        int x = 9;
+        int y = 9;
+        while(tileMap.getTiles()[x][y].getIsFull()) {
+            x = MathUtils.random(0, 7);
+            y = MathUtils.random(0, 7);
+        }
+        employees[3] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, level));
+        objectStage.addActor(employees[3]);
+        tileMap.getTiles()[x][y].setIsFull(true);
+
+        x = 9;
+        y = 9;
+        while(tileMap.getTiles()[x][y].getIsFull()) {
+            x = MathUtils.random(0, 7);
+            y = MathUtils.random(0, 7);
+        }
+        employees[4] = new Artist(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, level));
+        objectStage.addActor(employees[4]);
+        tileMap.getTiles()[x][y].setIsFull(true);
+
+        x = 9;
+        y = 9;
+        while(tileMap.getTiles()[x][y].getIsFull()) {
+            x = MathUtils.random(0, 7);
+            y = MathUtils.random(0, 7);
+        }
+        employees[2] = new MarketingExecutive(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, level));
+        objectStage.addActor(employees[2]);
+        tileMap.getTiles()[x][y].setIsFull(true);
+
+        for (int i = 0; i < 2; i++) {
+            int xx = 9;
+            int yy = 9;
+            while(tileMap.getTiles()[xx][yy].getIsFull()) {
+                xx = MathUtils.random(0, 7);
+                yy = MathUtils.random(0, 7);
             }
             int random = MathUtils.random(1, 3);
+
             switch (random){
-                case 1: employees[i] = new Programmer(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
+                case 1: employees[i] = new Programmer(tileMap, tileMap.getTiles()[xx][yy], 1f, 1f, MathUtils.random(1f, level));
                         objectStage.addActor(employees[i]);
                         break;
-                case 2: employees[i] = new Artist(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
+                case 2: employees[i] = new Artist(tileMap, tileMap.getTiles()[xx][yy], 1f, 1f, MathUtils.random(1f, level));
                         objectStage.addActor(employees[i]);
                         break;
-                case 3: employees[i] = new MarketingExecutive(tileMap, tileMap.getTiles()[x][y], 1f, 1f, MathUtils.random(1f, 5f));
+                case 3: employees[i] = new MarketingExecutive(tileMap, tileMap.getTiles()[xx][yy], 1f, 1f, MathUtils.random(1f, level));
                         objectStage.addActor(employees[i]);
                         break;
             }
             objectStage.addActor(employees[i]);
-            tileMap.getTiles()[x][y].setIsFull(true);
+            tileMap.getTiles()[xx][yy].setIsFull(true);
         }
-
-
     }
 
     @Override

@@ -26,6 +26,7 @@ public class ChaosCompany extends Game {
 
     //Timers
     private float timer;
+    private float empTimer;
     private float delta;
 
 	protected SpriteBatch   batch;
@@ -61,10 +62,14 @@ public class ChaosCompany extends Game {
         //add delta time to timer and call it every 20 seconds
         delta = Gdx.graphics.getDeltaTime();
         timer += delta;
+        empTimer += delta;
 
         //if in Main Menu keep timer at 0
         if(getScreen() == mainMenuState) {
             timer = 0;
+        }
+        if(getScreen() == mainMenuState){
+            empTimer = 0;
         }
 
         //Update managers stats
@@ -75,6 +80,11 @@ public class ChaosCompany extends Game {
             addIncome();
             //Set timer back to 0
             timer = 0;
+        }
+        //Create employees every 2 minutes
+        if(empTimer > 120){
+            hireState.createEmployees();
+            empTimer = 0;
         }
 
 
@@ -110,7 +120,7 @@ public class ChaosCompany extends Game {
     }
     public void updateManager(){
         manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 100))) );
-        manager.setIncome(manager.getGameIncome() * (1 + (manager.getMarketingPower()/200)) + manager.getSalaries());
+        manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/200)) + manager.getSalaries()));
     }
 
     public OfficeState getOfficeState(){

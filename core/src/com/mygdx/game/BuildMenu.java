@@ -19,10 +19,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.furniture.ArcadeMachine;
 import com.mygdx.furniture.CoffeeMachine;
 import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.Couch;
+import com.mygdx.furniture.DrawTable;
+import com.mygdx.furniture.Jukebox;
 import com.mygdx.furniture.Laptop;
+import com.mygdx.furniture.MarketingTable;
+import com.mygdx.furniture.Phone;
 import com.mygdx.furniture.WaterCooler;
 
 import java.util.ArrayList;
@@ -66,6 +71,11 @@ public class BuildMenu extends Actor{
     private Texture              desktopButtonIco;
     private Texture              coffeeMachineButtonIco;
     private Texture              laptopIco;
+    private Texture              phoneIco;
+    private Texture              jukeboxIco;
+    private Texture              arcadeIco;
+    private Texture              marketingTableIco;
+    private Texture              drawTableIco;
 
     //Buttons for each furniture
     private ArrayList<ImageButton>   wellBeingButtons;
@@ -79,6 +89,11 @@ public class BuildMenu extends Actor{
     private final int               desktop =           3;
     private final int               coffeeMachine =     4;
     private final int               laptop =            5;
+    private final int               phone =             6;
+    private final int               jukebox =           7;
+    private final int               arcademachine =     8;
+    private final int               marketingtable =    9;
+    private final int               drawtable =         10;
 
     private float                   buttonOffset = 0.1f;
 
@@ -115,6 +130,11 @@ public class BuildMenu extends Actor{
         waterCoolerButtonIco = new Texture("WaterCoolerIcon.png");
         coffeeMachineButtonIco = new Texture("coffeeIcon.png");
         laptopIco = new Texture("laptopIcon.png");
+        phoneIco = new Texture("phoneIcon.png");
+        jukeboxIco = new Texture("jukeboxIcon.png");
+        arcadeIco = new Texture("arcadeIcon.png");
+        marketingTableIco = new Texture("marketingtableIcon.png");
+        drawTableIco = new Texture("drawtableIcon.png");
 
         computerButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         wellBeingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
@@ -126,6 +146,11 @@ public class BuildMenu extends Actor{
         waterCoolerButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         coffeeMachineButtonIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         laptopIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        phoneIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        jukeboxIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        arcadeIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        marketingTableIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        drawTableIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         //setup skin
         skin = new Skin();
@@ -314,7 +339,19 @@ public class BuildMenu extends Actor{
                      "waterCooler", waterCooler);
         addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                      "couch", couch);
+        addFurniture(wellBeingButtons,jukeboxIco,getX()+1.5f,getY() + getHeight() * 0.75f -0.74f,
+                "jukebox", jukebox);
+        addFurniture(wellBeingButtons,arcadeIco,getX()+2.2f,getY() + getHeight() * 0.75f -0.74f,
+                "arcade", arcademachine);
+
         //Add build buttons to marketingFurnitures
+        addFurniture(marketingButtons,phoneIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+                "phone", phone);
+        addFurniture(marketingButtons,marketingTableIco,getX()+0.8f, getY() + getHeight() * 0.75f -0.74f,
+                "marketingtable", marketingtable);
+        addFurniture(marketingButtons,drawTableIco,getX()+1.5f,getY() + getHeight() * 0.75f -0.74f,
+                "drawtable", drawtable);
+
         //Add build buttons to programmingFurnitures
         addFurniture(programmingButtons,coffeeMachineButtonIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
                 "coffeeMachine", coffeeMachine);
@@ -400,8 +437,6 @@ public class BuildMenu extends Actor{
                                 game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
                 //END OF COORDINATES
-
-
                 switch(furnitureID) {
                     case couch:
                         objectStage.addActor(new Couch(game, x_pos, y_pos));
@@ -417,6 +452,21 @@ public class BuildMenu extends Actor{
                         break;
                     case laptop:
                         objectStage.addActor(new Laptop(game, x_pos, y_pos));
+                        break;
+                    case phone:
+                        objectStage.addActor(new Phone(game, x_pos, y_pos));
+                        break;
+                    case jukebox:
+                        objectStage.addActor(new Jukebox(game, x_pos, y_pos));
+                        break;
+                    case arcademachine:
+                        objectStage.addActor(new ArcadeMachine(game,x_pos,y_pos));
+                        break;
+                    case marketingtable:
+                        objectStage.addActor(new MarketingTable(game,x_pos,y_pos));
+                        break;
+                    case drawtable:
+                        objectStage.addActor(new DrawTable(game,x_pos,y_pos));
                         break;
                 }
                 ChaosCompany.officeState.updateDrawingOrder();

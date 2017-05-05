@@ -72,8 +72,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private TextButton          buildMenuBtn = null;
     private TextButton          mapBtn = null;
 
-    private Label               label = null;
-    private Skin                labelskin = null;
 
     private boolean             isMoving = false;
     private boolean             isBuildMenuOpen = false;
