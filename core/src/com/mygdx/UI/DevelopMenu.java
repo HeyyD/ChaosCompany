@@ -134,6 +134,7 @@ public class DevelopMenu extends Menu {
         fear.setPosition(drugs.getX(), drugs.getY() - fear.getHeight()*checkBoxScale);
         fear.setScale(checkBoxScale);
         warnings.add(fear);
+        fear.setChecked(true);
         uiStage.addActor(fear);
 
         gambling = new CheckBox(bundle.get("gambling"), skin);
@@ -249,7 +250,7 @@ public class DevelopMenu extends Menu {
             if(warning.isChecked())
                 warningsKarma++;
         }
-        ChaosCompany.manager.setKarma(ChaosCompany.manager.getKarma() + (gameAgeKarma - warningsKarma));
+        ChaosCompany.manager.setKarma(gameAgeKarma - warningsKarma);
         employees.clear();
     }
 

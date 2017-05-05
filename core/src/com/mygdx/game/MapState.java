@@ -28,6 +28,8 @@ public class MapState implements Screen {
     private Texture companyDOWN;
     private Texture jobCenterUP;
     private Texture jobCenterDOWN;
+    private Texture trees;
+    private StatsManager manager;
 
     private ImageButton company;
     private ImageButton jobCenter;
@@ -42,18 +44,19 @@ public class MapState implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480f);
         batch.setProjectionMatrix(camera.combined);
+        manager = ChaosCompany.manager;
 
-        map = new Texture("Overworld_Screen.png");
+        map = new Texture("MapState/EmptyMap.png");
         map.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         stage = new Stage();
         stage.getViewport().setCamera(camera);
 
-        companyUP = new Texture("Overworld_Company.png");
-        companyDOWN = new Texture("Overworld_Company.png");
+        companyUP = new Texture("MapState/OfficeButton.png");
+        companyDOWN = new Texture("MapState/OfficeButton.png");
         company = new ImageButton(new TextureRegionDrawable(new TextureRegion(companyUP)),
                 new TextureRegionDrawable(new TextureRegion(companyDOWN)));
 
-        company.setPosition(306,264);
+        company.setPosition(0,camera.viewportHeight - companyUP.getHeight());
         company.setSize(company.getWidth(), company.getHeight());
         company.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -68,12 +71,12 @@ public class MapState implements Screen {
         });
         stage.addActor(company);
 
-        jobCenterUP = new Texture("Overworld_Jobcenter.png");
-        jobCenterDOWN = new Texture("Overworld_Jobcenter.png");
+        jobCenterUP = new Texture("MapState/JobCenterButton.png");
+        jobCenterDOWN = new Texture("MapState/JobCenterButton.png");
         jobCenter = new ImageButton(new TextureRegionDrawable(new TextureRegion(jobCenterUP)),
                 new TextureRegionDrawable(new TextureRegion(jobCenterDOWN)));
         jobCenter.setSize(jobCenter.getWidth(), jobCenter.getHeight());
-        jobCenter.setPosition(597,86);
+        jobCenter.setPosition(camera.viewportWidth - jobCenterUP.getWidth() ,camera.viewportHeight - jobCenterUP.getHeight());
 
         jobCenter.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -87,6 +90,19 @@ public class MapState implements Screen {
             }
         });
         stage.addActor(jobCenter);
+
+        trees = new Texture("MapState/trees2.png");
+    }
+
+    public void updateMap(){
+        int karma = manager.getKarma();
+
+        if(karma >= 10)
+            trees = new Texture("MapState/trees3.png");
+        else if(karma <= -10)
+            trees = new Texture("MapState/trees1.png");
+        else
+            trees = new Texture("MapState/trees2.png");
     }
 
     @Override
@@ -100,10 +116,15 @@ public class MapState implements Screen {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(map, 0, 0);
+            batch.draw(map, 0, 0);
         batch.end();
+
         stage.act(delta);
         stage.draw();
+
+        batch.begin();
+            batch.draw(trees, 0, 0);
+        batch.end();
     }
 
     @Override
@@ -128,6 +149,6 @@ public class MapState implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }
