@@ -108,7 +108,7 @@ public class Game {
             if(actor.getClass().getSuperclass() == ComputerFurniture.class){
                 ComputerFurniture computer = (ComputerFurniture) actor;
 
-                if(computer.getBought()) {
+                if(computer.getBought() && !computer.getIsMoving()) {
                     computer.setIsAvailable(true);
                     computer.getTile().setIsFull(true);
                 }

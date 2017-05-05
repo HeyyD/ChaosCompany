@@ -156,6 +156,7 @@ public class DevelopMenu extends Menu {
         badLanguage.setPosition(sex.getX(), sex.getY() - gambling.getHeight()*checkBoxScale);
         badLanguage.setScale(checkBoxScale);
         warnings.add(badLanguage);
+        badLanguage.setChecked(true);
         uiStage.addActor(badLanguage);
 
         discrimination = new CheckBox(bundle.get("discrimination"), skin);
@@ -296,7 +297,7 @@ public class DevelopMenu extends Menu {
 
         //Try to get a employee for each computer
         for(ComputerFurniture computer: computers){
-            if(computer.getIsAvailabel() && computer.getBought()){
+            if(computer.getIsAvailabel() && computer.getBought() && !computer.getIsMoving()){
                 //set the tile free for a moment so the pathfinding can possibly find a path
                 boolean isBlocked = true;
                 computer.getTile().setIsFull(false);

@@ -25,8 +25,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.*;
 import com.mygdx.development.Game;
+import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
+import com.mygdx.furniture.ComputerFurniture;
 import com.mygdx.map.TileMap;
 
 import java.util.ArrayList;
@@ -471,11 +473,19 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         @Override
         //compares the Y-position of the furniture
         public int compare(Actor arg0, Actor arg1) {
+
+            //test
+            if((arg0.getClass().getSuperclass() == Employee.class && arg1.getClass().getSuperclass() == ComputerFurniture.class) && arg0.getY() == arg1.getY()){
+                return 1;
+            } else if(arg0.getClass().getSuperclass() == ComputerFurniture.class && arg1.getClass().getSuperclass() == Employee.class && arg0.getY() == arg1.getY()){
+                return -1;
+            }
+
             if (arg0.getY() < arg1.getY()) {
                 return 1;
             } else if (arg0.getY() > arg1.getY()) {
                 return -1;
-            } else{
+            }else{
                 return 0;
             }
         }

@@ -225,6 +225,7 @@ public abstract class Employee extends Actor {
             currentTileIndex = 0;
             targetPosition = null;
             currentTile = path.get(path.size() - 1);
+            setPosition(currentTile.getX(), currentTile.getY());
             path = null;
             walking = false;
         }
