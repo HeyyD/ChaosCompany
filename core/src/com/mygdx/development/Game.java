@@ -99,8 +99,11 @@ public class Game {
         for (Actor actor: ChaosCompany.officeState.getobjectStage().getActors()){
             if(actor.getClass().getSuperclass() == ComputerFurniture.class){
                 ComputerFurniture computer = (ComputerFurniture) actor;
-                computer.setIsAvailable(true);
-                computer.getTile().setIsFull(true);
+
+                if(computer.getBought()) {
+                    computer.setIsAvailable(true);
+                    computer.getTile().setIsFull(true);
+                }
             }
 
         }
