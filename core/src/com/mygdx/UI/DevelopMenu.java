@@ -295,7 +295,7 @@ public class DevelopMenu extends Menu {
 
         //Try to get a employee for each computer
         for(ComputerFurniture computer: computers){
-            if(computer.getIsAvailabel()){
+            if(computer.getIsAvailabel() && computer.getBought()){
                 //set the tile free for a moment so the pathfinding can possibly find a path
                 boolean isBlocked = true;
                 computer.getTile().setIsFull(false);
