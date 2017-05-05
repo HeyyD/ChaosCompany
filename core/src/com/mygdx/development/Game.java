@@ -20,13 +20,13 @@ public class Game {
 
     public float developmentTime;
     public float currentTime;
-    public int moneyCycles = 3;
+    public int moneyCycles;
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
     private float developmentSpeed = 10;
-    private int value = 100;
-    private float setMoneyTime = 50;
+    private int value;
+    private float setMoneyTime = 15;
     private float currentMoneyTime = setMoneyTime;
     private boolean beingDeveloped = true;
     private ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -36,6 +36,7 @@ public class Game {
 
     public Game(float developmentTime, ArrayList<Employee> employees){
         statsManager = ChaosCompany.manager;
+        value = statsManager.getGameValue();
         this.developmentTime = developmentTime;
         this.currentTime = 0;
         ArrayList<Employee> temporaryList = employees;
@@ -53,8 +54,9 @@ public class Game {
 
         }
         developmentSpeed = calculateDevelopmentTime();
-        value = calculateValue();
-        moneyCycles = calculateMoneyCycles();
+        value = statsManager.getGameValue();
+
+        moneyCycles = 10;
         ChaosCompany.officeState.games.add(this);
 
         System.out.println("developentSpeed: " + developmentSpeed +
@@ -73,18 +75,24 @@ public class Game {
                 OfficeStateUI.developMenu.hideDevelopingMenu();
                 freeEmployeesAndComputers();
                 progressBar.setValue(0);
+                //When game is ready, add Game value to game income.
+                statsManager.setGameIncome(statsManager.getGameIncome()+value);
                 beingDeveloped = false;
             }
 
-        } else{
+        }else{
             if(moneyCycles > 0){
                 if(currentMoneyTime > 0){
-                    currentMoneyTime -= Gdx.graphics.getDeltaTime() * developmentSpeed;
+                    currentMoneyTime -= Gdx.graphics.getDeltaTime();
                 }else {
                     currentMoneyTime = setMoneyTime;
-                    statsManager.setMoney(statsManager.getMoney() + value);
                     moneyCycles--;
                 }
+            }
+            if(moneyCycles == 0){
+                //When game becomes old remove games value from gameIncome
+                statsManager.setGameIncome(statsManager.getGameIncome()-value);
+                moneyCycles--;
             }
         }
     }
@@ -113,7 +121,7 @@ public class Game {
         this.progressBar = bar;
     }
 
-    private int calculateMoneyCycles(){
+    /*private int calculateMoneyCycles(){
         int moneyCycles = this.moneyCycles;
 
         for(MarketingExecutive marketer: marketingExecutives){
@@ -121,9 +129,9 @@ public class Game {
         }
 
         return  moneyCycles;
-    }
+    }*/
 
-    private int calculateValue(){
+    /*private int calculateValue(){
         int value = this.value;
 
         for(Artist artist: artists){
@@ -131,7 +139,7 @@ public class Game {
         }
 
         return value;
-    }
+    }*/
 
     private float calculateDevelopmentTime(){
         float developmentTime = this.developmentSpeed;

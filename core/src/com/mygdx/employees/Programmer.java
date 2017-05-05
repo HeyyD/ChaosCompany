@@ -20,8 +20,11 @@ public class Programmer extends Employee{
             System.out.println(getManager().getEmployees());
             remove();
             setHired(true);
+            getManager().setSalaries(getManager().getSalaries() - (int)salary);
             int x = 11;
             int y = 11;
+
+            getManager().setProgrammingPower(getManager().getProgrammingPower() + (int)(skill*100));
             while (ChaosCompany.officeState.getTileMap().getTiles()[x][y].getIsFull() == true) {
                 x = MathUtils.random(0, 9);
                 y = MathUtils.random(0, 9);

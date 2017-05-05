@@ -358,7 +358,7 @@ public class FurnitureButtons {
         stage.addActor(buySell);
     }
 
-    private void removeButtons(){
+    public void removeButtons(){
         cancel.remove();
         rotate.remove();
         buySell.remove();

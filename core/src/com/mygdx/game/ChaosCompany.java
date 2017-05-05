@@ -24,6 +24,9 @@ public class ChaosCompany extends Game {
     public static Locale          defaultLocale;
     public static I18NBundle      myBundle;
 
+    //Timers
+    private float timer;
+    private float delta;
 
 	protected SpriteBatch   batch;
 
@@ -55,16 +58,36 @@ public class ChaosCompany extends Game {
 	public void render () {
         super.render();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && getScreen() == mainMenuState ){
+        //add delta time to timer and call it every 20 seconds
+        delta = Gdx.graphics.getDeltaTime();
+        timer += delta;
+
+        //if in Main Menu keep timer at 0
+        if(getScreen() == mainMenuState) {
+            timer = 0;
+        }
+
+        //Update managers stats
+        updateManager();
+
+        //Call everything in here every 20 seconds
+        if(timer > 15){
+            addIncome();
+            //Set timer back to 0
+            timer = 0;
+        }
+
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             setScreen(officeState);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
             setScreen(mainMenuState);
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.V) && getScreen() == officeState){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.V)){
             setScreen(mapState);
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.B) && getScreen() == mapState){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
             setScreen(hireState);
         }
     }
@@ -75,7 +98,19 @@ public class ChaosCompany extends Game {
         mapState.dispose();
         hireState.dispose();
         batch.dispose();
+        //System.exit on väliaikaisratkaisu bugiin, jossa peli ei sulkeudu kunnolla
+        //android puhelimilla vaan jää taustalle tuottamaan ongnelmia kun pelin käynnistää
+        //uudelleen. Keksimme paremman ratkaisun mikäli aikaa siihen jää.
         System.exit(0);
+    }
+
+    //Methods that calculates and adds income.
+    public void addIncome(){
+        manager.setMoney(manager.getMoney() + manager.getIncome());
+    }
+    public void updateManager(){
+        manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 100))) );
+        manager.setIncome(manager.getGameIncome() * (1 + (manager.getMarketingPower()/200)) + manager.getSalaries());
     }
 
     public OfficeState getOfficeState(){
