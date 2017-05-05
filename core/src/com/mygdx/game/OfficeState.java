@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
@@ -21,8 +22,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.*;
 import com.mygdx.development.Game;
+import com.mygdx.employees.Programmer;
+import com.mygdx.furniture.Computer;
 import com.mygdx.map.TileMap;
 
 import java.util.ArrayList;
@@ -85,13 +89,21 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private BitmapFont            font2 = null;
 
 
-    private com.mygdx.UI.MoneyUi moneyUI = null;
+    private com.mygdx.UI.MoneyUi  moneyUI = null;
     private EmpSlotUI             empUI = null;
+    private IncomeUI              incUI = null;
 
     //Developed games
     public ArrayList<Game> games = new ArrayList<Game>();
     private ArrayList<Game> deleteGames = new ArrayList<Game>();
     private boolean developing;
+
+    //Players first furniture
+    private Computer firstDesk;
+    private boolean  fDesk = false;
+
+    //Bundle
+    private I18NBundle bundle = ChaosCompany.myBundle;
 
     public OfficeState(ChaosCompany g) {
 
@@ -203,11 +215,14 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //Add money and employeeslot UI
         moneyUI = new com.mygdx.UI.MoneyUi();
         empUI = new EmpSlotUI();
+        incUI = new IncomeUI();
 
         stage.addActor(moneyUI);
         stage.addActor(empUI);
+        stage.addActor(incUI);
 
         UI = new OfficeStateUI(stage, textStage, game);
+
     }
 
 
@@ -218,6 +233,17 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         objectStage.getViewport().setCamera(cam);
         movingUiStage.getViewport().setCamera(cam);
         textStage.getViewport().setCamera(textCam);
+
+        if(fDesk == false) {
+            firstDesk = new Computer(game, 2,0);
+            firstDesk.buy();
+            firstDesk.getButtons().removeButtons();
+            getTileMap().getTiles()[2][2].setIsFull(true);
+            firstDesk.setTile(getTileMap().getTiles()[2][2]);
+            setIsMoving(false);
+            objectStage.addActor(firstDesk);
+            fDesk = true;
+        }
     }
 
     @Override
@@ -257,6 +283,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
         drawMoneyText(spriteBatch);
         empSlotText(spriteBatch);
+        drawIncome(spriteBatch);
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
 
@@ -425,6 +452,20 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         font2.draw(batch,text, 730, 370);
         batch.end();
     }
+    public void drawIncome(SpriteBatch batch){
+        batch.setProjectionMatrix(textCam.combined);
+        String text = bundle.get("income")+"\n"+manager.getIncome();
+        if(manager.getIncome() < 0){
+            font.setColor(Color.RED);
+        }else{
+            font.setColor(Color.FOREST);
+        }
+        batch.begin();
+        font.draw(batch,text, 710, 420);
+        batch.end();
+        font.setColor(Color.BLACK);
+    }
+
 
     class ActorComparator implements Comparator<Actor> {
         @Override

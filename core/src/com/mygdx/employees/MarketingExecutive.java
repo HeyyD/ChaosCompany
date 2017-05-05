@@ -19,12 +19,15 @@ public class MarketingExecutive extends Employee{
 
     @Override
     public void hire() {
-        System.out.println(getManager().getEmployees());
         remove();
         setHired(true);
+        getManager().setSalaries(getManager().getSalaries() - (int)salary);
+
+
+        getManager().setMarketingPower(getManager().getMarketingPower()+(int)(skill*50));
         int x = 11;
         int y = 11;
-        //asetetaan tyontekija random paikkaan kentalla ja varataan sille tila
+        //set Employee to random place at officeState and reserve Tile
         while (ChaosCompany.officeState.getTileMap().getTiles()[x][y].getIsFull() == true) {
             x = MathUtils.random(0, 9);
             y = MathUtils.random(0, 9);

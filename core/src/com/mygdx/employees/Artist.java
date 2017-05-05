@@ -22,6 +22,10 @@ public class Artist extends Employee{
         System.out.println(getManager().getEmployees());
         remove();
         setHired(true);
+        getManager().setSalaries(getManager().getSalaries() - (int)salary);
+
+        getManager().setWellBeing(getManager().getWellBeing() + (int)(skill*100));
+
         int x = 11;
         int y = 11;
         while (ChaosCompany.officeState.getTileMap().getTiles()[x][y].getIsFull() == true) {

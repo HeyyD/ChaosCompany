@@ -6,14 +6,66 @@ package com.mygdx.game;
 
 public class StatsManager {
 
-    private int wellBeing = 50;
+    //Economy variables of game
+    private int wellBeing = 0;
     private int programmingPower = 0;
-    private int money = 250000;
+    private int marketingPower = 0;
+    private int income = 0;
+
+    private int gameValue = 200;
+    private int gameIncome = 0;
+    private int salaries = 0;
+
+    public int getIncome() {
+        return income;
+    }
+
+    public void setIncome(int income) {
+        this.income = income;
+    }
+
+    public int getGameValue() {
+        return gameValue;
+    }
+
+    public void setGameValue(int gameValue) {
+        this.gameValue = gameValue;
+    }
+
+    public int getGameIncome() {
+        return gameIncome;
+    }
+
+    public void setGameIncome(int gameIncome) {
+        this.gameIncome = gameIncome;
+    }
+
+    public int getSalaries() {
+        return salaries;
+    }
+
+    public void setSalaries(int salaries) {
+        this.salaries = salaries;
+    }
+
+    private int money = 5000;
+
     private int employeeSlots = 0;
     private int employees = 0;
 
     //karma can range from -100 to 100
     private int karma = 0;
+
+
+    public int getMarketingPower() {
+        return marketingPower;
+    }
+
+    public void setMarketingPower(int marketingPower) {
+        this.marketingPower = marketingPower;
+    }
+
+
 
     public int getMoney(){
         return money;

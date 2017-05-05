@@ -185,6 +185,16 @@ public abstract class Employee extends Actor {
         remove();
         setHired(false);
         manager.setEmployees(manager.getEmployees()-1);
+        manager.setSalaries(manager.getSalaries() + (int)salary);
+
+        if(this.getClass() == Programmer.class){
+            manager.setProgrammingPower(manager.getProgrammingPower() - (int)(skill*100));
+        }else if(this.getClass() == Artist.class){
+            manager.setWellBeing(manager.getWellBeing()-(int)(skill*100));
+        }else{
+            manager.setMarketingPower(manager.getMarketingPower()-(int)(skill*50));
+        }
+
     }
     private void move(){
         float speed = Gdx.graphics.getDeltaTime() * 1.5f;
@@ -364,7 +374,13 @@ public abstract class Employee extends Actor {
 
     public float getSkill(){ return skill; }
 
+    public void setSkill(float skill) {
+        this.skill = skill;
+    }
+
     public int getSalary() { return (int) salary; }
 
-
+    public void setSalary(float salary) {
+        this.salary = salary;
+    }
 }

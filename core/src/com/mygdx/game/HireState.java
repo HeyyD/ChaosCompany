@@ -18,13 +18,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.*;
 import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
+import com.mygdx.furniture.Computer;
 import com.mygdx.map.TileMap;
 
 import java.util.Comparator;
@@ -54,6 +57,8 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
     private com.mygdx.UI.MoneyUi        moneyUI;
     private EmpSlotUI                   empUI;
+    private IncomeUI                    incUI;
+
     private BitmapFont                  font2;
 
     //Manager
@@ -76,7 +81,11 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
     private InputMultiplexer            multiplexer;
 
+    //First employee player gets
+    private Programmer                  firstEmp;
 
+    //Bundle
+    private I18NBundle bundle = ChaosCompany.myBundle;
 
     //List of Employees you can hire
     Employee[] employees;
@@ -172,15 +181,23 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         font2.getData().setScale(2, 2);
 
         moneyUI = new com.mygdx.UI.MoneyUi();
-
         empUI = new EmpSlotUI();
+        incUI = new IncomeUI();
 
         stage.addActor(moneyUI);
         stage.addActor(empUI);
+        stage.addActor(incUI);
 
         //Create hirable employees
         employees = new Employee[5];
         createEmployees();
+
+        //Setup players first employee
+        firstEmp = new Programmer(tileMap, tileMap.getTiles()[1][1], 1f, 1f, 1);
+        firstEmp.setSalary(0);
+        objectStage.addActor(firstEmp);
+
+        firstEmp.hire();
     }
 
     @Override
@@ -215,8 +232,11 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         stage.draw();
         textStage.draw();
 
+        //Render texts
         drawMoneyText(spriteBatch);
         empSlotText(spriteBatch);
+        drawIncome(spriteBatch);
+
         spriteBatch.setTransformMatrix(isoTransform);
         updateDrawingOrder();
 
@@ -367,6 +387,20 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         batch.begin();
         font2.draw(batch,text, 730, 370);
         batch.end();
+    }
+
+    public void drawIncome(SpriteBatch batch){
+        batch.setProjectionMatrix(textCam.combined);
+        String text = bundle.get("income")+"\n"+manager.getIncome();
+        if(manager.getIncome() < 0){
+            font.setColor(Color.RED);
+        }else{
+            font.setColor(Color.FOREST);
+        }
+        batch.begin();
+        font.draw(batch,text, 710, 420);
+        batch.end();
+        font.setColor(Color.BLACK);
     }
 
     class ActorComparator implements Comparator<Actor> {
