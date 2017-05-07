@@ -29,6 +29,7 @@ import com.mygdx.employees.Employee;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.ComputerFurniture;
+import com.mygdx.furniture.FurnitureButtons;
 import com.mygdx.map.TileMap;
 
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private BuildMenu           buildMenu = null;
     private TextButton          buildMenuBtn = null;
     private TextButton          mapBtn = null;
+    private FurnitureButtons    buttons = null;
+
+    private Vector2             screenCoords = null;
+
 
 
     private boolean             isMoving = false;
@@ -165,6 +170,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         //Stats manager
         manager = game.getManager();
 
+
+
         //Create BuildMenu button
         buildMenuBtn = new GameButton(game, stage, 8.9f, 0.1f,"", new Texture("buildBtn.png")).getButton();
         buildMenuBtn.addListener(new InputListener(){
@@ -176,6 +183,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 100 && y > 0 && y < 100 && isBuildMenuOpen == false){
                     new BuildMenu(game, 6.2f,1.1f);
+                    removeButtons();
                 }
             }
         });
@@ -222,6 +230,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         stage.addActor(incUI);
 
         UI = new OfficeStateUI(stage, textStage, game);
+        screenCoords = new Vector2(0,0);
 
     }
 
@@ -372,6 +381,13 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public boolean getDeveloping(){
         return developing;
     }
+    public FurnitureButtons getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(FurnitureButtons buttons) {
+        this.buttons = buttons;
+    }
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
@@ -464,6 +480,43 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         font.draw(batch,text, 710, 420);
         batch.end();
         font.setColor(Color.BLACK);
+    }
+
+    public void removeButtons(){
+        if(buttons!= null) {
+            screenCoords = new Vector2(buttons.getFurniture().getX(), buttons.getFurniture().getY());
+            screenCoords = objectStage.toScreenCoordinates(screenCoords, objectStage.getBatch().getTransformMatrix());
+
+            touch.set(screenCoords.x, screenCoords.y, 0);
+            game.getOfficeState().getCam().unproject(touch);
+            touch.mul(game.getOfficeState().getInvIsotransform());
+
+            int indexX;
+            int indexY;
+
+            if (touch.y < 0)
+                indexY = 0;
+            else
+                indexY = (int) touch.y + 1;
+
+            indexX = (int) touch.x;
+
+            if(!buttons.getFurniture().getBought()) {
+                buttons.removeButtons();
+                buttons.getFurniture().remove();
+                setIsMoving(false);
+            } else if (buttons.getFurniture().getBought() && !tileMap.getTiles()[indexX][indexY].getIsFull()
+                    && buttons.getFurniture().getIsMoving()) {
+                buttons.removeButtons();
+                tileMap.getTiles()[indexX][indexY].setIsFull(true);
+                setIsMoving(false);
+                buttons.getFurniture().setIsMoving(false);
+                buttons.getFurniture().setTile(tileMap.getTiles()[indexX][indexY]);
+            } else if (buttons.getFurniture().getBought() && !buttons.getFurniture().getIsMoving()) {
+                buttons.removeButtons();
+                setIsMoving(false);
+            }
+        }
     }
 
 

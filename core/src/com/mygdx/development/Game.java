@@ -24,7 +24,7 @@ public class Game {
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
-    private float developmentSpeed = 10;
+    private float developmentSpeed = 5;
     private int value;
     private float setMoneyTime = 15;
     private float currentMoneyTime = setMoneyTime;
@@ -143,9 +143,8 @@ public class Game {
 
     private float calculateDevelopmentTime(){
         float developmentTime = this.developmentSpeed;
-        for(Programmer programmer: programmers){
-            developmentTime += programmer.skill;
-        }
+
+        developmentTime += (float)statsManager.getProgrammingPower() / 100;
 
         return developmentTime;
     }

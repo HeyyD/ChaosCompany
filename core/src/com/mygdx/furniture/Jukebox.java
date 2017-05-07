@@ -24,7 +24,7 @@ public class Jukebox extends WellBeingFurniture {
     public Jukebox(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setWellBeing(500);
+        setWellBeing(600);
 
         //Setup Textures
         tex = new Texture("jukebox.png");
@@ -46,8 +46,8 @@ public class Jukebox extends WellBeingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(250);
-        setSellPrice(125);
+        setPrice(8000);
+        setSellPrice(4000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

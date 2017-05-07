@@ -24,9 +24,10 @@ public class FurnitureListener extends InputListener {
     }
 
     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-        if(x > 0 && x < 40 && y > 0 && y < 40 && furniture.getButtons().isButtonsOpen() == false
-                && game.getOfficeState().getIsMoving() == false) {
+        if(x > 0 && x < 40 && y > 0 && y < 40 && furniture.getButtons().isButtonsOpen() == false) {
+            game.getOfficeState().removeButtons();
             furniture.getButtons().create();
+            game.getOfficeState().setButtons(furniture.getButtons());
         }
     }
 }

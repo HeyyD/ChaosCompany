@@ -119,7 +119,7 @@ public class ChaosCompany extends Game {
         manager.setMoney(manager.getMoney() + manager.getIncome());
     }
     public void updateManager(){
-        manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 100))) );
+        manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 140))) );
         manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/200)) + manager.getSalaries()));
     }
 

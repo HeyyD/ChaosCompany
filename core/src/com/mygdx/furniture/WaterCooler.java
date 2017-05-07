@@ -25,7 +25,7 @@ public class WaterCooler extends WellBeingFurniture {
     public WaterCooler(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setWellBeing(25);
+        setWellBeing(120);
 
         //Setup Textures
         tex = new Texture("watercooler.png");
@@ -47,8 +47,8 @@ public class WaterCooler extends WellBeingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(250);
-        setSellPrice(125);
+        setPrice(2000);
+        setSellPrice(1000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

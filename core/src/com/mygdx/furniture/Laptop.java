@@ -45,8 +45,8 @@ public class Laptop extends ComputerFurniture {
         //Set position, price and sellPrice
         setX(x);
         setY(y);
-        setPrice(1500);
-        setSellPrice(750);
+        setPrice(4000);
+        setSellPrice(2000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);
@@ -76,6 +76,7 @@ public class Laptop extends ComputerFurniture {
     public void sell() {
         //minus benfits
         manager.setEmployeeSlots(manager.getEmployeeSlots()- 1);
+        manager.setMarketingPower(manager.getMarketingPower()-180);
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch
@@ -85,7 +86,8 @@ public class Laptop extends ComputerFurniture {
 
     @Override
     public void buy(){
-        manager.setEmployeeSlots((manager.getEmployeeSlots()+ 1));
+        manager.setEmployeeSlots(manager.getEmployeeSlots()+ 1);
+        manager.setMarketingPower(manager.getMarketingPower()+180);
         manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);

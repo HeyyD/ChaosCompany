@@ -25,7 +25,7 @@ public class CoffeeMachine extends ProgrammingFurniture {
     public CoffeeMachine(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setProgrammingPower(70);
+        setProgrammingPower(100);
 
         //Setup Textures
         tex = new Texture("coffeemachine.png");
@@ -87,7 +87,7 @@ public class CoffeeMachine extends ProgrammingFurniture {
 
     @Override
     public void buy(){
-        manager.setWellBeing((manager.getWellBeing() + getProgrammingPower()));
+        manager.setProgrammingPower((manager.getProgrammingPower() + getProgrammingPower()));
         manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);

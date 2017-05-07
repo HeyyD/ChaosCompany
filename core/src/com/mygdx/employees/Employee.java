@@ -190,7 +190,7 @@ public abstract class Employee extends Actor {
         if(this.getClass() == Programmer.class){
             manager.setProgrammingPower(manager.getProgrammingPower() - (int)(skill*100));
         }else if(this.getClass() == Artist.class){
-            manager.setWellBeing(manager.getWellBeing()-(int)(skill*100));
+            manager.setWellBeing(manager.getWellBeing()-(int)(skill*200));
         }else{
             manager.setMarketingPower(manager.getMarketingPower()-(int)(skill*50));
         }
@@ -337,6 +337,7 @@ public abstract class Employee extends Actor {
         }
 
         giveDestination(map.getTiles()[x][y]);
+        map.getTiles()[x][y].setIsFull(true);
     }
 
     public Pathfinding getPathfinding() {

@@ -14,16 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.I18NBundle;
+import com.mygdx.UI.MiniIcons;
 import com.mygdx.furniture.ArcadeMachine;
 import com.mygdx.furniture.CoffeeMachine;
 import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.Couch;
 import com.mygdx.furniture.DrawTable;
+import com.mygdx.furniture.Furniture;
 import com.mygdx.furniture.Jukebox;
 import com.mygdx.furniture.Laptop;
 import com.mygdx.furniture.MarketingTable;
@@ -39,6 +43,9 @@ public class BuildMenu extends Actor{
     private Stage               stage;
     private Stage               objectStage;
     private Stage               movableUiStage;
+
+    //Bundle
+    private I18NBundle bundle = ChaosCompany.myBundle;
 
     //menu
     private Texture             menuBackground;
@@ -66,6 +73,7 @@ public class BuildMenu extends Actor{
     private Texture              marketingButtonTex;
     private Texture              programmingButtonTex;
 
+    //Texture for each furnitures buildbutton
     private Texture              cancelButtonTex;
     private Texture              waterCoolerButtonIco;
     private Texture              desktopButtonIco;
@@ -83,6 +91,22 @@ public class BuildMenu extends Actor{
     private ArrayList<ImageButton>   marketingButtons;
     private ArrayList<ImageButton>   computerButtons;
 
+    //Small icons and price texts
+    private MiniIcons               icons1;
+    private MiniIcons               icons2;
+    private MiniIcons               icons3;
+    private MiniIcons               icons4;
+
+    //Text of Build menu
+    private Label                   text;
+    private Label.LabelStyle        labelStyle;
+    private String                  value;
+
+
+    //Texture for money icon
+    private Texture                 moneyIco;
+    private Texture                 programmingIco;
+
     //FURNITURE ID
     private final int               couch =             1;
     private final int               waterCooler =       2;
@@ -95,6 +119,8 @@ public class BuildMenu extends Actor{
     private final int               marketingtable =    9;
     private final int               drawtable =         10;
 
+    private Furniture               furniture = null;
+
     private float                   buttonOffset = 0.1f;
 
     public BuildMenu (ChaosCompany g, float x, float y){
@@ -104,6 +130,7 @@ public class BuildMenu extends Actor{
         objectStage           = game.getOfficeState().getobjectStage();
         game.getOfficeState().setIsBuildMenuOpen(true);
         camera                = ChaosCompany.officeState.getCam();
+
 
         //Build buttonlists
         wellBeingButtons = new ArrayList<ImageButton>();
@@ -152,8 +179,19 @@ public class BuildMenu extends Actor{
         marketingTableIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         drawTableIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
+        //Texture for money Icon
+        moneyIco = new Texture("moneyico.png");
+        programmingIco = new Texture("programmingicon.png");
+
+        moneyIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        programmingIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
         //setup skin
         skin = new Skin();
+
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        labelStyle.fontColor = Color.BLACK;
 
         skin.add("computer", computerButtonTex);
         skin.add("wellBeing", wellBeingButtonTex);
@@ -190,6 +228,19 @@ public class BuildMenu extends Actor{
                     removeActors(marketingButtons);
                     removeActors(wellBeingButtons);
                     removeActors(programmingButtons);
+                    if(text != null){
+                        text.remove();
+                    }
+                    addText(bundle.get("buildComp"));
+                    removeMiniIcons();
+                    icons1 = new MiniIcons(getX()+0.07f, getY()+1, computerButtonTex,
+                            moneyIco, ""+1,""+1000);
+                    icons2 = new MiniIcons(getX()+0.73f, getY()+1, computerButtonTex,
+                            moneyIco, marketingButtonTex, ""+1,""+4000,""+180);
+                    icons3 = new MiniIcons(getX()+1.43f, getY()+1, computerButtonTex,
+                            moneyIco, programmingIco, ""+1,""+4000,""+180);
+                    icons4 = new MiniIcons(getX()+2.13f, getY()+1, computerButtonTex,
+                            moneyIco, wellBeingButtonTex, ""+1,""+4000, ""+180);
                     addActors(computerButtons);
                 }
             }
@@ -221,7 +272,20 @@ public class BuildMenu extends Actor{
                     removeActors(marketingButtons);
                     removeActors(wellBeingButtons);
                     removeActors(computerButtons);
+                    removeMiniIcons();
                     addActors(programmingButtons);
+                    if(text != null){
+                        text.remove();
+                    }
+                    addText(bundle.get("buildP"));
+                    icons1 = new MiniIcons(getX()+0.07f, getY()+1, programmingIco,
+                            moneyIco, ""+25,""+500);
+                    icons2 = new MiniIcons(getX()+0.73f, getY()+1, programmingIco,
+                            moneyIco, ""+120,""+2000);
+                    icons3 = new MiniIcons(getX()+1.43f, getY()+1, programmingIco,
+                            moneyIco, ""+600,""+8000);
+                    icons4 = new MiniIcons(getX()+2.13f, getY()+1, programmingIco,
+                            moneyIco, ""+2250,""+32000);
                 }
             }
         });
@@ -252,7 +316,20 @@ public class BuildMenu extends Actor{
                     removeActors(marketingButtons);
                     removeActors(programmingButtons);
                     removeActors(computerButtons);
+                    removeMiniIcons();
                     addActors(wellBeingButtons);
+                    if(text != null){
+                        text.remove();
+                    }
+                    addText(bundle.get("buildWB"));
+                    icons1 = new MiniIcons(getX()+0.07f, getY()+1, wellBeingButtonTex,
+                            moneyIco, ""+25,""+500);
+                    icons2 = new MiniIcons(getX()+0.73f, getY()+1, wellBeingButtonTex,
+                            moneyIco, ""+120,""+2000);
+                    icons3 = new MiniIcons(getX()+1.43f, getY()+1, wellBeingButtonTex,
+                            moneyIco, ""+600,""+8000);
+                    icons4 = new MiniIcons(getX()+2.13f, getY()+1, wellBeingButtonTex,
+                            moneyIco, ""+2250,""+32000);
                 }
             }
         });
@@ -282,7 +359,20 @@ public class BuildMenu extends Actor{
                     removeActors(wellBeingButtons);
                     removeActors(programmingButtons);
                     removeActors(computerButtons);
+                    removeMiniIcons();
                     addActors(marketingButtons);
+                    if(text != null){
+                        text.remove();
+                    }
+                    addText(bundle.get("buildM"));
+                    icons1 = new MiniIcons(getX()+0.07f, getY()+1, marketingButtonTex,
+                            moneyIco, ""+25,""+500);
+                    icons2 = new MiniIcons(getX()+0.73f, getY()+1, marketingButtonTex,
+                            moneyIco, ""+120,""+2000);
+                    icons3 = new MiniIcons(getX()+1.43f, getY()+1, marketingButtonTex,
+                            moneyIco, ""+600,""+8000);
+                    icons4 = new MiniIcons(getX()+2.13f, getY()+1, marketingButtonTex,
+                            moneyIco, ""+2250,""+32000);
                 }
             }
         });
@@ -316,6 +406,10 @@ public class BuildMenu extends Actor{
                     removeActors(programmingButtons);
                     removeActors(wellBeingButtons);
                     removeActors(computerButtons);
+                    removeMiniIcons();
+                    if(text != null){
+                        text.remove();
+                    }
                     remove();
                     game.getOfficeState().setIsBuildMenuOpen(false);
                 }
@@ -335,10 +429,10 @@ public class BuildMenu extends Actor{
                 "laptop",laptop);
 
         //Add build buttons to wellBeingFurnitures
-        addFurniture(wellBeingButtons,waterCoolerButtonIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+        addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+                "couch", couch);
+        addFurniture(wellBeingButtons,waterCoolerButtonIco,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                      "waterCooler", waterCooler);
-        addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
-                     "couch", couch);
         addFurniture(wellBeingButtons,jukeboxIco,getX()+1.5f,getY() + getHeight() * 0.75f -0.74f,
                 "jukebox", jukebox);
         addFurniture(wellBeingButtons,arcadeIco,getX()+2.2f,getY() + getHeight() * 0.75f -0.74f,
@@ -395,12 +489,28 @@ public class BuildMenu extends Actor{
                 arrayList.get(i).remove();
         }
     }
+    public void removeMiniIcons() {
+        if(icons1 != null&& icons2 != null && icons3 != null && icons4 != null) {
+            icons1.removeIcons();
+            icons2.removeIcons();
+            icons3.removeIcons();
+            icons4.removeIcons();
+        }
+    }
 
     public void addActors(ArrayList<ImageButton> arrayList){
         for (int i = 0; i < arrayList.size(); i++) {
             if(arrayList.get(i).getStage() == null)
                 stage.addActor(arrayList.get(i));
         }
+    }
+
+    public void addText(String string){
+        text = new Label(string, labelStyle);
+        text.setWrap(true);
+        text.setWidth(260f);
+        text.setPosition(getX()*100/1.25f+10,getY()*100/1.25f+25);
+        game.getOfficeState().getTextStage().addActor(text);
     }
 
     //INPUT LISTENER FOR EVERY BUILD BUTTON
@@ -416,8 +526,7 @@ public class BuildMenu extends Actor{
         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 
             //if user is not on top of the button anymore, it dosent do anything
-            if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight &&
-                    game.getOfficeState().getIsMoving() == false){
+            if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
 
                 //COORDINATES
                 float x_pos = (game.getOfficeState().getTileMap().pickedTileX *
@@ -436,48 +545,65 @@ public class BuildMenu extends Actor{
                         (game.getOfficeState().getTileMap().pickedTileY *
                                 game.getOfficeState().getTileMap().tileWidth / 4.0f);
 
+
                 //END OF COORDINATES
                 switch(furnitureID) {
                     case couch:
-                        objectStage.addActor(new Couch(game, x_pos, y_pos));
+                        furniture = new Couch(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case waterCooler:
-                        objectStage.addActor(new WaterCooler(game, x_pos, y_pos));
+                        furniture = new WaterCooler(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case desktop:
-                        objectStage.addActor(new Computer(game, x_pos, y_pos));
+                        furniture = new Computer(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case coffeeMachine:
-                        objectStage.addActor(new CoffeeMachine(game, x_pos, y_pos));
+                        furniture = new CoffeeMachine(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case laptop:
-                        objectStage.addActor(new Laptop(game, x_pos, y_pos));
+                        furniture = new Laptop(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case phone:
-                        objectStage.addActor(new Phone(game, x_pos, y_pos));
+                        furniture = new Phone(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case jukebox:
-                        objectStage.addActor(new Jukebox(game, x_pos, y_pos));
+                        furniture = new Jukebox(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case arcademachine:
-                        objectStage.addActor(new ArcadeMachine(game,x_pos,y_pos));
+                        furniture = new ArcadeMachine(game, x_pos, y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case marketingtable:
-                        objectStage.addActor(new MarketingTable(game,x_pos,y_pos));
+                        furniture = new MarketingTable(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
                         break;
                     case drawtable:
-                        objectStage.addActor(new DrawTable(game,x_pos,y_pos));
+                        furniture = new DrawTable(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
                         break;
                 }
                 ChaosCompany.officeState.updateDrawingOrder();
 
+                game.getOfficeState().removeButtons();
+                game.getOfficeState().setButtons(furniture.getButtons());
                 //REMOVE EVERYTHING
                 cancelButton.remove();
                 computerButton.remove();
                 marketingButton.remove();
                 wellBeingButton.remove();
                 programmingButton.remove();
+                removeMiniIcons();
 
+                if(text != null){
+                    text.remove();
+                }
                 removeActors(computerButtons);
                 removeActors(marketingButtons);
                 removeActors(wellBeingButtons);

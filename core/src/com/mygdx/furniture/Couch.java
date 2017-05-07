@@ -46,8 +46,8 @@ public class Couch extends WellBeingFurniture {
         //Set position, price and sellPrice
         setX(x);
         setY(y);
-        setPrice(100);
-        setSellPrice(50);
+        setPrice(500);
+        setSellPrice(250);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

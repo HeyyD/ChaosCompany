@@ -24,7 +24,7 @@ public class ArcadeMachine extends WellBeingFurniture {
     public ArcadeMachine(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setWellBeing(1300);
+        setWellBeing(2250);
 
         //Setup Textures
         tex = new Texture("arcademachine.png");
@@ -46,8 +46,8 @@ public class ArcadeMachine extends WellBeingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(250);
-        setSellPrice(125);
+        setPrice(32000);
+        setSellPrice(16000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

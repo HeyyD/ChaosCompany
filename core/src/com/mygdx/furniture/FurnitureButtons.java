@@ -270,10 +270,8 @@ public class FurnitureButtons {
                 else
                     indexY = (int) touch.y + 1;
 
-                indexX = (int)touch.x;
+                    indexX = (int)touch.x;
 
-                System.out.println(touch.x+"  y:"+touch.y);
-                System.out.println(indexX+"  y:"+indexY);
                 if(x > 0 && x < 64 && y > 0 && y < 64){
                     if(!furniture.getBought()) {
                         removeButtons();
@@ -375,6 +373,14 @@ public class FurnitureButtons {
     }
     public TextButton getBuySell(){
         return buySell;
+    }
+
+    public Furniture getFurniture() {
+        return furniture;
+    }
+
+    public void setFurniture(Furniture furniture) {
+        this.furniture = furniture;
     }
 
     public boolean isButtonsOpen(){
