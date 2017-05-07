@@ -308,7 +308,7 @@ public class DevelopMenu extends Menu {
                             employees.add(worker);
                             canDevelop = true;
                             isBlocked = false;
-                            worker.getCurrentTile().setIsFull(false);
+                            worker.getLastDestination().setIsFull(false);
                             worker.giveDestination(computer.getTile());
                             worker.setIsAvailable(false);
                             computer.setIsAvailable(false);

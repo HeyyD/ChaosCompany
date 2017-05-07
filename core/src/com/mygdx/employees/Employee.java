@@ -73,6 +73,7 @@ public abstract class Employee extends Actor {
 
     //Pathfinding variables
     private Tile        currentTile = null;
+    private Tile        lastDestination = null;
     private Vector2     targetPosition = null;
     private int         currentTileIndex = 0;
     private boolean     walking = false;
@@ -97,6 +98,7 @@ public abstract class Employee extends Actor {
         setPosition(startTile.getX(), startTile.getY());
         setBounds(getX(), getY(), getWidth(), getHeight());
         currentTile = startTile;
+        lastDestination = startTile;
         pathfinding = new Pathfinding(tileMap);
         this.addListener(new EmployeeListener());
 
@@ -234,6 +236,7 @@ public abstract class Employee extends Actor {
 
     public void giveDestination(Tile targetTile){
 
+        setLastDestination(targetTile);
         if (walking) {
             targetPosition = null;
             if(path != null)
@@ -324,7 +327,17 @@ public abstract class Employee extends Actor {
     public void setMenu(EmpMenu menu){
         this.menu = menu;
     }
+
+    public Tile getLastDestination() {
+        return lastDestination;
+    }
+
+    public void setLastDestination(Tile lastDestination) {
+        this.lastDestination = lastDestination;
+    }
+
     public void setUiStage(Stage uiStage){
+
 
     }
 
