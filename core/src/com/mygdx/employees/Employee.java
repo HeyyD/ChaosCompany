@@ -218,6 +218,7 @@ public abstract class Employee extends Actor {
             setPosition(currentPosition.x + velocity.x, currentPosition.y + velocity.y);
         }
         else if(currentTileIndex < path.size() - 1){
+            currentTile = path.get(currentTileIndex);
             currentTileIndex++;
             targetPosition = new Vector2(path.get(currentTileIndex).getX(), path.get(currentTileIndex).getY());
         }

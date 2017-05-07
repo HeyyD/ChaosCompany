@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import java.util.ArrayList;
 
 /**
  * Created by SamiH on 24.2.2017.
@@ -28,7 +31,6 @@ public class MapState implements Screen {
     private Texture companyDOWN;
     private Texture jobCenterUP;
     private Texture jobCenterDOWN;
-    private Texture trees;
     private StatsManager manager;
 
     private ImageButton company;
@@ -40,6 +42,13 @@ public class MapState implements Screen {
 
     //some variables that check which effects have taken place
     private Texture statue = null;
+    private Texture trees;
+    private Texture trash;
+    private Texture right;
+
+    private ArrayList<Texture> statueBadEffects = new ArrayList<Texture>();
+    private ArrayList<Texture> rightBadEffects = new ArrayList<Texture>();
+    private ArrayList<Texture> drawables = new ArrayList<Texture>();
 
     public MapState(ChaosCompany g){
         game = g;
@@ -95,41 +104,61 @@ public class MapState implements Screen {
         stage.addActor(jobCenter);
 
         trees = new Texture("MapState/Trees.png");
+        trash = new Texture("MapState/Trash1.png");
+        right = new Texture("MapState/Right1.png");
+
+        statueBadEffects.add(new Texture("MapState/Center1.png"));
+        statueBadEffects.add(new Texture("MapState/Center4.png"));
+
+        rightBadEffects.add(new Texture("MapState/Right3.png"));
+
+        drawables.add(trees);
+        drawables.add(trash);
+        drawables.add(right);
     }
 
     public void updateMap(){
         int karma = manager.getKarma();
 
         if(karma > 0){
-            if(karma >= 30){
+
+            if(statue != null)
+                statue = new Texture("MapState/Center2.png");
+
+            if(karma >= 35){
                 trees = new Texture("MapState/GoodTrees6.png");
-            } else if(karma >= 25){
+            } else if(karma >= 28){
                 trees = new Texture("MapState/GoodTrees5.png");
-            } else if(karma >= 20){
+                statue = new Texture("MapState/Center3.png");
+            } else if(karma >= 21){
                 trees = new Texture("MapState/GoodTrees4.png");
-            } else if(karma >= 15){
+                statue = new Texture("MapState/Center2.png");
+            } else if(karma >= 14){
                 trees = new Texture("MapState/GoodTrees3.png");
-                statue = new Texture("MapState/Statue1.png");
-            } else if(karma >= 10){
+                statue = new Texture("MapState/Center2.png");
+            } else if(karma >= 7){
                 trees = new Texture("MapState/GoodTrees2.png");
             } else{
                 trees = new Texture("MapState/GoodTrees1.png");
+                trash = new Texture("MapState/Trash1.png");
             }
         }
 
         else if(karma < 0){
-            if(karma <= -30){
+            if(karma <= -35){
                 trees = new Texture("MapState/BadTrees6.png");
-            } else if(karma <= -25){
+            } else if(karma <= -28){
                 trees = new Texture("MapState/BadTrees5.png");
-            } else if(karma <= -20){
+            } else if(karma <= -21){
                 trees = new Texture("MapState/BadTrees4.png");
-            } else if(karma <= -15){
+            } else if(karma <= -14){
                 trees = new Texture("MapState/BadTrees3.png");
                 if(statue != null)
-                    statue = new Texture("MapState/Statue2.png");
-            } else if(karma <= -10){
+                    statue = statueBadEffects.get(MathUtils.random(0, statueBadEffects.size() - 1));
+            } else if(karma <= -7){
                 trees = new Texture("MapState/BadTrees2.png");
+                trash = new Texture("MapState/Trash2.png");
+                right = rightBadEffects.get(MathUtils.random(0, rightBadEffects.size() - 1));
             } else{
                 trees = new Texture("MapState/BadTrees1.png");
             }
@@ -161,6 +190,7 @@ public class MapState implements Screen {
             if(statue != null)
                 batch.draw(statue,0,0);
             batch.draw(trees, 0, 0);
+            batch.draw(trash,0, 0);
         batch.end();
     }
 
@@ -187,7 +217,9 @@ public class MapState implements Screen {
     @Override
     public void dispose() {
         trees.dispose();
-        statue.dispose();
+        if(statue != null)
+            statue.dispose();
+        trash.dispose();
         stage.dispose();
     }
 }

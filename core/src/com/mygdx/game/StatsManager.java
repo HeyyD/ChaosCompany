@@ -55,7 +55,8 @@ public class StatsManager {
 
     //karma can range from -100 to 100
     private int karma = 0;
-    //this is used so map can be updated. If the step is 5 or -5 the map will be udated.
+    //this is used so map can be updated. If the step is 7 or -7 the map will be updated.
+    private int stepAmount = 7;
     private int karmaStep = 0;
 
 
@@ -108,11 +109,11 @@ public class StatsManager {
         if(this.karma < 100 && this.karma > -100) {
             karmaStep += karma;
 
-            if (karmaStep >= 5 || karmaStep <= -5) {
+            if (karmaStep >= stepAmount || karmaStep <= -stepAmount) {
                 if (karmaStep > 0)
-                    karmaStep -= 5;
+                    karmaStep -= stepAmount;
                 else if (karmaStep < 0)
-                    karmaStep += 5;
+                    karmaStep += stepAmount;
 
                 ChaosCompany.mapState.updateMap();
             }
