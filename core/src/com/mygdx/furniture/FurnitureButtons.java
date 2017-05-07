@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.mygdx.UI.AnnouncementBox;
 import com.mygdx.game.ChaosCompany;
 import com.mygdx.map.Tile;
 
@@ -347,6 +348,10 @@ public class FurnitureButtons {
                             furniture.buy();
                             tiles[indexX][indexY].setIsFull(true);
                             furniture.setTile(tiles[indexX][indexY]);
+                        }else if(game.getBox() == null){
+                            game.setBox(new AnnouncementBox(game, ChaosCompany.myBundle.get("moneyAnnouncement"),
+                                    ChaosCompany.officeState.getTextStage()));
+                            game.getOfficeState().getStage().addActor(game.getBox());
                         }
                     }
                     game.getOfficeState().setIsMoving(false);

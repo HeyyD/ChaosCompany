@@ -93,6 +93,9 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     //List of Employees you can hire
     Employee[] employees;
 
+    //Announcement box
+    private AnnouncementBox box = null;
+
     public HireState(ChaosCompany g){
         game = g;
 
@@ -201,6 +204,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         objectStage.addActor(firstEmp);
 
         firstEmp.hire();
+
     }
 
     @Override
@@ -475,4 +479,12 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     public Stage getStage(){ return stage;}
     public Stage getMovingTextStage(){ return movingTextStage; }
     public Stage getobjectStage() { return objectStage; }
+
+    public AnnouncementBox getBox() {
+        return box;
+    }
+
+    public void setBox(AnnouncementBox box) {
+        this.box = box;
+    }
 }

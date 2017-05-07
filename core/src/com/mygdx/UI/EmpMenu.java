@@ -44,7 +44,6 @@ public class EmpMenu extends Menu {
 
     public EmpMenu(final Employee employee, Stage uiStage, Stage textStage, float x, float y){
         super(x, y, 4, 3.5f);
-
         this.uiStage = uiStage;
         uiStage.addActor(this);
         this.employee = employee;
@@ -95,8 +94,10 @@ public class EmpMenu extends Menu {
                             employee.hire();
                             hideMenu();
                             employee.setMenu(null);
-                        }else{
-
+                        }else if(ChaosCompany.hireState.getBox() == null){
+                            ChaosCompany.hireState.setBox(new AnnouncementBox(game, bundle.get("hireAnnouncement"),
+                                    ChaosCompany.hireState.getTextStage()));
+                            ChaosCompany.hireState.getStage().addActor(ChaosCompany.hireState.getBox());
                         }
                     }
                 }

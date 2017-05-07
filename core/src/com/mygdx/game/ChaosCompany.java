@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.mygdx.UI.AnnouncementBox;
 
 import java.util.Locale;
 
@@ -25,9 +26,12 @@ public class ChaosCompany extends Game {
     public static I18NBundle      myBundle;
 
     //Timers
-    private float timer;
-    private float empTimer;
-    private float delta;
+    private float                 timer;
+    private float                 empTimer;
+    private float                 delta;
+
+    //AnnouncementBox
+    private AnnouncementBox         box;
 
 	protected SpriteBatch   batch;
 
@@ -84,6 +88,10 @@ public class ChaosCompany extends Game {
         //Create employees every 2 minutes
         if(empTimer > 120){
             hireState.createEmployees();
+            if(box == null) {
+                box = new AnnouncementBox(this, myBundle.get("empAnnouncement"), officeState.getTextStage());
+                officeState.getStage().addActor(box);
+            }
             empTimer = 0;
         }
 
@@ -133,5 +141,13 @@ public class ChaosCompany extends Game {
 
     public StatsManager getManager(){
         return manager;
+    }
+
+    public AnnouncementBox getBox() {
+        return box;
+    }
+
+    public void setBox(AnnouncementBox box) {
+        this.box = box;
     }
 }
