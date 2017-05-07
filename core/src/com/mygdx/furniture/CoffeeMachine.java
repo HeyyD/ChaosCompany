@@ -25,7 +25,7 @@ public class CoffeeMachine extends ProgrammingFurniture {
     public CoffeeMachine(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setProgrammingPower(100);
+        setProgrammingPower(600);
 
         //Setup Textures
         tex = new Texture("coffeemachine.png");
@@ -47,8 +47,8 @@ public class CoffeeMachine extends ProgrammingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(2500);
-        setSellPrice(1250);
+        setPrice(8000);
+        setSellPrice(4000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

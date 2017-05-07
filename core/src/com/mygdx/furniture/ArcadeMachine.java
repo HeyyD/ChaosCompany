@@ -24,7 +24,7 @@ public class ArcadeMachine extends WellBeingFurniture {
     public ArcadeMachine(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setWellBeing(2250);
+        setWellBeing(2500);
 
         //Setup Textures
         tex = new Texture("arcademachine.png");

@@ -8,12 +8,13 @@ import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.StatsManager;
 
 /**
- * Created by SamiH on 5.5.2017.
+ * Created by SamiH on 7.5.2017.
  */
 
-public class Phone extends MarketingFurniture {
-    private StatsManager        manager;
-    private ChaosCompany        game;
+public class BookShelf extends MarketingFurniture {
+
+    private StatsManager manager;
+    private ChaosCompany game;
     private FurnitureListener   listener;
     private TextureRegion[][]   tmp;
     private TextureRegion[]     img;
@@ -21,13 +22,13 @@ public class Phone extends MarketingFurniture {
 
     private int                 dir = 0;
 
-    public Phone(ChaosCompany g, float x, float y){
+    public BookShelf(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setMarketingPower(600);
+        setMarketingPower(2500);
 
         //Setup Textures
-        tex = new Texture("phone.png");
+        tex = new Texture("bookshelf.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
@@ -46,8 +47,8 @@ public class Phone extends MarketingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(8000);
-        setSellPrice(4000);
+        setPrice(32000);
+        setSellPrice(16000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

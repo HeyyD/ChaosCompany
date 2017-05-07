@@ -11,7 +11,7 @@ import com.mygdx.game.StatsManager;
  * Created by SamiH on 5.3.2017.
  */
 
-public class Couch extends WellBeingFurniture {
+public class Plant extends WellBeingFurniture {
 
     private StatsManager        manager;
     private ChaosCompany        game;
@@ -22,13 +22,13 @@ public class Couch extends WellBeingFurniture {
 
     private int                 dir = 0;
 
-    public Couch(ChaosCompany g, float x, float y){
+    public Plant(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
         setWellBeing(25);
 
         //Setup Textures
-        tex = new Texture("couchSheet.png");
+        tex = new Texture("plant.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),

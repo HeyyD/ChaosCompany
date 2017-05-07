@@ -26,7 +26,7 @@ public class DrawTable extends MarketingFurniture {
     public DrawTable(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setMarketingPower(40);
+        setMarketingPower(120);
 
         //Setup Textures
         tex = new Texture("drawtable.png");
@@ -48,8 +48,8 @@ public class DrawTable extends MarketingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(2500);
-        setSellPrice(1250);
+        setPrice(2000);
+        setSellPrice(1000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

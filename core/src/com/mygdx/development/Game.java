@@ -56,7 +56,7 @@ public class Game {
         developmentSpeed = calculateDevelopmentTime();
         value = statsManager.getGameValue();
 
-        moneyCycles = 10;
+        moneyCycles = 5;
         ChaosCompany.officeState.games.add(this);
 
         System.out.println("developentSpeed: " + developmentSpeed +

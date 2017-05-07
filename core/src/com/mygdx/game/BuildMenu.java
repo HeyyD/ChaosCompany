@@ -3,35 +3,34 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.MiniIcons;
 import com.mygdx.furniture.ArcadeMachine;
+import com.mygdx.furniture.BookShelf;
 import com.mygdx.furniture.CoffeeMachine;
+import com.mygdx.furniture.CoffeeMaker;
 import com.mygdx.furniture.Computer;
-import com.mygdx.furniture.Couch;
+import com.mygdx.furniture.GameComputer;
+import com.mygdx.furniture.MoccaMaster;
+import com.mygdx.furniture.Plant;
 import com.mygdx.furniture.DrawTable;
+import com.mygdx.furniture.EsMachine;
 import com.mygdx.furniture.Furniture;
 import com.mygdx.furniture.Jukebox;
 import com.mygdx.furniture.Laptop;
 import com.mygdx.furniture.MarketingTable;
 import com.mygdx.furniture.Phone;
+import com.mygdx.furniture.PowerComputer;
 import com.mygdx.furniture.WaterCooler;
 
 import java.util.ArrayList;
@@ -84,6 +83,13 @@ public class BuildMenu extends Actor{
     private Texture              arcadeIco;
     private Texture              marketingTableIco;
     private Texture              drawTableIco;
+    private Texture              esMachineIco;
+    private Texture              plantIco;
+    private Texture              powercomputerIco;
+    private Texture              gamecomputerIco;
+    private Texture              bookshelfIco;
+    private Texture              coffeemakerIco;
+    private Texture              moccamasterIco;
 
     //Buttons for each furniture
     private ArrayList<ImageButton>   wellBeingButtons;
@@ -100,7 +106,6 @@ public class BuildMenu extends Actor{
     //Text of Build menu
     private Label                   text;
     private Label.LabelStyle        labelStyle;
-    private String                  value;
 
 
     //Texture for money icon
@@ -108,7 +113,7 @@ public class BuildMenu extends Actor{
     private Texture                 programmingIco;
 
     //FURNITURE ID
-    private final int               couch =             1;
+    private final int               plant =             1;
     private final int               waterCooler =       2;
     private final int               desktop =           3;
     private final int               coffeeMachine =     4;
@@ -118,6 +123,12 @@ public class BuildMenu extends Actor{
     private final int               arcademachine =     8;
     private final int               marketingtable =    9;
     private final int               drawtable =         10;
+    private final int               esmachine =         11;
+    private final int               powercomputer =     12;
+    private final int               gamecomputer =      13;
+    private final int               bookshelf =         14;
+    private final int               coffeemaker =       15;
+    private final int               moccamaster =       16;
 
     private Furniture               furniture = null;
 
@@ -147,14 +158,15 @@ public class BuildMenu extends Actor{
         stage.addActor(this);
 
         //Setup textures
-        computerButtonTex = new Texture("UI_BuildComputerBtn.png");
-        wellBeingButtonTex = new Texture("UI_BuildWellBeingBtn.png");
-        marketingButtonTex = new Texture("UI_BuildMarketingBtn.png");
-        programmingButtonTex= new Texture("UI_BuildProgrammingBtn.png");
-        cancelButtonTex = new Texture("UI_BuildCancelBtn.png");
+        computerButtonTex = new Texture("ui_BuildComputerBtn.png");
+        wellBeingButtonTex = new Texture("ui_BuildWellBeingBtn.png");
+        marketingButtonTex = new Texture("ui_BuildMarketingBtn.png");
+        programmingButtonTex= new Texture("ui_BuildProgrammingBtn.png");
+        cancelButtonTex = new Texture("ui_BuildCancelBtn.png");
 
-        desktopButtonIco = new Texture("DesktopIcon.png");
-        waterCoolerButtonIco = new Texture("WaterCoolerIcon.png");
+        plantIco = new Texture("plantIcon.png");
+        desktopButtonIco = new Texture("desktopIcon.png");
+        waterCoolerButtonIco = new Texture("watercoolerIcon.png");
         coffeeMachineButtonIco = new Texture("coffeeIcon.png");
         laptopIco = new Texture("laptopIcon.png");
         phoneIco = new Texture("phoneIcon.png");
@@ -162,6 +174,12 @@ public class BuildMenu extends Actor{
         arcadeIco = new Texture("arcadeIcon.png");
         marketingTableIco = new Texture("marketingtableIcon.png");
         drawTableIco = new Texture("drawtableIcon.png");
+        esMachineIco = new Texture("esmachineIcon.png");
+        powercomputerIco = new Texture("powercomputerIcon.png");
+        gamecomputerIco = new Texture("gamecomputerIcon.png");
+        bookshelfIco = new Texture("bookshelfIcon.png");
+        coffeemakerIco = new Texture("coffeemakerIcon.png");
+        moccamasterIco = new Texture("moccamasterIcon.png");
 
         computerButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         wellBeingButtonTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
@@ -178,6 +196,13 @@ public class BuildMenu extends Actor{
         arcadeIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         marketingTableIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         drawTableIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        esMachineIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        plantIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        powercomputerIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        gamecomputerIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        bookshelfIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        coffeemakerIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        moccamasterIco.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         //Texture for money Icon
         moneyIco = new Texture("moneyico.png");
@@ -285,7 +310,7 @@ public class BuildMenu extends Actor{
                     icons3 = new MiniIcons(getX()+1.43f, getY()+1, programmingIco,
                             moneyIco, ""+600,""+8000);
                     icons4 = new MiniIcons(getX()+2.13f, getY()+1, programmingIco,
-                            moneyIco, ""+2250,""+32000);
+                            moneyIco, ""+2500,""+32000);
                 }
             }
         });
@@ -329,7 +354,7 @@ public class BuildMenu extends Actor{
                     icons3 = new MiniIcons(getX()+1.43f, getY()+1, wellBeingButtonTex,
                             moneyIco, ""+600,""+8000);
                     icons4 = new MiniIcons(getX()+2.13f, getY()+1, wellBeingButtonTex,
-                            moneyIco, ""+2250,""+32000);
+                            moneyIco, ""+2500,""+32000);
                 }
             }
         });
@@ -372,7 +397,7 @@ public class BuildMenu extends Actor{
                     icons3 = new MiniIcons(getX()+1.43f, getY()+1, marketingButtonTex,
                             moneyIco, ""+600,""+8000);
                     icons4 = new MiniIcons(getX()+2.13f, getY()+1, marketingButtonTex,
-                            moneyIco, ""+2250,""+32000);
+                            moneyIco, ""+2500,""+32000);
                 }
             }
         });
@@ -427,10 +452,14 @@ public class BuildMenu extends Actor{
                      "desktop",desktop);
         addFurniture(computerButtons,laptopIco, getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                 "laptop",laptop);
+        addFurniture(computerButtons,powercomputerIco, getX()+1.5f,getY() + getHeight() * 0.75f -0.74f,
+                "powercomputer",powercomputer);
+        addFurniture(computerButtons,gamecomputerIco, getX()+2.2f,getY() + getHeight() * 0.75f -0.74f,
+                "gamecomputer",gamecomputer);
 
         //Add build buttons to wellBeingFurnitures
-        addFurniture(wellBeingButtons,wellBeingButtonTex,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
-                "couch", couch);
+        addFurniture(wellBeingButtons, plantIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+                "plant", plant);
         addFurniture(wellBeingButtons,waterCoolerButtonIco,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                      "waterCooler", waterCooler);
         addFurniture(wellBeingButtons,jukeboxIco,getX()+1.5f,getY() + getHeight() * 0.75f -0.74f,
@@ -439,16 +468,24 @@ public class BuildMenu extends Actor{
                 "arcade", arcademachine);
 
         //Add build buttons to marketingFurnitures
-        addFurniture(marketingButtons,phoneIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
-                "phone", phone);
-        addFurniture(marketingButtons,marketingTableIco,getX()+0.8f, getY() + getHeight() * 0.75f -0.74f,
+        addFurniture(marketingButtons,marketingTableIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
                 "marketingtable", marketingtable);
-        addFurniture(marketingButtons,drawTableIco,getX()+1.5f,getY() + getHeight() * 0.75f -0.74f,
+        addFurniture(marketingButtons,drawTableIco,getX()+0.8f,getY() + getHeight() * 0.75f -0.74f,
                 "drawtable", drawtable);
+        addFurniture(marketingButtons,phoneIco,getX()+1.5f, getY() + getHeight() * 0.75f -0.74f,
+                "phone", phone);
+        addFurniture(marketingButtons,bookshelfIco,getX()+2.2f,getY() + getHeight() * 0.75f -0.74f,
+                "bookshelf", bookshelf);
 
         //Add build buttons to programmingFurnitures
-        addFurniture(programmingButtons,coffeeMachineButtonIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+        addFurniture(programmingButtons,coffeemakerIco,getX()+buttonOffset, getY() + getHeight() * 0.75f -0.74f,
+                "coffeemaker", coffeemaker);
+        addFurniture(programmingButtons,moccamasterIco,getX()+0.8f, getY() + getHeight() * 0.75f -0.74f,
+                "moccamaster", moccamaster);
+        addFurniture(programmingButtons,coffeeMachineButtonIco,getX()+1.5f, getY() + getHeight() * 0.75f -0.74f,
                 "coffeeMachine", coffeeMachine);
+        addFurniture(programmingButtons,esMachineIco,getX()+2.2f,getY() + getHeight() * 0.75f -0.74f,
+                "esmachine",esmachine);
     }
 
     @Override
@@ -548,8 +585,8 @@ public class BuildMenu extends Actor{
 
                 //END OF COORDINATES
                 switch(furnitureID) {
-                    case couch:
-                        furniture = new Couch(game, x_pos, y_pos);
+                    case plant:
+                        furniture = new Plant(game, x_pos, y_pos);
                         objectStage.addActor(furniture);
                         break;
                     case waterCooler:
@@ -588,6 +625,30 @@ public class BuildMenu extends Actor{
                         furniture = new DrawTable(game,x_pos,y_pos);
                         objectStage.addActor(furniture);
                         break;
+                    case esmachine:
+                        furniture = new EsMachine(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
+                        break;
+                    case powercomputer:
+                        furniture = new PowerComputer(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
+                        break;
+                    case gamecomputer:
+                        furniture = new GameComputer(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
+                        break;
+                    case bookshelf:
+                        furniture = new BookShelf(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
+                        break;
+                    case coffeemaker:
+                        furniture = new CoffeeMaker(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
+                        break;
+                    case moccamaster:
+                        furniture = new MoccaMaster(game,x_pos,y_pos);
+                        objectStage.addActor(furniture);
+                        break;
                 }
                 ChaosCompany.officeState.updateDrawingOrder();
 
@@ -614,7 +675,6 @@ public class BuildMenu extends Actor{
                 game.getOfficeState().setIsMoving(true);
                 game.getOfficeState().setIsBuildMenuOpen(false);
             }
-
             }
         }
     }

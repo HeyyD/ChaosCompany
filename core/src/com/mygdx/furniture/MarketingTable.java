@@ -25,7 +25,7 @@ public class MarketingTable extends MarketingFurniture {
     public MarketingTable(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setMarketingPower(40);
+        setMarketingPower(25);
 
         //Setup Textures
         tex = new Texture("marketingtable.png");
@@ -47,8 +47,8 @@ public class MarketingTable extends MarketingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(2500);
-        setSellPrice(1250);
+        setPrice(500);
+        setSellPrice(250);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

@@ -8,12 +8,14 @@ import com.mygdx.game.ChaosCompany;
 import com.mygdx.game.StatsManager;
 
 /**
- * Created by SamiH on 5.5.2017.
+ * Created by SamiH on 7.5.2017.
  */
 
-public class Phone extends MarketingFurniture {
-    private StatsManager        manager;
-    private ChaosCompany        game;
+public class GameComputer extends ComputerFurniture {
+
+    private StatsManager manager;
+    private ChaosCompany game;
+
     private FurnitureListener   listener;
     private TextureRegion[][]   tmp;
     private TextureRegion[]     img;
@@ -21,13 +23,12 @@ public class Phone extends MarketingFurniture {
 
     private int                 dir = 0;
 
-    public Phone(ChaosCompany g, float x, float y){
+    public GameComputer(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
-        setMarketingPower(600);
 
         //Setup Textures
-        tex = new Texture("phone.png");
+        tex = new Texture("gamecomputer.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
@@ -45,15 +46,15 @@ public class Phone extends MarketingFurniture {
         //Set position, price and sellPrice
         setX(x);
         setY(y);
-        System.out.println(getX()+getY());
-        setPrice(8000);
-        setSellPrice(4000);
+        setPrice(4000);
+        setSellPrice(2000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);
 
 
-        setButtons(new FurnitureButtons(game, this));
+        setButtons(new FurnitureButtons(game,this));
+
         //Add listener
         listener = new FurnitureListener(game, this);
         this.addListener(listener);
@@ -75,7 +76,8 @@ public class Phone extends MarketingFurniture {
     @Override
     public void sell() {
         //minus benfits
-        manager.setMarketingPower(manager.getMarketingPower() - getMarketingPower());
+        manager.setEmployeeSlots(manager.getEmployeeSlots()- 1);
+        manager.setWellBeing(manager.getWellBeing()-180);
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch
@@ -85,7 +87,8 @@ public class Phone extends MarketingFurniture {
 
     @Override
     public void buy(){
-        manager.setMarketingPower((manager.getMarketingPower() + getMarketingPower()));
+        manager.setEmployeeSlots(manager.getEmployeeSlots()+ 1);
+        manager.setWellBeing(manager.getWellBeing()+180);
         manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);
@@ -97,4 +100,5 @@ public class Phone extends MarketingFurniture {
         if(dir >3)
             dir = 0;
     }
+
 }
