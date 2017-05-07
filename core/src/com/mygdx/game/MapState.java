@@ -38,6 +38,9 @@ public class MapState implements Screen {
     private Skin skin;
     private Stage stage;
 
+    //some variables that check which effects have taken place
+    private Texture statue = null;
+
     public MapState(ChaosCompany g){
         game = g;
         batch = game.getSpriteBatch();
@@ -106,6 +109,7 @@ public class MapState implements Screen {
                 trees = new Texture("MapState/GoodTrees4.png");
             } else if(karma >= 15){
                 trees = new Texture("MapState/GoodTrees3.png");
+                statue = new Texture("MapState/Statue1.png");
             } else if(karma >= 10){
                 trees = new Texture("MapState/GoodTrees2.png");
             } else{
@@ -122,6 +126,8 @@ public class MapState implements Screen {
                 trees = new Texture("MapState/BadTrees4.png");
             } else if(karma <= -15){
                 trees = new Texture("MapState/BadTrees3.png");
+                if(statue != null)
+                    statue = new Texture("MapState/Statue2.png");
             } else if(karma <= -10){
                 trees = new Texture("MapState/BadTrees2.png");
             } else{
@@ -152,6 +158,8 @@ public class MapState implements Screen {
         stage.draw();
 
         batch.begin();
+            if(statue != null)
+                batch.draw(statue,0,0);
             batch.draw(trees, 0, 0);
         batch.end();
     }
@@ -178,6 +186,8 @@ public class MapState implements Screen {
 
     @Override
     public void dispose() {
+        trees.dispose();
+        statue.dispose();
         stage.dispose();
     }
 }
