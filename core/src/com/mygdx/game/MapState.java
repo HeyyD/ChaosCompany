@@ -91,18 +91,47 @@ public class MapState implements Screen {
         });
         stage.addActor(jobCenter);
 
-        trees = new Texture("MapState/trees2.png");
+        trees = new Texture("MapState/Trees.png");
     }
 
     public void updateMap(){
         int karma = manager.getKarma();
 
-        if(karma >= 10)
-            trees = new Texture("MapState/trees3.png");
-        else if(karma <= -10)
-            trees = new Texture("MapState/trees1.png");
-        else
-            trees = new Texture("MapState/trees2.png");
+        if(karma > 0){
+            if(karma >= 30){
+                trees = new Texture("MapState/GoodTrees6.png");
+            } else if(karma >= 25){
+                trees = new Texture("MapState/GoodTrees5.png");
+            } else if(karma >= 20){
+                trees = new Texture("MapState/GoodTrees4.png");
+            } else if(karma >= 15){
+                trees = new Texture("MapState/GoodTrees3.png");
+            } else if(karma >= 10){
+                trees = new Texture("MapState/GoodTrees2.png");
+            } else{
+                trees = new Texture("MapState/GoodTrees1.png");
+            }
+        }
+
+        else if(karma < 0){
+            if(karma <= -30){
+                trees = new Texture("MapState/BadTrees6.png");
+            } else if(karma <= -25){
+                trees = new Texture("MapState/BadTrees5.png");
+            } else if(karma <= -20){
+                trees = new Texture("MapState/BadTrees4.png");
+            } else if(karma <= -15){
+                trees = new Texture("MapState/BadTrees3.png");
+            } else if(karma <= -10){
+                trees = new Texture("MapState/BadTrees2.png");
+            } else{
+                trees = new Texture("MapState/BadTrees1.png");
+            }
+        }
+
+        else{
+            trees = new Texture("MapState/Trees.png");
+        }
     }
 
     @Override
