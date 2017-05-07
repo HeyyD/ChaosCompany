@@ -45,10 +45,17 @@ public class MapState implements Screen {
     private Texture trees;
     private Texture trash;
     private Texture right;
+    private Texture left;
+    private Texture top;
 
     private ArrayList<Texture> statueBadEffects = new ArrayList<Texture>();
+    private ArrayList<Texture> rightGoodEffects = new ArrayList<Texture>();
     private ArrayList<Texture> rightBadEffects = new ArrayList<Texture>();
-    private ArrayList<Texture> drawables = new ArrayList<Texture>();
+    private ArrayList<Texture> leftGoodEffects = new ArrayList<Texture>();
+    private ArrayList<Texture> leftBadEffects = new ArrayList<Texture>();
+    private ArrayList<Texture> topGoodEffects = new ArrayList<Texture>();
+    private ArrayList<Texture> topBadEffects = new ArrayList<Texture>();
+
 
     public MapState(ChaosCompany g){
         game = g;
@@ -106,15 +113,27 @@ public class MapState implements Screen {
         trees = new Texture("MapState/Trees.png");
         trash = new Texture("MapState/Trash1.png");
         right = new Texture("MapState/Right1.png");
+        left = new Texture("MapState/Left4.png");
+        top = new Texture("MapState/Top2.png");
 
         statueBadEffects.add(new Texture("MapState/Center1.png"));
         statueBadEffects.add(new Texture("MapState/Center4.png"));
 
+        rightGoodEffects.add(right);
         rightBadEffects.add(new Texture("MapState/Right3.png"));
 
-        drawables.add(trees);
-        drawables.add(trash);
-        drawables.add(right);
+        leftGoodEffects.add(left);
+        leftGoodEffects.add(new Texture("MapState/Left2.png"));
+        leftGoodEffects.add(new Texture("MapState/Left3.png"));
+
+        leftBadEffects.add(new Texture("MapState/Left1.png"));
+
+        topGoodEffects.add(top);
+
+        topBadEffects.add(new Texture("MapState/Top1.png"));
+        topBadEffects.add(new Texture("MapState/Top3.png"));
+        topBadEffects.add(new Texture("MapState/Top4.png"));
+
     }
 
     public void updateMap(){
@@ -124,6 +143,8 @@ public class MapState implements Screen {
 
             if(statue != null)
                 statue = new Texture("MapState/Center2.png");
+
+            left = leftGoodEffects.get(MathUtils.random(0, leftGoodEffects.size() - 1));
 
             if(karma >= 35){
                 trees = new Texture("MapState/GoodTrees6.png");
@@ -145,6 +166,11 @@ public class MapState implements Screen {
         }
 
         else if(karma < 0){
+
+            right = rightBadEffects.get(MathUtils.random(0, rightBadEffects.size() - 1));
+            left = leftBadEffects.get(MathUtils.random(0, leftBadEffects.size() - 1));
+            top = topBadEffects.get(MathUtils.random(0, topBadEffects.size() - 1));
+
             if(karma <= -35){
                 trees = new Texture("MapState/BadTrees6.png");
             } else if(karma <= -28){
@@ -158,7 +184,6 @@ public class MapState implements Screen {
             } else if(karma <= -7){
                 trees = new Texture("MapState/BadTrees2.png");
                 trash = new Texture("MapState/Trash2.png");
-                right = rightBadEffects.get(MathUtils.random(0, rightBadEffects.size() - 1));
             } else{
                 trees = new Texture("MapState/BadTrees1.png");
             }
@@ -189,8 +214,11 @@ public class MapState implements Screen {
         batch.begin();
             if(statue != null)
                 batch.draw(statue,0,0);
-            batch.draw(trees, 0, 0);
             batch.draw(trash,0, 0);
+            batch.draw(right,0, 0);
+            batch.draw(left,0, 0);
+            batch.draw(top,0, 0);
+            batch.draw(trees, 0, 0);
         batch.end();
     }
 
@@ -220,6 +248,9 @@ public class MapState implements Screen {
         if(statue != null)
             statue.dispose();
         trash.dispose();
+        left.dispose();
+        right.dispose();
+        top.dispose();
         stage.dispose();
     }
 }
