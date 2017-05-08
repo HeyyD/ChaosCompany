@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.mygdx.UI.AnnouncementBox;
 import com.mygdx.UI.MiniIcons;
 import com.mygdx.furniture.ArcadeMachine;
 import com.mygdx.furniture.BookShelf;
@@ -674,6 +675,18 @@ public class BuildMenu extends Actor{
 
                 game.getOfficeState().setIsMoving(true);
                 game.getOfficeState().setIsBuildMenuOpen(false);
+
+                //Tutorial
+                if(game.getOfficeState().getfBuild() == true) {
+                    if (game.getBox() != null) {
+                        game.getBox().setTimer(1000);
+                    }
+                    game.setBox(new AnnouncementBox(game, bundle.get("tutorial2"),
+                            game.getOfficeState().getTextStage(), 10));
+                    game.getOfficeState().getStage().addActor(game.getBox());
+                    game.getOfficeState().setfBuild(false);
+                }
+
             }
             }
         }

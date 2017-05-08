@@ -103,9 +103,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private ArrayList<Game> deleteGames = new ArrayList<Game>();
     private boolean developing;
 
-    //Players first furniture
+    //Players first furniture/tutorial variables
     private Computer firstDesk;
     private boolean  fDesk = false;
+    private boolean  fBuild = true;
 
     //Bundle
     private I18NBundle bundle = ChaosCompany.myBundle;
@@ -243,6 +244,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         movingUiStage.getViewport().setCamera(cam);
         textStage.getViewport().setCamera(textCam);
 
+        //Add first furniture and tutorial announcement
         if(fDesk == false) {
             firstDesk = new Computer(game, 2,0);
             firstDesk.buy();
@@ -251,6 +253,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             firstDesk.setTile(getTileMap().getTiles()[2][2]);
             setIsMoving(false);
             objectStage.addActor(firstDesk);
+
+            //First tutorial box
+            stage.addActor(new AnnouncementBox(game,bundle.get("tutorial1"),textStage,10));
+
             fDesk = true;
         }
     }
@@ -385,6 +391,14 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     }
     public void setButtons(FurnitureButtons buttons) {
         this.buttons = buttons;
+    }
+
+    public boolean getfBuild() {
+        return fBuild;
+    }
+
+    public void setfBuild(boolean fBuild) {
+        this.fBuild = fBuild;
     }
 
     public OfficeStateUI getUI() {

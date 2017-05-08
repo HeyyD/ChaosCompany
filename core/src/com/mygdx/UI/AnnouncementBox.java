@@ -24,6 +24,7 @@ public class AnnouncementBox extends Actor{
     private ChaosCompany game;
 
     private float timer = 0;
+    private float delay = 5;
 
     public AnnouncementBox(ChaosCompany g, String text, Stage textStage){
         game = g;
@@ -55,6 +56,36 @@ public class AnnouncementBox extends Actor{
 
     }
 
+    public AnnouncementBox(ChaosCompany g, String text, Stage textStage, float delay){
+        game = g;
+        texture = new Texture("announcementBox.png");
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        this.text = text;
+        setPosition(2.3f,4.5f);
+        setBounds(getX(),getY(),3.3f,1.5f);
+
+        this.delay = delay;
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        labelStyle.fontColor = Color.BLACK;
+
+        textLabel = new Label(text, labelStyle);
+        textLabel.setWrap(true);
+        textLabel.setWidth(160f);
+        textLabel.setPosition(getX()*100 / 1.25f+100, getY() *100 /1.25f+50);
+        textStage.addActor(textLabel);
+
+        addListener(new InputListener(){
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                timer = 1000;
+            }
+        });
+    }
+
     @Override
     public void draw(Batch batch, float alpha){
         batch.draw(texture, getX(), getY(), 3.3f,1.5f);
@@ -66,7 +97,7 @@ public class AnnouncementBox extends Actor{
 
         //After 5 seconds remove AnnouncementBox
         timer += delta;
-        if(timer > 5){
+        if(timer > delay){
             remove();
             textLabel.remove();
             if(game!= null) {
@@ -78,5 +109,9 @@ public class AnnouncementBox extends Actor{
                 ChaosCompany.hireState.setBox(null);
             }
         }
+    }
+
+    public void setTimer(float timer) {
+        this.timer = timer;
     }
 }

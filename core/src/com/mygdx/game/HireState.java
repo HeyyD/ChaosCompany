@@ -97,6 +97,9 @@ public class HireState implements GestureDetector.GestureListener, Screen {
     //Announcement box
     private AnnouncementBox box = null;
 
+    //Tutorial variables;
+    private boolean fOpen = true;
+
     public HireState(ChaosCompany g){
         game = g;
 
@@ -235,6 +238,15 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         movingUiStage.getViewport().setCamera(cam);
         textStage.getViewport().setCamera(textCam);
         movingTextStage.getViewport().setCamera(cam);
+
+        if(fOpen){
+            if(game.getBox() != null){
+                game.getBox().setTimer(1000);
+            }
+            game.setBox(new AnnouncementBox(game,bundle.get("tutorial3"), textStage, 10));
+            stage.addActor(game.getBox());
+            fOpen = false;
+        }
     }
 
     @Override
