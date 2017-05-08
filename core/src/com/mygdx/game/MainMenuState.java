@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.UI.DevelopMenu;
 import com.mygdx.UI.OfficeStateUI;
 
 /**
@@ -111,6 +112,8 @@ public class MainMenuState implements Screen {
                     game.getManager().resetManager();
                     newGame();
                     game.setScreen(game.officeState);
+                    DevelopMenu.currentlyDevelopedGame = null;
+                    OfficeStateUI.developMenu = null;
                 }
             }
         });
