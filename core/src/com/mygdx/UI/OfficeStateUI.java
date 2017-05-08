@@ -29,11 +29,12 @@ public class OfficeStateUI {
 
     public Stage uiStage = null;
     public TextButton developButton;
+    public TextButton settingsButton;
     public float buttonScale = 0.01f;
     public float buttonOffset = 0.2f;
     private Skin skin = null;
 
-    public OfficeStateUI(final Stage uiStage, Stage textStage, ChaosCompany game){
+    public OfficeStateUI(final Stage uiStage, Stage textStage, final ChaosCompany game){
 
         createSkin();
         this.uiStage = uiStage;
@@ -65,6 +66,24 @@ public class OfficeStateUI {
         });
 
         this.uiStage.addActor(developButton);
+
+
+        settingsButton = new GameButton(game, uiStage, 0.1f, 0.1f,"", new Texture("UI_SettingsIcon.png")).getButton();
+        settingsButton.setScale(0.005f);
+
+        settingsButton.addListener(new InputListener() {
+
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+
+                if(x > 0 && x < settingsButton.getWidth() && y > 0 && y < settingsButton.getHeight()){
+                    game.setScreen(game.mainMenuState);
+                }
+            }
+        });
     }
 
     private void createSkin(){

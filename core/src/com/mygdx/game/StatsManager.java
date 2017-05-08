@@ -16,6 +16,33 @@ public class StatsManager {
     private int gameIncome = 0;
     private int salaries = 0;
 
+    private int money = 5000;
+
+    private int employeeSlots = 0;
+    private int employees = 0;
+
+    //karma can range from -100 to 100
+    private int karma = 0;
+    //this is used so map can be updated. If the step is 7 or -7 the map will be updated.
+    private int stepAmount = 7;
+    private int karmaStep = 0;
+
+    public void resetManager(){
+        wellBeing = 0;
+        programmingPower = 0;
+        marketingPower = 0;
+        income = 0;
+        gameValue = 0;
+        gameIncome = 0;
+        salaries = 0;
+        money = 5000;
+        employeeSlots = 0;
+        employees = 0;
+        karma = 0;
+        stepAmount = 7;
+        karmaStep = 0;
+    }
+
     public int getIncome() {
         return income;
     }
@@ -47,18 +74,6 @@ public class StatsManager {
     public void setSalaries(int salaries) {
         this.salaries = salaries;
     }
-
-    private int money = 5000;
-
-    private int employeeSlots = 0;
-    private int employees = 0;
-
-    //karma can range from -100 to 100
-    private int karma = 0;
-    //this is used so map can be updated. If the step is 7 or -7 the map will be updated.
-    private int stepAmount = 7;
-    private int karmaStep = 0;
-
 
     public int getMarketingPower() {
         return marketingPower;

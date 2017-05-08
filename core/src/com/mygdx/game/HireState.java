@@ -53,6 +53,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
     //Textures and buttons
     private TextButton                  mapBtn;
+    private TextButton                  settingsButton;
     private BitmapFont                  font;
 
     private com.mygdx.UI.MoneyUi        moneyUI;
@@ -170,6 +171,25 @@ public class HireState implements GestureDetector.GestureListener, Screen {
             }
         });
         stage.addActor(mapBtn);
+
+        settingsButton = new GameButton(game, stage, 0.1f, 0.1f,"", new Texture("UI_SettingsIcon.png")).getButton();
+        settingsButton.setScale(0.005f);
+
+        settingsButton.addListener(new InputListener() {
+
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+
+                if(x > 0 && x < settingsButton.getWidth() && y > 0 && y < settingsButton.getHeight()){
+                    game.setScreen(game.mainMenuState);
+                }
+            }
+        });
+
+        stage.addActor(settingsButton);
 
         input = new GestureDetector(this);
 

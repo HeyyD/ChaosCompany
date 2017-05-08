@@ -71,9 +71,11 @@ public class MainMenuState implements Screen {
         //Create TextButton three TextButtons
         final TextButton playBtn = new TextButton(bundle.get("play"),skin);
         final TextButton exitBtn = new TextButton(bundle.get("exit"), skin);
+        final TextButton newGameBtn = new TextButton(bundle.get("newGame"), skin);
 
         playBtn.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         exitBtn.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        newGameBtn.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
         //PLAYBUTTON
         playBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/4 - BUTTON_HEIGHT /2);
@@ -87,10 +89,32 @@ public class MainMenuState implements Screen {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < BUTTON_WIDTH && y > 0 && y < BUTTON_HEIGHT){
                     game.setScreen(game.getOfficeState());
+                    playBtn.setY(SCREEN_HEIGHT/4 - BUTTON_HEIGHT /2 + BUTTON_HEIGHT + offset);
+                    playBtn.setText(bundle.get("continue"));
+                    stage.addActor(newGameBtn);
                 }
             }
         });
         stage.addActor(playBtn);
+
+        //NEW GAME BUTTON
+        newGameBtn.setPosition(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 , SCREEN_HEIGHT/4 - BUTTON_HEIGHT /2);
+
+        newGameBtn.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                //System.out.println("X: "+ x + "Y: " + y);
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                //if user is not on top of the button anymore, it dosent do anything
+                if(x > 0 && x < BUTTON_WIDTH && y > 0 && y < BUTTON_HEIGHT){
+                    game.getManager().resetManager();
+                    newGame();
+                    game.setScreen(game.officeState);
+                }
+            }
+        });
+
 
         //EXIT BUTTON
         exitBtn.setPosition(playBtn.getX(), playBtn.getY() - (playBtn.getHeight() + offset));
@@ -109,6 +133,17 @@ public class MainMenuState implements Screen {
             }
         });
         stage.addActor(exitBtn);
+    }
+
+    public void newGame(){
+        game.officeState.dispose();
+        game.mapState.dispose();
+        game.hireState.dispose();
+
+
+        game.officeState = new OfficeState(game);
+        game.hireState = new HireState(game);
+        game.mapState = new MapState(game);
     }
 
     @Override
