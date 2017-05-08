@@ -192,9 +192,9 @@ public abstract class Employee extends Actor {
         if(this.getClass() == Programmer.class){
             manager.setProgrammingPower(manager.getProgrammingPower() - (int)(skill*100));
         }else if(this.getClass() == Artist.class){
-            manager.setWellBeing(manager.getWellBeing()-(int)(skill*200));
+            manager.setWellBeing(manager.getWellBeing()-(int)(skill*250));
         }else{
-            manager.setMarketingPower(manager.getMarketingPower()-(int)(skill*50));
+            manager.setMarketingPower(manager.getMarketingPower()-(int)(skill*80));
         }
 
     }
@@ -239,7 +239,7 @@ public abstract class Employee extends Actor {
         setLastDestination(targetTile);
         if (walking) {
             targetPosition = null;
-            if(path != null)
+            if(path != null && path.size() > 0)
                 currentTile = path.get(currentTileIndex);
             currentTileIndex = 0;
         }

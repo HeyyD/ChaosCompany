@@ -304,13 +304,13 @@ public class BuildMenu extends Actor{
                     }
                     addText(bundle.get("buildP"));
                     icons1 = new MiniIcons(getX()+0.07f, getY()+1, programmingIco,
-                            moneyIco, ""+25,""+500);
+                            moneyIco, ""+25,""+1000);
                     icons2 = new MiniIcons(getX()+0.73f, getY()+1, programmingIco,
-                            moneyIco, ""+120,""+2000);
+                            moneyIco, ""+120,""+4000);
                     icons3 = new MiniIcons(getX()+1.43f, getY()+1, programmingIco,
-                            moneyIco, ""+600,""+8000);
+                            moneyIco, ""+600,""+16000);
                     icons4 = new MiniIcons(getX()+2.13f, getY()+1, programmingIco,
-                            moneyIco, ""+2500,""+32000);
+                            moneyIco, ""+2500,""+64000);
                 }
             }
         });

@@ -47,8 +47,8 @@ public class CoffeeMachine extends ProgrammingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(8000);
-        setSellPrice(4000);
+        setPrice(16000);
+        setSellPrice(8000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

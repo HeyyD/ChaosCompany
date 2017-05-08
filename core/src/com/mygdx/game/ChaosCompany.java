@@ -122,13 +122,18 @@ public class ChaosCompany extends Game {
         System.exit(0);
     }
 
+    @Override
+    public void pause(){
+
+    }
+
     //Methods that calculates and adds income.
     public void addIncome(){
         manager.setMoney(manager.getMoney() + manager.getIncome());
     }
     public void updateManager(){
-        manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 200))) );
-        manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/300)) + manager.getSalaries()));
+        manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 300))) );
+        manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/600)) + manager.getSalaries()));
     }
 
     public OfficeState getOfficeState(){

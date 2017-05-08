@@ -185,7 +185,7 @@ public class MapState implements Screen {
                 trees = new Texture("MapState/BadTrees2.png");
                 trash = new Texture("MapState/Trash2.png");
             } else{
-                trees = new Texture("MapState/BadTrees1.png");
+                trees = new Texture("MapState/Badtrees1.png");
             }
         }
 

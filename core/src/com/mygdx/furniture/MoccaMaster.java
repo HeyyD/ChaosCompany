@@ -47,8 +47,8 @@ public class MoccaMaster extends ProgrammingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(2000);
-        setSellPrice(1000);
+        setPrice(4000);
+        setSellPrice(2000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);

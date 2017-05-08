@@ -47,8 +47,8 @@ public class EsMachine extends ProgrammingFurniture {
         setX(x);
         setY(y);
         System.out.println(getX()+getY());
-        setPrice(32000);
-        setSellPrice(16000);
+        setPrice(64000);
+        setSellPrice(32000);
 
         //SetBounds
         setBounds(getX(),getY(),1,1);
