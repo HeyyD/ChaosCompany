@@ -275,9 +275,14 @@ public abstract class Employee extends Actor {
                                     }
                             }
                     }
-
-                    Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getStage(),
-                            ChaosCompany.officeState.getTextStage(), 0.2f, 1);
+                    //If development menu is not open, add Employee menu
+                    if(ChaosCompany.officeState.getUI().getDevelopMenu() == null){
+                        Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getStage(),
+                                ChaosCompany.officeState.getTextStage(), 0.2f, 1);
+                    }else if(ChaosCompany.officeState.getUI().getDevelopMenu().getVisible() == false) {
+                        Employee.this.menu = new EmpMenu(Employee.this, ChaosCompany.officeState.getStage(),
+                                ChaosCompany.officeState.getTextStage(), 0.2f, 1);
+                    }
                 }else{
 
                     //Find all employees of hireState and set their menu as null
@@ -398,5 +403,9 @@ public abstract class Employee extends Actor {
 
     public void setSalary(float salary) {
         this.salary = salary;
+    }
+
+    public EmpMenu getMenu() {
+        return menu;
     }
 }

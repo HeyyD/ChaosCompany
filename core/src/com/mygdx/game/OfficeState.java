@@ -361,7 +361,6 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public void setIsMoving(boolean isMoving){this.isMoving = isMoving;}
     public boolean getIsBuildMenuOpen(){ return isBuildMenuOpen; }
     public void setIsBuildMenuOpen(boolean isBuildMenuOpen){this.isBuildMenuOpen = isBuildMenuOpen;}
-
     public Stage getStage(){
         return stage;
     }
@@ -384,9 +383,16 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     public FurnitureButtons getButtons() {
         return buttons;
     }
-
     public void setButtons(FurnitureButtons buttons) {
         this.buttons = buttons;
+    }
+
+    public OfficeStateUI getUI() {
+        return UI;
+    }
+
+    public void setUI(OfficeStateUI UI) {
+        this.UI = UI;
     }
 
     @Override

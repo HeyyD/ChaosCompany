@@ -91,4 +91,12 @@ public class OfficeStateUI {
 
         skin.add("default", textButtonStyle);
     }
+
+    public static DevelopMenu getDevelopMenu() {
+        return developMenu;
+    }
+
+    public static void setDevelopMenu(DevelopMenu developMenu) {
+        OfficeStateUI.developMenu = developMenu;
+    }
 }

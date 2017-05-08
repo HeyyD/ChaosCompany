@@ -9,7 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.development.Game;
+import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
+import com.mygdx.employees.MarketingExecutive;
+import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.ComputerFurniture;
 import com.mygdx.game.ChaosCompany;
 
@@ -53,6 +56,11 @@ public class DevelopMenu extends Menu {
     private Stage textUiStage;
     private int gameAgeKarma = 1;
     private ArrayList<Employee> employees = new ArrayList<Employee>();
+
+    /**
+     * Tells if developmenu is visible
+     */
+    private boolean visible = false;
 
     public DevelopMenu(Stage uiStage) {
         super(1, 0.5f, 7, 4.3f);
@@ -215,6 +223,9 @@ public class DevelopMenu extends Menu {
 
     public void showMenu() {
 
+        //Hide Employee menus
+        hideEmpMenus();
+
         //background
         uiStage.addActor(this);
 
@@ -237,6 +248,7 @@ public class DevelopMenu extends Menu {
            // textUiStage.addActor(developmentTimeBar);
         }
 
+        visible = true;
         uiStage.addActor(cancelButton);
     }
 
@@ -272,6 +284,7 @@ public class DevelopMenu extends Menu {
         k16.remove();
         k18.remove();
         remove();
+        visible = false;
     }
 
     //this is used if there is currently a game being developed
@@ -347,6 +360,26 @@ public class DevelopMenu extends Menu {
             gameAgeKarma = 5;
     }
 
+    private void hideEmpMenus(){
+        //Find all employees of officeState and set their menu as null
+        for (int i = 0;
+             i < ChaosCompany.officeState.getobjectStage().getActors().size; i++) {
+            if(ChaosCompany.officeState.getobjectStage().getActors().get(i).getClass() == Programmer.class ||
+                    ChaosCompany.officeState.getobjectStage().getActors().get(i).getClass() == Artist.class ||
+                    ChaosCompany.officeState.getobjectStage().getActors().get(i).getClass() == MarketingExecutive.class){
+                Employee temp = (Employee)ChaosCompany.officeState.getobjectStage().getActors().get(i);
+                if(temp.getMenu() != null) {
+                    temp.getMenu().hideMenu();
+                    temp.setMenu(null);
+                }
+            }
+        }
+    }
+
+    public boolean getVisible() {
+        return visible;
+    }
+
     private class ToggleListener extends InputListener{
 
         private CheckBox checkBox;
@@ -365,7 +398,5 @@ public class DevelopMenu extends Menu {
         }
     }
 
-    public boolean getCanDevelop(){
-        return canDevelop;
-    }
+
 }
