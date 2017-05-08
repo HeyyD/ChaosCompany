@@ -117,4 +117,8 @@ public class TileMap {
     public Tile[][] getTiles(){
         return tiles;
     }
+
+    public int[][] getMap(){
+        return this.map;
+    }
 }

@@ -399,8 +399,14 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         touch.set(x, y, 0);
         cam.unproject(touch);
         touch.mul(invIsotransform);
-        tileMap.pickedTileX = (int) touch.x;
-        tileMap.pickedTileY = (int) touch.y;
+
+        int touchX = (int) touch.x;
+        int touchY = (int) touch.y;
+
+        if(touchX >= 0 && touchX < tileMap.getMap().length && touchY >= 0 && touchY < tileMap.getMap()[0].length && (tileMap.getMap()[touchX][touchY] == 5)){
+            tileMap.pickedTileX = (int) touch.x;
+            tileMap.pickedTileY = (int) touch.y;
+        }
 
         return false;
     }
