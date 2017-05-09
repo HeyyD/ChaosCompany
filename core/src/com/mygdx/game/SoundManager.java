@@ -5,25 +5,31 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 /**
- * Created by hmhat on 9.5.2017.
+ * Manages the music and sound effects of our game
  */
 
 public class SoundManager {
 
+    /**
+     * Currently played background music in the game
+     */
     public Music backgroundMusic;
 
     public Sound blop;
 
+    /**
+     * At the start the background music is set and all the sound effects are created
+     */
     public SoundManager(){
         setBackgroundMusic("Sounds/bensound-moose.mp3");
 
         blop = Gdx.audio.newSound(Gdx.files.internal("Sounds/blop.wav"));
     }
 
-    public void update(){
-
-    }
-
+    /**
+     * Sets the background music
+     * @param musicFile The name of the music file
+     */
     public void setBackgroundMusic(String musicFile){
 
         if(backgroundMusic != null)
@@ -35,6 +41,10 @@ public class SoundManager {
         backgroundMusic.play();
     }
 
+    /**
+     * Plays a sound effect
+     * @param sound The sound that we want to play. Has to be already constructed in the program.
+     */
     public void playSound(Sound sound){
         sound.play();
     }

@@ -7,11 +7,22 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+/**
+ * Base that can be used to create menus.
+ */
+
 public abstract class Menu extends Actor {
 
     protected Skin skin;
     protected BitmapFont font;
     private Texture background;
+
+    /**
+     * @param x X position of the menu
+     * @param y Y position of the menu
+     * @param width width of the menu
+     * @param height height of the menu
+     */
 
     public Menu(float x, float y, float width, float height){
         background = new Texture("darkGreen.png");

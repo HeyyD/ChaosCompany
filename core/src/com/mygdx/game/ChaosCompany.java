@@ -80,7 +80,6 @@ public class ChaosCompany extends Game {
 
         //Update managers stats
         updateManager();
-        soundManager.update();
 
         //Call everything in here every 20 seconds
         if(timer > 15){

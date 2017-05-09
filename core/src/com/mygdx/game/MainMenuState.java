@@ -19,10 +19,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.UI.DevelopMenu;
 import com.mygdx.UI.OfficeStateUI;
 
-/**
- * Created by SamiH on 24.2.2017.
- */
-
 public class MainMenuState implements Screen {
     private Skin skin;
     private ChaosCompany game;

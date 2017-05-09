@@ -16,10 +16,17 @@ import com.mygdx.game.StatsManager;
 
 import java.util.ArrayList;
 
+/**
+ * Everytime the employees start developing, they generate games which make money for the company.
+ */
+
 public class Game {
 
+    /**How long it takes for the developed game to be finished*/
     public float developmentTime;
+    /**How long the game has been in development*/
     public float currentTime;
+    /**How long the game will make money for the company*/
     public int moneyCycles;
 
     private ProgressBar progressBar = null;
@@ -33,6 +40,12 @@ public class Game {
     private ArrayList<Programmer> programmers = new ArrayList<Programmer>();
     private ArrayList<Artist> artists = new ArrayList<Artist>();
     private ArrayList<MarketingExecutive> marketingExecutives = new ArrayList<MarketingExecutive>();
+
+    /**
+     * The constructor separates all the employees to their own lists and then calculates the development time and the value of the game
+     * @param developmentTime Base time that it takes to make the game
+     * @param employees All the employees working on this game
+     */
 
     public Game(float developmentTime, ArrayList<Employee> employees){
         statsManager = ChaosCompany.manager;
@@ -63,6 +76,11 @@ public class Game {
                             " value: " + value +
                             " moneyCycles: " + moneyCycles);
     }
+
+    /**
+     * Keeps track of how the game affects the company on its life cycle. For example if it's currently being developed
+     * or if it's making money for the company.
+     */
 
     public void update(){
         if(beingDeveloped) {
@@ -97,6 +115,11 @@ public class Game {
         }
     }
 
+    /**
+     * After the game is finished, all the employees and computers are made available again, and the employees
+     * look for a random tile where they can walk.
+     */
+
     public void freeEmployeesAndComputers(){
 
         for(Employee employee: employees){
@@ -121,25 +144,9 @@ public class Game {
         this.progressBar = bar;
     }
 
-    /*private int calculateMoneyCycles(){
-        int moneyCycles = this.moneyCycles;
-
-        for(MarketingExecutive marketer: marketingExecutives){
-            moneyCycles += (int) marketer.skill;
-        }
-
-        return  moneyCycles;
-    }*/
-
-    /*private int calculateValue(){
-        int value = this.value;
-
-        for(Artist artist: artists){
-            value += artist.skill * 10f;
-        }
-
-        return value;
-    }*/
+    /**
+     * @return How long it takes for the game to be finished.
+     */
 
     private float calculateDevelopmentTime(){
         float developmentTime = this.developmentSpeed;

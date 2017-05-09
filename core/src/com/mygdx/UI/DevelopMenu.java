@@ -18,10 +18,17 @@ import com.mygdx.game.ChaosCompany;
 
 import java.util.ArrayList;
 
+/**
+ * Menu where the player decides what warnings he wants the games to have, and where the age restrictions
+ * are given.
+ */
+
 public class DevelopMenu extends Menu {
 
+    /**
+     * The game that the office is currently developing
+     */
     public static Game currentlyDevelopedGame = null;
-    //public static ProgressBar developmentTimeBar;
 
     private TextButton cancelButton;
     private TextButton developButton;
@@ -58,10 +65,14 @@ public class DevelopMenu extends Menu {
     private ArrayList<Employee> employees = new ArrayList<Employee>();
 
     /**
-     * Tells if developmenu is visible
+     * Tells if develop menu is visible
      */
     private boolean visible = false;
 
+    /**
+     * All the checkboxes and buttons are constructed here.
+     * @param uiStage The stage where the menu and its buttons are acting
+     */
     public DevelopMenu(Stage uiStage) {
         super(1, 0.5f, 7, 4.3f);
         this.uiStage = uiStage;
@@ -244,14 +255,16 @@ public class DevelopMenu extends Menu {
             uiStage.addActor(k16);
             uiStage.addActor(k18);
 
-        }else{
-           // textUiStage.addActor(developmentTimeBar);
         }
 
         visible = true;
         uiStage.addActor(cancelButton);
     }
 
+    /**
+     * Starts the game development. All the employees and base values are given for the games in this
+     * method. Also the karma that the game has on the world is calculated here.
+     */
     public void startDeveloping(){
 
         int warningsKarma = 0;
@@ -294,6 +307,10 @@ public class DevelopMenu extends Menu {
         remove();
     }
 
+    /**
+     * Looks for all the employees and computers from the office. All the employees are given a path to a computer
+     * (if there actually is a path).
+     */
     public void findEmployee() {
 
         Array<Actor> actors = objectStage.getActors();
@@ -341,6 +358,10 @@ public class DevelopMenu extends Menu {
         System.out.println("Done checking computers");
     }
 
+    /**
+     * Sets all other age checkboxes to false, but the "true checkbox".
+     * @param trueCheckBox The checkbox we want to keep on.
+     */
     public void UnCheckOtherCheckBoxes(CheckBox trueCheckBox){
         for(CheckBox checkBox: ageButtons){
             if(checkBox != trueCheckBox)

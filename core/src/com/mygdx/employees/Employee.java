@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public abstract class Employee extends Actor {
 
-    //texture of the employee
+    /**Texture of the employee*/
     protected Texture           sheet;
 
     //Temporary Array to store all the frames
@@ -61,7 +61,7 @@ public abstract class Employee extends Actor {
     protected EmpMenu menu = null;
     protected String profession = null;
 
-    //The float that determines how well the employee can do his/her job 1-5
+    /**The float that determines how well the employee can do his/her job 1-5*/
     public float skill;
 
     //Salary variables of employee expensiveness gives a bit randomness to employees salary
@@ -88,6 +88,16 @@ public abstract class Employee extends Actor {
     //Manager
     private StatsManager manager = null;
 
+    /**
+     * Gives the employee its texture, where he is, starting position on the map, draw width and height and how
+     * skilfull he is
+     * @param texture Texture of the employee
+     * @param tileMap In what tile map the employee is on (office or job center)
+     * @param startTile First tile where the employee is on
+     * @param width
+     * @param height
+     * @param skill Skill level of the employee
+     */
     public Employee(Texture texture, TileMap tileMap, Tile startTile, float width, float height, float skill){
         this.skill = skill;
         expensiveness = MathUtils.random(0.7f, 1.3f);
@@ -177,9 +187,15 @@ public abstract class Employee extends Actor {
         super.act(delta);
     }
 
-
+    /**
+     * Employees can be hired
+     */
     public abstract void hire();
 
+
+    /**
+     * Employees can be fired
+     */
     public void fire(){
         if(!isAvailable) {
             currentTile.setIsFull(false);
@@ -198,6 +214,12 @@ public abstract class Employee extends Actor {
         }
 
     }
+
+    /**
+     * Employees move on their given path. Everytime the employee get's to a target tile on its path
+     * the target tile is changed until the employee reaches its destination. The animations are also
+     * changed here according to the direction that the employee is moving.
+     */
     private void move(){
         float speed = Gdx.graphics.getDeltaTime() * 1.5f;
         Vector2 currentPosition = new Vector2(getX(), getY());
@@ -234,6 +256,10 @@ public abstract class Employee extends Actor {
         }
     }
 
+    /**
+     * Gives the employee a new destination where to walk.
+     * @param targetTile The tile that the employee wants to reach.
+     */
     public void giveDestination(Tile targetTile){
 
         setLastDestination(targetTile);
@@ -253,6 +279,9 @@ public abstract class Employee extends Actor {
 
     }
 
+    /**
+     * Listener for the employee that opens a menu if the employee is tapped.
+     */
     private class EmployeeListener extends InputListener{
 
         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -306,12 +335,12 @@ public abstract class Employee extends Actor {
         }
     }
 
-    public ArrayList<Tile> getPath(){
-        return path;
-    }
-
-
-    //Method that transforms one row of the 2D TextureRegion Array into 1D TextureRegion array
+    /**
+     * Method that transforms one row of the 2D TextureRegion Array into 1D TextureRegion array
+     * @param tmp 2D-array texture region that we want to make into a 1D-array.
+     * @param row how many rows the texture has.
+     * @return Animation frames
+     */
     private TextureRegion[] transformTo1D(TextureRegion[][] tmp, int row){
         TextureRegion [] frames = new TextureRegion[FRAME_COLS];
         int index = 0;
@@ -341,11 +370,9 @@ public abstract class Employee extends Actor {
         this.lastDestination = lastDestination;
     }
 
-    public void setUiStage(Stage uiStage){
-
-
-    }
-
+    /**
+     * Looks for a random tile to move on.
+     */
     public void findRandomPlace(){
         int x = 0;
         int y = 0;

@@ -7,9 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TileMap is used to build the office and job center views.
+ */
+
 public class TileMap {
 
-    public int 				    pickedTileX = -1, pickedTileY = -1;
+    public int 				    pickedTileX = 2, pickedTileY = 0;
     public float				tileWidth = 1.0f;
     public float				tileHeight = .5f;
 
@@ -23,6 +27,11 @@ public class TileMap {
     private int                 tileSetWidth = 2;
     private int                 tileSetHeight = 5;
     private Tile[][]            tiles = null;
+
+    /**
+     * @param map Used to give each tile an id which determines what texture it has
+     * @param spriteBatch The sprite batch that draws the tile map
+     */
 
     public TileMap (int[][] map, SpriteBatch spriteBatch){
         this.map = map;
@@ -74,6 +83,9 @@ public class TileMap {
         }
     }
 
+    /**
+     * Each tile is drawn separately and the picked tile is given a red color
+     */
     public void renderMap(){
         for (int x = 0; x < tiles.length; x++){
             for(int y = tiles[x].length - 1; y >= 0; y--){
@@ -87,6 +99,12 @@ public class TileMap {
             }
         }
     }
+
+    /**
+     *
+     * @param tile The tile which neighbours we are getting
+     * @return The neighbouring tiles of the tile
+     */
 
     public List<Tile> getNeighbours(Tile tile){
 
@@ -107,13 +125,6 @@ public class TileMap {
         return neighbours;
     }
 
-    public boolean isPickedTileFull(int pickedTileX, int pickedTileY){
-        boolean isFull = false;
-        if(tiles[pickedTileX][pickedTileY].getIsFull()){
-            isFull = true;
-        }
-        return isFull;
-    }
     public Tile[][] getTiles(){
         return tiles;
     }
