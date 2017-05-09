@@ -172,6 +172,7 @@ public class FurnitureButtons {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 64 && y > 0 && y < 64){
                     furniture.rotate();
+                    ChaosCompany.soundManager.playSound(ChaosCompany.soundManager.blop);
                 }
             }
         });
@@ -346,6 +347,7 @@ public class FurnitureButtons {
                                 game.getManager().getMoney() >= furniture.getPrice()) {
                             removeButtons();
                             furniture.buy();
+                            ChaosCompany.soundManager.playSound(ChaosCompany.soundManager.blop);
                             tiles[indexX][indexY].setIsFull(true);
                             furniture.setTile(tiles[indexX][indexY]);
                         }else if(game.getBox() == null){

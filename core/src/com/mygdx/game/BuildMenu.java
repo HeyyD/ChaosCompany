@@ -172,7 +172,7 @@ public class BuildMenu extends Actor{
         laptopIco = new Texture("laptopIcon.png");
         phoneIco = new Texture("phoneIcon.png");
         jukeboxIco = new Texture("jukeboxIcon.png");
-        arcadeIco = new Texture("arcadeIcon.png");
+        arcadeIco = new Texture("ArcadeIcon.png");
         marketingTableIco = new Texture("marketingtableIcon.png");
         drawTableIco = new Texture("drawtableIcon.png");
         esMachineIco = new Texture("esmachineIcon.png");

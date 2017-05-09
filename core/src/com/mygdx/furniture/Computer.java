@@ -27,7 +27,7 @@ public class Computer extends ComputerFurniture {
         manager = game.getManager();
 
         //Setup Textures
-        tex = new Texture("computerSheet.png");
+        tex = new Texture("ComputerSheet.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),
@@ -40,6 +40,7 @@ public class Computer extends ComputerFurniture {
             for (int j = 0; j < 2; j++) {
                 img[index++] = tmp[i][j];
             }
+
         }
 
         //Set position, price and sellPrice

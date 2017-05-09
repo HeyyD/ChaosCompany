@@ -21,6 +21,7 @@ public class ChaosCompany extends Game {
 
     //Manager
     public static StatsManager    manager;
+    public static SoundManager    soundManager;
     public static Locale          locale;
     public static Locale          defaultLocale;
     public static I18NBundle      myBundle;
@@ -48,6 +49,7 @@ public class ChaosCompany extends Game {
 
         //Stats Manager
         manager                 = new StatsManager();
+        soundManager            = new SoundManager();
 
         //Screens
         batch                   = new SpriteBatch();
@@ -78,6 +80,7 @@ public class ChaosCompany extends Game {
 
         //Update managers stats
         updateManager();
+        soundManager.update();
 
         //Call everything in here every 20 seconds
         if(timer > 15){

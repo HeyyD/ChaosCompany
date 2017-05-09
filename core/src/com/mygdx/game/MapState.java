@@ -110,6 +110,7 @@ public class MapState implements Screen {
         });
         stage.addActor(jobCenter);
 
+        statue = new Texture("MapState/Center2.png");
         trees = new Texture("MapState/Trees.png");
         trash = new Texture("MapState/Trash1.png");
         right = new Texture("MapState/Right1.png");
@@ -141,22 +142,17 @@ public class MapState implements Screen {
 
         if(karma > 0){
 
-            if(statue != null)
-                statue = new Texture("MapState/Center2.png");
-
             left = leftGoodEffects.get(MathUtils.random(0, leftGoodEffects.size() - 1));
 
             if(karma >= 35){
                 trees = new Texture("MapState/GoodTrees6.png");
             } else if(karma >= 28){
                 trees = new Texture("MapState/GoodTrees5.png");
-                statue = new Texture("MapState/Center3.png");
             } else if(karma >= 21){
                 trees = new Texture("MapState/GoodTrees4.png");
-                statue = new Texture("MapState/Center2.png");
             } else if(karma >= 14){
                 trees = new Texture("MapState/GoodTrees3.png");
-                statue = new Texture("MapState/Center2.png");
+                statue = new Texture("MapState/Center3.png");
             } else if(karma >= 7){
                 trees = new Texture("MapState/GoodTrees2.png");
             } else{
@@ -212,8 +208,7 @@ public class MapState implements Screen {
         stage.draw();
 
         batch.begin();
-            if(statue != null)
-                batch.draw(statue,0,0);
+            batch.draw(statue,0,0);
             batch.draw(trash,0, 0);
             batch.draw(right,0, 0);
             batch.draw(left,0, 0);
@@ -245,8 +240,7 @@ public class MapState implements Screen {
     @Override
     public void dispose() {
         trees.dispose();
-        if(statue != null)
-            statue.dispose();
+        statue.dispose();
         trash.dispose();
         left.dispose();
         right.dispose();

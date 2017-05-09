@@ -92,6 +92,7 @@ public class EmpMenu extends Menu {
                         if (manager.getEmployees() < manager.getEmployeeSlots()) {
                             employee.remove();
                             employee.hire();
+                            ChaosCompany.soundManager.playSound(ChaosCompany.soundManager.blop);
                             hideMenu();
                             employee.setMenu(null);
                         }else if(ChaosCompany.hireState.getBox() == null){
