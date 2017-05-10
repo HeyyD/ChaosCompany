@@ -209,7 +209,6 @@ public class MainMenuState implements Screen {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("JEE");
                 ChaosCompany.soundManager.mute(muteButton.isChecked());
             }
         });

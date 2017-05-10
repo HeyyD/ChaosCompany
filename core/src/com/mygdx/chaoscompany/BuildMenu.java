@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.AnnouncementBox;
 import com.mygdx.UI.MiniIcons;
@@ -763,6 +764,8 @@ public class BuildMenu extends Actor{
 
             //if user is not on top of the button anymore, it dosent do anything
             if(x > 0 && x < buttonWidth && y > 0 && y < buttonHeight){
+
+                ChaosCompany.soundManager.playSound(ChaosCompany.soundManager.blop);
 
                 //COORDINATES
                 float x_pos = (game.getOfficeState().getTileMap().pickedTileX *

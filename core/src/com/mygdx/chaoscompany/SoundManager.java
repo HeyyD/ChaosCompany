@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Timer;
 
 /**
  * Manages the music and sound effects of our game
@@ -36,13 +37,23 @@ public class SoundManager {
      */
     public void setBackgroundMusic(String musicFile){
 
-       if(backgroundMusic != null)
+       /*if(backgroundMusic != null)
             backgroundMusic.stop();
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(musicVolume);
-        backgroundMusic.play();
+        backgroundMusic.play();*/
+
+       if(backgroundMusic == null) {
+           backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
+           backgroundMusic.setLooping(true);
+           backgroundMusic.setVolume(musicVolume);
+           backgroundMusic.play();
+       } else {
+           System.out.println("täälä");
+           fadeOut(musicFile);
+       }
     }
 
     /**
@@ -70,5 +81,44 @@ public class SoundManager {
         }
 
         backgroundMusic.setVolume(musicVolume);
+    }
+
+    private void fadeOut(final String musicFile){
+
+        final float musicFadeStep = 0.01f;
+        float fadeRate = 0.05f;
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if(backgroundMusic.getVolume() >= musicFadeStep)
+                    backgroundMusic.setVolume(backgroundMusic.getVolume() - musicFadeStep);
+                else {
+                    backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
+                    backgroundMusic.setLooping(true);
+                    backgroundMusic.play();
+                    backgroundMusic.setVolume(0);
+                    fadeIn();
+                    this.cancel();
+                }
+            }
+        }, 0f, fadeRate);
+    }
+
+    private void fadeIn(){
+
+        final float musicFadeStep = 0.01f;
+        float fadeRate = 0.05f;
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if(backgroundMusic.getVolume() <= musicVolume)
+                    backgroundMusic.setVolume(backgroundMusic.getVolume() + musicFadeStep);
+                else {
+                    this.cancel();
+                }
+            }
+        }, 0f, fadeRate);
     }
 }
