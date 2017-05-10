@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -36,41 +36,110 @@ import com.mygdx.furniture.WaterCooler;
 
 import java.util.ArrayList;
 
+/**
+ * Build menu of the game
+ */
 public class BuildMenu extends Actor{
 
     //Game
+    /**
+     * Game
+     */
     private ChaosCompany        game;
+    /**
+     * Stage of officeState
+     */
     private Stage               stage;
+    /**
+     * Object stage of officeState
+     */
     private Stage               objectStage;
+    /**
+     * movableUiStage of officeState
+     */
     private Stage               movableUiStage;
 
     //Bundle
+    /**
+     * bundle for texts
+     */
     private I18NBundle bundle = ChaosCompany.myBundle;
 
     //menu
+    /**
+     * Texture for menu background
+     */
     private Texture             menuBackground;
+    /**
+     * Menu width
+     */
     private float               menuWidth = 3.4f;
+    /**
+     * Menu height
+     */
     private float               menuHeight = 3;
 
+    /**
+     * Skin for buttons
+     */
     private Skin                skin;
+    /**
+     * Buttons width
+     */
     private int                 buttonWidth = 64;
+    /**
+     * Buttons height
+     */
     private int                 buttonHeight = 64;
+    /**
+     * Buttons scale
+     */
     private float               buttonScale = 0.01f;
+    /**
+     * Camera
+     */
     private OrthographicCamera  camera = null;
 
     //Button Textures
     private Texture             compBtn;
 
     //Buttons to open differen furniture categories
+    /**
+     * Button for Computer category
+     */
     private ImageButton          computerButton;
+    /**
+     * Button for wellBeing Category
+     */
     private ImageButton          wellBeingButton;
+    /**
+     * Button for programming Category
+     */
     private ImageButton          programmingButton;
+    /**
+     * Button for marketing Category
+     */
     private ImageButton          marketingButton;
+    /**
+     * Cancel button
+     */
     private ImageButton          cancelButton;
 
+    /**
+     * Texture for computer category button
+     */
     private Texture              computerButtonTex;
+    /**
+     * Texture for wellbeing category button
+     */
     private Texture              wellBeingButtonTex;
+    /**
+     * Texture for marketing category button
+     */
     private Texture              marketingButtonTex;
+    /**
+     * Texture for Programming category button
+     */
     private Texture              programmingButtonTex;
 
     //Texture for each furnitures buildbutton
@@ -93,48 +162,144 @@ public class BuildMenu extends Actor{
     private Texture              moccamasterIco;
 
     //Buttons for each furniture
+    /**
+     * WellBeing furniture buttons listed in here
+     */
     private ArrayList<ImageButton>   wellBeingButtons;
+    /**
+     * Programming furniture buttons listed in here
+     */
     private ArrayList<ImageButton>   programmingButtons;
+    /**
+     * Marketing furniture buttons listed in here
+     */
     private ArrayList<ImageButton>   marketingButtons;
+    /**
+     * computer furniture buttons listed in here
+     */
     private ArrayList<ImageButton>   computerButtons;
 
     //Small icons and price texts
+    /**
+     * Small icons and price texts of furnitures
+     */
     private MiniIcons               icons1;
+    /**
+     * Small icons and price texts of furnitures
+     */
     private MiniIcons               icons2;
+    /**
+     * Small icons and price texts of furnitures
+     */
     private MiniIcons               icons3;
+    /**
+     * Small icons and price texts of furnitures
+     */
     private MiniIcons               icons4;
 
     //Text of Build menu
+    /**
+     * Label for texts
+     */
     private Label                   text;
+    /**
+     * Label style
+     */
     private Label.LabelStyle        labelStyle;
 
 
     //Texture for money icon
+    /**
+     * Texture for mini money icon
+     */
     private Texture                 moneyIco;
+    /**
+     * Texture for mini programming icon
+     */
     private Texture                 programmingIco;
 
     //FURNITURE ID
+    /**
+     * ID of plant
+     */
     private final int               plant =             1;
+    /**
+     * ID of watercooler
+     */
     private final int               waterCooler =       2;
+    /**
+     * id of desktop computer
+     */
     private final int               desktop =           3;
+    /**
+     * id for coffee machine
+     */
     private final int               coffeeMachine =     4;
+    /**
+     * id for laptop
+     */
     private final int               laptop =            5;
+    /**
+     * id for phone
+     */
     private final int               phone =             6;
+    /**
+     * id for jukebox
+     */
     private final int               jukebox =           7;
+    /**
+     * id for arcadeMachine
+     */
     private final int               arcademachine =     8;
+    /**
+     * id for marketing Table
+     */
     private final int               marketingtable =    9;
+    /**
+     * Id for drawing table
+     */
     private final int               drawtable =         10;
+    /**
+     * Id for energy drink machine
+     */
     private final int               esmachine =         11;
+    /**
+     * Id for power computer
+     */
     private final int               powercomputer =     12;
+    /**
+     * Id for game computer
+     */
     private final int               gamecomputer =      13;
+    /**
+     * id for bookshelf
+     */
     private final int               bookshelf =         14;
+    /**
+     * id for coffeemaker
+     */
     private final int               coffeemaker =       15;
+    /**
+     * id for moccamaster
+     */
     private final int               moccamaster =       16;
 
+    /**
+     * Furniture that is to be builded
+     */
     private Furniture               furniture = null;
 
+    /**
+     * offset of buttons
+     */
     private float                   buttonOffset = 0.1f;
 
+    /**
+     * Constructor
+     * @param g Game
+     * @param x x coordinate of buildmenu
+     * @param y y coordinate of buildmenu
+     */
     public BuildMenu (ChaosCompany g, float x, float y){
 
         game                  = g;
@@ -172,7 +337,7 @@ public class BuildMenu extends Actor{
         laptopIco = new Texture("laptopIcon.png");
         phoneIco = new Texture("phoneIcon.png");
         jukeboxIco = new Texture("jukeboxIcon.png");
-        arcadeIco = new Texture("ArcadeIcon.png");
+        arcadeIco = new Texture("arcadeIcon.png");
         marketingTableIco = new Texture("marketingtableIcon.png");
         drawTableIco = new Texture("drawtableIcon.png");
         esMachineIco = new Texture("esmachineIcon.png");
@@ -446,6 +611,10 @@ public class BuildMenu extends Actor{
 
         create();
     }
+
+    /**
+     * Creates button for every furniture and add them to proper list
+     */
     private void create(){
 
         //Add build buttons to computerFurnitures
@@ -501,6 +670,15 @@ public class BuildMenu extends Actor{
     }
 
 
+    /**
+     * Add furnitureButton to list
+     * @param arrayList List where furniturebutton is added
+     * @param texture Texture of button
+     * @param x coordinate x of button
+     * @param y coordinate y of button
+     * @param furnitureName furnitures name
+     * @param furnitureID furnitures id
+     */
     private void addFurniture(ArrayList<ImageButton> arrayList, Texture texture, float x, float y,
                               String furnitureName, int furnitureID){
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
@@ -520,13 +698,20 @@ public class BuildMenu extends Actor{
     }
 
 
-
+    /**
+     * Empties list
+     * @param arrayList list that is emptied
+     */
     public void removeActors(ArrayList<ImageButton> arrayList){
         for (int i = 0; i < arrayList.size(); i++) {
             if(arrayList.get(i).getStage() != null)
                 arrayList.get(i).remove();
         }
     }
+
+    /**
+     * Removes mini icons and texts
+     */
     public void removeMiniIcons() {
         if(icons1 != null&& icons2 != null && icons3 != null && icons4 != null) {
             icons1.removeIcons();
@@ -536,6 +721,10 @@ public class BuildMenu extends Actor{
         }
     }
 
+    /**
+     * Adds all actors of list to stage
+     * @param arrayList List that is added to stage
+     */
     public void addActors(ArrayList<ImageButton> arrayList){
         for (int i = 0; i < arrayList.size(); i++) {
             if(arrayList.get(i).getStage() == null)
@@ -543,6 +732,10 @@ public class BuildMenu extends Actor{
         }
     }
 
+    /**
+     * Adds info text of every furniture category
+     * @param string
+     */
     public void addText(String string){
         text = new Label(string, labelStyle);
         text.setWrap(true);
@@ -551,8 +744,13 @@ public class BuildMenu extends Actor{
         game.getOfficeState().getTextStage().addActor(text);
     }
 
-    //INPUT LISTENER FOR EVERY BUILD BUTTON
+    /**
+     * Through this class all furnitures is added to game
+     */
     private class Listener extends InputListener{
+        /**
+         * ID of furniture that is being build
+         */
         private int furnitureID;
 
         public Listener(int id){

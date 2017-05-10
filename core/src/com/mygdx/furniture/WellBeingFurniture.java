@@ -5,6 +5,9 @@ package com.mygdx.furniture;
  */
 
 abstract class WellBeingFurniture extends Furniture {
+    /**
+     * How much this furniture gives wellBeing
+     */
     private int wellBeing = 0;
 
     public void setWellBeing(int wellBeing){

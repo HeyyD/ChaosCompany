@@ -4,24 +4,51 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.game.ChaosCompany;
-import com.mygdx.game.StatsManager;
+import com.mygdx.chaoscompany.ChaosCompany;
+import com.mygdx.chaoscompany.StatsManager;
 
 /**
- *
+ * All furnitures looks almost exactly like this one.
  * Created by SamiH on 5.5.2017.
  */
 
 public class ArcadeMachine extends WellBeingFurniture {
+    /**
+     * Manager of the game
+     */
     private StatsManager manager;
+    /**
+     * Game
+     */
     private ChaosCompany game;
+    /**
+     * What happens when Furniture is clicked
+     */
     private FurnitureListener   listener;
+    /**
+     * Texture sheet is stored here temporally
+     */
     private TextureRegion[][]   tmp;
+    /**
+     * Image splitted in array
+     */
     private TextureRegion[]     img;
+    /**
+     * Texture of furniture
+     */
     private Texture             tex;
 
+    /**
+     * Direction of furniture, called in rotate
+     */
     private int                 dir = 0;
 
+    /**
+     * Constructor
+     * @param g Game
+     * @param x Coordinate x
+     * @param y Coordinate y
+     */
     public ArcadeMachine(ChaosCompany g, float x, float y){
         game = g;
         manager = game.getManager();
@@ -73,6 +100,9 @@ public class ArcadeMachine extends WellBeingFurniture {
         super.act(delta);
     }
 
+    /**
+     * Called when furniture is sold
+     */
     @Override
     public void sell() {
         //minus benfits
@@ -85,6 +115,9 @@ public class ArcadeMachine extends WellBeingFurniture {
         setBought(false);
     }
 
+    /**
+     * Called when furniture is bought
+     */
     @Override
     public void buy(){
         manager.setWellBeing((manager.getWellBeing() + getWellBeing()));
@@ -93,6 +126,9 @@ public class ArcadeMachine extends WellBeingFurniture {
         setBought(true);
     }
 
+    /**
+     * Called when Furniture is rotated
+     */
     @Override
     void rotate() {
         dir += 1;

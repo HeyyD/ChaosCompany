@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
@@ -27,77 +26,170 @@ import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
-import com.mygdx.furniture.Computer;
 import com.mygdx.map.TileMap;
 
 import java.util.Comparator;
 
 /**
+ * State where Player hires employees
  * Created by SamiH on 24.2.2017.
  */
 
 public class HireState implements GestureDetector.GestureListener, Screen {
+    /**
+     * game
+     */
     private ChaosCompany                game;
+    /**
+     * spriteBatch
+     */
     private SpriteBatch                 spriteBatch;
 
     //Camera settings
+    /**
+     * Camera distance
+     */
     private float                       cameraDistance = 1f;
+    /**
+     * Zoom speed
+     */
     private float                       zoomSpeed = 0.0001f;
+    /**
+     * Pan speed
+     */
     private float                       panSpeed = 0.01f;
     private float                       maxCameraDistance = 3f;
     private float                       minCameraDistance = 0.7f;
+    /**
+     * camera for ui of hireState
+     */
     private OrthographicCamera          uiCam;
+    /**
+     * Main camera of hireState
+     */
     private OrthographicCamera          cam;
+    /**
+     * Camera for texts of the game
+     */
     private OrthographicCamera          textCam;
+    /**
+     * Contains position of camera
+     */
     private Vector3                     cameraPosition;
 
     //Textures and buttons
+    /**
+     * MapButton in top left corner
+     */
     private TextButton                  mapBtn;
+    /**
+     * "backtomainmenu" button in bottom left corner
+     */
     private TextButton                  settingsButton;
+    /**
+     * font that is used to draw white text
+     */
     private BitmapFont                  font;
 
+    /**
+     * MoneyUi in top right
+     */
     private com.mygdx.UI.MoneyUi        moneyUI;
+    /**
+     * Employee ui in top right
+     */
     private EmpSlotUI                   empUI;
+    /**
+     * Income ui in top right
+     */
     private IncomeUI                    incUI;
 
+    /**
+     * font that is to draw black text
+     */
     private BitmapFont                  font2;
 
     //Manager
-    private StatsManager                manager;
+    /**
+     * Manager of the game
+     */
+    private StatsManager manager;
 
     private Matrix4      		    	isoTransform = null;
     private Matrix4		    	    	invIsotransform = null;
     private Matrix4			        	id = null;
 
+    /**
+     * Array where you load the tilemap from
+     */
     private int[][]				        map = null;
+    /**
+     * Tilemap of the hireState
+     */
     private TileMap                     tileMap = null;
 
+    /**
+     * Stage for UI
+     */
     private Stage                       stage;
+    /**
+     * Object stage, employees and furnitures
+     */
     private Stage                       objectStage;
+    /**
+     * Stage for ui that moves
+     */
     private Stage                       movingUiStage;
+    /**
+     * Stage for texts
+     */
     private Stage                       textStage;
+    /**
+     * Stage for texts that moves
+     */
     private Stage                       movingTextStage;
 
+    /**
+     * GestureDetector
+     */
     private GestureDetector             input;
 
+    /**
+     * Multiplexer so you can listen to multiple stages at the same time
+     */
     private InputMultiplexer            multiplexer;
 
     //First employee player gets
+    /**
+     * Players first employee
+     */
     private Programmer                  firstEmp;
 
     //Level of employees spawning to hireState
+    /**
+     * The higher this variable is, the better employees appears in hireState
+     */
     private int                         level = 1;
 
     //Bundle
     private I18NBundle bundle = ChaosCompany.myBundle;
 
     //List of Employees you can hire
+    /**
+     * Hirable employees
+     */
     Employee[] employees;
 
     //Announcement box
+    /**
+     * AnnonucementBox of hireState
+     */
     private AnnouncementBox box = null;
 
     //Tutorial variables;
+    /**
+     * Variable for tutorial "first open"
+     */
     private boolean fOpen = true;
 
     public HireState(ChaosCompany g){
@@ -282,6 +374,9 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         cam.update();
     }
 
+    /**
+     * Updates drawing order of employees and furnitures
+     */
     public void updateDrawingOrder(){
 
         //get all actors in the objectStage
@@ -306,6 +401,9 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         cam.update();
     }
 
+    /**
+     * Creates new employees to hireState
+     */
     public void createEmployees(){
 
         if(level < 5)
@@ -458,6 +556,10 @@ public class HireState implements GestureDetector.GestureListener, Screen {
 
     }
 
+    /**
+     * Draws how much money you have(top right)
+     * @param batch
+     */
     public void drawMoneyText(SpriteBatch batch){
         batch.setProjectionMatrix(textCam.combined);
         batch.begin();
@@ -465,6 +567,10 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         batch.end();
     }
 
+    /**
+     * draws employees and employeeslots(top right)
+     * @param batch
+     */
     public void empSlotText(SpriteBatch batch){
         batch.setProjectionMatrix(textCam.combined);
         String text = ""+manager.getEmployees()+"/"+manager.getEmployeeSlots();
@@ -473,6 +579,10 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         batch.end();
     }
 
+    /**
+     * Draws your income(top right)
+     * @param batch
+     */
     public void drawIncome(SpriteBatch batch){
         batch.setProjectionMatrix(textCam.combined);
         String text = bundle.get("income")+"\n"+manager.getIncome();
@@ -486,6 +596,7 @@ public class HireState implements GestureDetector.GestureListener, Screen {
         batch.end();
         font.setColor(Color.BLACK);
     }
+
 
     class ActorComparator implements Comparator<Actor> {
         @Override

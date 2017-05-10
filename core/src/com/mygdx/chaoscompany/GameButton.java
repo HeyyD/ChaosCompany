@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,16 +10,35 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 /**
+ * Adds button to office or hirestate
  * Created by SamiH on 11.3.2017.
  */
 
 public class GameButton {
-    private ChaosCompany        game;
+    /**
+     * game
+     */
+    private ChaosCompany game;
+    /**
+     * Button itself
+     */
     private TextButton          button;
+    /**
+     * Buttons skin
+     */
     private Skin                skin;
+    /**
+     * Stage where button is added
+     */
     private Stage               stage;
+    /**
+     * Texture of button
+     */
     private Texture             texture;
 
+    /**
+     * Buttons name
+     */
     private String              buttonName;
     private int                 buttonWidth = 100;
     private int                 buttonHeight = 100;
@@ -28,26 +47,15 @@ public class GameButton {
     private float               y = 0;
 
 
-    public GameButton(ChaosCompany g, float x, float y, String name){
-        this.game = g;
-        this.x = x;
-        this.y = y;
-        this.buttonName = name;
-        stage = game.getOfficeState().getStage();
-        Gdx.input.setInputProcessor(stage);
-        create();
-    }
-
-    public GameButton(ChaosCompany g, Stage stage, float x, float y, String name){
-        this.game = g;
-        this.x = x;
-        this.y = y;
-        this.buttonName = name;
-        this.stage = stage;
-        Gdx.input.setInputProcessor(stage);
-        create();
-    }
-
+    /**
+     * Constructor
+     * @param g Game
+     * @param stage Stage where button is added
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param name name of button
+     * @param tex Texture of button
+     */
     public GameButton(ChaosCompany g, Stage stage, float x, float y, String name, Texture tex){
         this.game = g;
         this.x = x;
@@ -60,6 +68,9 @@ public class GameButton {
         create();
     }
 
+    /**
+     * Method that creates button
+     */
     private void create(){
 
         //button creation

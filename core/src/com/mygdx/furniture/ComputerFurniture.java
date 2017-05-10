@@ -5,6 +5,9 @@ package com.mygdx.furniture;
  */
 
 public abstract class ComputerFurniture extends Furniture {
+    /**
+     * How many EmployeeSlots Computer gives
+     */
     private int employeeSlot;
 
     public int getEmployeeSlot(){

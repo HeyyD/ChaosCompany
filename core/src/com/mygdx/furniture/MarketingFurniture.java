@@ -5,6 +5,9 @@ package com.mygdx.furniture;
  */
 
 abstract class MarketingFurniture extends Furniture {
+    /**
+     * How much this furniture gives marketing power
+     */
     private int marketingPower = 0;
 
     public int getMarketingPower(){

@@ -2,12 +2,20 @@ package com.mygdx.employees;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.game.ChaosCompany;
+import com.mygdx.chaoscompany.ChaosCompany;
 import com.mygdx.map.Tile;
 import com.mygdx.map.TileMap;
 
 public class Programmer extends Employee{
 
+    /**
+     * Constructor
+     * @param tileMap Tilemap Employee is spawned in
+     * @param startTile Starting tile
+     * @param width Width of employee
+     * @param height Height of employee
+     * @param skill Skill of employee
+     */
     public Programmer(TileMap tileMap, Tile startTile, float width, float height, float skill) {
         super(new Texture("empAnimation.png"), tileMap, startTile, width, height, skill);
         this.profession = "PROGRAMMER";
@@ -15,6 +23,9 @@ public class Programmer extends Employee{
 
     }
 
+    /**
+     * Called when employee is hired
+     */
     @Override
     public void hire() {
             System.out.println(getManager().getEmployees());

@@ -1,32 +1,74 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 /**
+ * All stats of the game is managed through this class
  * Created by SamiH on 5.3.2017.
  */
 
 public class StatsManager {
 
     //Economy variables of game
+    /**
+     * Affects how much money you get per game
+     */
     private int wellBeing = 0;
+    /**
+     * Affects of how you produce games
+     */
     private int programmingPower = 0;
+    /**
+     * Multiplier to you income
+     */
     private int marketingPower = 0;
+    /**
+     * Income you add to your money every 20sec
+     */
     private int income = 0;
 
+    /**
+     * Value of money you get per tick for one game
+     */
     private int gameValue = 200;
+    /**
+     * All game values added togheter
+     */
     private int gameIncome = 0;
+    /**
+     * All salaries added togheter
+     */
     private int salaries = 0;
 
+    /**
+     * Money
+     */
     private int money = 5000;
 
+    /**
+     * How much employees you can have
+     */
     private int employeeSlots = 0;
+    /**
+     * How many employees you have
+     */
     private int employees = 0;
 
     //karma can range from -100 to 100
+    /**
+     * karma that changes you when make games, affects to map state
+     */
     private int karma = 0;
-    //this is used so map can be updated. If the step is 7 or -7 the map will be updated.
+    /**
+     * this is used so map can be updated. If the step is 7 or -7 the map will be updated.
+     */
     private int stepAmount = 7;
+    /**
+     * How much Karma updated per game
+     */
     private int karmaStep = 0;
 
+    /**
+     * Resets the manager when new game is started
+     */
     public void resetManager(){
         wellBeing = 0;
         programmingPower = 0;

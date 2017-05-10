@@ -5,11 +5,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
+ * Shows IncomeUI texture in right corner of the screen
  * Created by SamiH on 5.5.2017.
  */
 
 public class IncomeUI extends Actor {
 
+    /**
+     * Texture
+     */
     private Texture texture;
 
     public IncomeUI(){

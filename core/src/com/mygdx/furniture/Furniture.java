@@ -11,22 +11,53 @@ import com.mygdx.map.Tile;
 
 public abstract class Furniture extends Actor{
 
+    /**
+     * Price of furniture
+     */
     private int price = 0;
+    /**
+     * Sell price of furniture
+     */
     private int sellPrice = 0;
-    //Transparency
+    /**
+     * Transparency of furniture, 0.5 when furniture is not yet bought
+     */
     private float alpha = 0.5f;
+    /**
+     * Textures of furniture
+     */
     private Texture sheet;
+    /**
+     * Is furniture bought or not
+     */
     private boolean bought = false;
+    /**
+     * Is player moving furniture or not
+     */
     private boolean isMoving = false;
+    /**
+     * Tile furniture is in
+     */
     private Tile tile;
 
+    /**
+     * Buttons that appears around furniture when it is being bough or moved
+     */
     private FurnitureButtons    buttons;
 
-    //check if computer is available for use
+    /**
+     * check if computer is available or not
+     */
     private boolean isAvailable = true;
 
+    /**
+     * Furnitures can be sold
+     */
     public abstract void sell();
 
+    /**
+     * Furnitures can be bought.
+     */
     public abstract void buy();
 
     abstract void rotate();

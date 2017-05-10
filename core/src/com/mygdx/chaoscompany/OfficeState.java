@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix4;
@@ -18,15 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.*;
 import com.mygdx.development.Game;
 import com.mygdx.employees.Employee;
-import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.ComputerFurniture;
 import com.mygdx.furniture.FurnitureButtons;
@@ -35,15 +31,34 @@ import com.mygdx.map.TileMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Main screen of the game, almost all the playing happens in here
+ */
 public class OfficeState implements GestureDetector.GestureListener, Screen{
 
+    /**
+     * game
+     */
     private ChaosCompany        game;
-    private StatsManager        manager;
+    /**
+     * Stats manager
+     */
+    private StatsManager manager;
+    /**
+     * Ui of office state
+     */
     private OfficeStateUI       UI;
+
     private Matrix4 			isoTransform = null;
     private Matrix4				invIsotransform = null;
     private Matrix4				id = null;
+    /**
+     * batch to draw textures
+     */
     private SpriteBatch			spriteBatch = null;
+    /**
+     * Tilemap loads throught this int array
+     */
     private int[][]				map = null;
 
     //CAMERA
@@ -58,57 +73,126 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     private OrthographicCamera  textCam = null;
 
 
+    /**
+     * Coordinates where player touched screen
+     */
     private Vector3				touch = null;
 
-    //Stage for menu buttons that stays still
+    /**
+     * Stage for menu buttons that stays still
+     */
     private Stage               stage;
-    //Stage  for objects like furniture and employees
+    /**
+     * Stage  for objects like furniture and employees
+     */
     private Stage               objectStage;
-    //Stage for things that has to move with camera
+    /**
+     * Stage for things that has to move with camera
+     */
     private Stage               movingUiStage;
-    //Stage for labels etc.
+    /**
+     * Stage for texts and labels
+     */
     private Stage               textStage;
 
-    private BuildMenu           buildMenu = null;
+    /**
+     * Build menu
+     */
+    private com.mygdx.chaoscompany.BuildMenu buildMenu = null;
+    /**
+     * Button for buildMenu(bottom right)
+     */
     private TextButton          buildMenuBtn = null;
+    /**
+     * Button for map(door icon, top left)
+     */
     private TextButton          mapBtn = null;
+    /**
+     * Furniture buttons of furnitures (ones you move rotate and buy furniture from)
+     */
     private FurnitureButtons    buttons = null;
 
+    /**
+     * Helps to transform coordinates from stage to another
+     */
     private Vector2             screenCoords = null;
 
 
-
+    /**
+     * Is player moving a furniture atm.
+     */
     private boolean             isMoving = false;
+    /**
+     * Is build menu open
+     */
     private boolean             isBuildMenuOpen = false;
 
+    /**
+     * TileMap of officeState
+     */
     private TileMap             tileMap = null;
 
     //Input
     protected GestureDetector     input = null;
+    /**
+     * Multiplexer, so we can listen many stages at the same time.
+     */
     private InputMultiplexer      multiplexer = null;
 
-    //Font for Money UI
+    /**
+     * font for text
+     */
     private BitmapFont            font = null;
 
-    //Font for Emp Slots
+    /**
+     * font for employee slots
+     */
     private BitmapFont            font2 = null;
 
-
+    /**
+     * Money ui(top right corner)
+     */
     private com.mygdx.UI.MoneyUi  moneyUI = null;
+    /**
+     * Employees and employeeslots ui (top right)
+     */
     private EmpSlotUI             empUI = null;
+    /**
+     * Income ui (top right)
+     */
     private IncomeUI              incUI = null;
 
     //Developed games
+    /**
+     * Developed games
+     */
     public ArrayList<Game> games = new ArrayList<Game>();
+    /**
+     * games moves here when player dont get income from them anymore
+     */
     private ArrayList<Game> deleteGames = new ArrayList<Game>();
+    /**
+     * checks if player is currently developing game or not
+     */
     private boolean developing;
 
-    //Players first furniture/tutorial variables
+
+    /**
+     * Players first furniture
+     */
     private Computer firstDesk;
+    /**
+     * boolean which tells if first furniture is generated or not
+     */
     private boolean  fDesk = false;
+    /**
+     * boolean for tutorial, tells if player has tried to build new furnitures yet
+     */
     private boolean  fBuild = true;
 
-    //Bundle
+    /**
+     * Bundle that contains all texts of game
+     */
     private I18NBundle bundle = ChaosCompany.myBundle;
 
     public OfficeState(ChaosCompany g) {
@@ -183,7 +267,7 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 //if user is not on top of the button anymore, it dosent do anything
                 if(x > 0 && x < 100 && y > 0 && y < 100 && isBuildMenuOpen == false){
-                    new BuildMenu(game, 6.2f,1.1f);
+                    new com.mygdx.chaoscompany.BuildMenu(game, 6.2f,1.1f);
                     removeButtons();
                 }
             }
@@ -255,7 +339,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
             objectStage.addActor(firstDesk);
 
             //First tutorial box
-            stage.addActor(new AnnouncementBox(game,bundle.get("tutorial1"),textStage,10));
+            if(game.getBox() != null)
+                game.getBox().setTimer(1000);
+            game.setBox(new AnnouncementBox(game,bundle.get("tutorial1"),textStage,10));
+            stage.addActor(game.getBox());
 
             fDesk = true;
         }
@@ -322,6 +409,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         cam.update();
     }
 
+    /**
+     * Updates drawing order of objects
+     */
     public void updateDrawingOrder(){
 
         //get all actors in the objectStage
@@ -480,6 +570,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
 
     }
 
+    /**
+     * Draws how much money you have(text, top right)
+     * @param batch
+     */
     public void drawMoneyText(SpriteBatch batch){
         batch.setProjectionMatrix(textCam.combined);
         batch.begin();
@@ -487,6 +581,10 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         batch.end();
     }
 
+    /**
+     * Draws employees and employeeslots(text, top right)
+     * @param batch
+     */
     public void empSlotText(SpriteBatch batch){
         batch.setProjectionMatrix(textCam.combined);
         String text = ""+manager.getEmployees()+"/"+manager.getEmployeeSlots();
@@ -494,6 +592,11 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         font2.draw(batch,text, 730, 370);
         batch.end();
     }
+
+    /**
+     * Draws players income(text, top right)
+     * @param batch
+     */
     public void drawIncome(SpriteBatch batch){
         batch.setProjectionMatrix(textCam.combined);
         String text = bundle.get("income")+"\n"+manager.getIncome();
@@ -508,6 +611,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         font.setColor(Color.BLACK);
     }
 
+    /**
+     * Method that hides furniture buttons
+     */
     public void removeButtons(){
         if(buttons!= null) {
             screenCoords = new Vector2(buttons.getFurniture().getX(), buttons.getFurniture().getY());
@@ -546,6 +652,9 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
     }
 
 
+    /**
+     * class that is used to update drawing order
+     */
     class ActorComparator implements Comparator<Actor> {
         @Override
         //compares the Y-position of the furniture

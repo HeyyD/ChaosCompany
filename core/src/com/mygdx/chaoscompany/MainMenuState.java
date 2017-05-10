@@ -1,12 +1,9 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,32 +16,90 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.UI.DevelopMenu;
 import com.mygdx.UI.OfficeStateUI;
 
+/**
+ * Main menu state of game
+ */
 public class MainMenuState implements Screen {
+    /**
+     * Skin of buttons
+     */
     private Skin skin;
+    /**
+     * Game
+     */
     private ChaosCompany game;
+    /**
+     * Stage where all the actors is added
+     */
     private Stage stage;
+    /**
+     * Batch for drawing textures
+     */
     private SpriteBatch batch;
+    /**
+     * Camera
+     */
     private OrthographicCamera camera;
+    /**
+     * Bundle for texts
+     */
     private I18NBundle bundle = ChaosCompany.myBundle;
 
     //graphics
+    /**
+     * BackgroundImage
+     */
     private Texture backgroundImage;
+    /**
+     * earth that is spinning in main menu
+     */
     private Sprite earth;
+    /**
+     * earthRim that is spinning around earth.
+     */
     private Sprite earthRim;
+    /**
+     * "Chaos Company" logo
+     */
     private Texture title;
 
+    /**
+     * Width of screen
+     */
     private final float SCREEN_WIDTH = 800;
+    /**
+     * Height of screen
+     */
     private final float SCREEN_HEIGHT = 480;
+    /**
+     * Width of buttons
+     */
     private final int BUTTON_WIDTH = 200;
+    /**
+     * Height of buttons
+     */
     private final int BUTTON_HEIGHT = 50;
+    /**
+     * offset ofbuttons
+     */
     private int offset = 10;
+    /**
+     * How fast pictures rotates
+     */
     private float rotationSpeed = 0.10f;
 
+    /**
+     * Constructor
+     * @param g
+     */
     public MainMenuState(ChaosCompany g){
         this.game = g;
         create();
     }
 
+    /**
+     * Creates all the buttons and pictures in main menu
+     */
     public void create(){
         batch =             new SpriteBatch();
         stage =             new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT));
@@ -134,6 +189,10 @@ public class MainMenuState implements Screen {
         stage.addActor(exitBtn);
     }
 
+
+    /**
+     * Called when player starts new game
+     */
     public void newGame(){
         game.officeState.dispose();
         game.mapState.dispose();

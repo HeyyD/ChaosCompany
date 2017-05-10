@@ -1,40 +1,89 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.UI.AnnouncementBox;
 
 import java.util.Locale;
 
+/**
+ * Class that changes screens and contains main render
+ */
 public class ChaosCompany extends Game {
 
     //Screens
-    public static MainMenuState   mainMenuState;
-    public static OfficeState     officeState;
+    /**
+     * Main Menu screen
+     */
+    public static com.mygdx.chaoscompany.MainMenuState mainMenuState;
+    /**
+     * Game is played mainly in officeState Screen
+     */
+    public static com.mygdx.chaoscompany.OfficeState officeState;
+    /**
+     * Map Screen
+     */
     public static MapState        mapState;
-    public static HireState       hireState;
+    /**
+     * Screen where player hires employees
+     */
+    public static com.mygdx.chaoscompany.HireState hireState;
 
     //Manager
-    public static StatsManager    manager;
+    /**
+     * Manager of stats in the game
+     */
+    public static com.mygdx.chaoscompany.StatsManager manager;
+    /**
+     * Sound manager
+     */
     public static SoundManager    soundManager;
+    /**
+     * variable for localisation of game
+     */
     public static Locale          locale;
+    /**
+     * variable for localisation of game
+     */
     public static Locale          defaultLocale;
+    /**
+     * Bundle that contains all texts in game that needs to change when language changes
+     */
     public static I18NBundle      myBundle;
 
     //Timers
+    /**
+     * Timer for Income ticks
+     */
     private float                 timer;
+    /**
+     * Timer for employees
+     */
     private float                 empTimer;
+    /**
+     * With this we calculate time.
+     */
     private float                 delta;
 
     //AnnouncementBox
+    /**
+     * AnnouncementBox that pops up many times in game
+     */
     private AnnouncementBox         box;
 
+    /**
+     * For drawing textures
+     */
 	protected SpriteBatch   batch;
+
+    //Endgame
+    /**
+     * This variable is not yet used in our game.
+     */
+    private boolean endGame = false;
 
     public SpriteBatch getSpriteBatch() {
         return batch;
@@ -48,15 +97,15 @@ public class ChaosCompany extends Game {
         myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale);
 
         //Stats Manager
-        manager                 = new StatsManager();
+        manager                 = new com.mygdx.chaoscompany.StatsManager();
         soundManager            = new SoundManager();
 
         //Screens
         batch                   = new SpriteBatch();
-        mainMenuState           = new MainMenuState(this);
-        officeState             = new OfficeState(this);
+        mainMenuState           = new com.mygdx.chaoscompany.MainMenuState(this);
+        officeState             = new com.mygdx.chaoscompany.OfficeState(this);
         mapState                = new MapState(this);
-        hireState               = new HireState(this);
+        hireState               = new com.mygdx.chaoscompany.HireState(this);
 
         setScreen(mainMenuState);
     }
@@ -97,6 +146,17 @@ public class ChaosCompany extends Game {
             empTimer = 0;
         }
 
+        //Pelin lopetus päivitetään peliin ennen messuja.
+        if(manager.getMoney() < 0 && endGame == false){
+            if(getScreen() == officeState){
+                //officeState.getStage().addActor(new EndGameScreen(4, 4, 3, 3, this, officeState.getTextStage()));
+            }else if(getScreen() == hireState){
+
+            }else if(getScreen() == mapState){
+
+            }
+            endGame = true;
+        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             setScreen(officeState);
@@ -138,15 +198,15 @@ public class ChaosCompany extends Game {
         manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/600)) + manager.getSalaries()));
     }
 
-    public OfficeState getOfficeState(){
+    public com.mygdx.chaoscompany.OfficeState getOfficeState(){
         return this.officeState;
     }
 
-    public HireState getHireState(){
+    public com.mygdx.chaoscompany.HireState getHireState(){
         return hireState;
     }
 
-    public StatsManager getManager(){
+    public com.mygdx.chaoscompany.StatsManager getManager(){
         return manager;
     }
 

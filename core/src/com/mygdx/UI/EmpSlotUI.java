@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
+ * UI For employee slots and employees in top right corner
  * Created by SamiH on 3.5.2017.
  */
 

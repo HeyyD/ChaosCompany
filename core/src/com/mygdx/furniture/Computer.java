@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.game.ChaosCompany;
-import com.mygdx.game.StatsManager;
+import com.mygdx.chaoscompany.ChaosCompany;
+import com.mygdx.chaoscompany.StatsManager;
 
 /**
  * Created by SamiH on 16.3.2017.
@@ -27,7 +27,7 @@ public class Computer extends ComputerFurniture {
         manager = game.getManager();
 
         //Setup Textures
-        tex = new Texture("ComputerSheet.png");
+        tex = new Texture("computerSheet.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         setSheet(tex);
         tmp = TextureRegion.split(getSheet(),

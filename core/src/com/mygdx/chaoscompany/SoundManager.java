@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -21,7 +21,7 @@ public class SoundManager {
      * At the start the background music is set and all the sound effects are created
      */
     public SoundManager(){
-        setBackgroundMusic("Sounds/bensound-moose.mp3");
+        setBackgroundMusic("Sounds/background.mp3");
 
         blop = Gdx.audio.newSound(Gdx.files.internal("Sounds/blop.wav"));
     }
@@ -32,7 +32,7 @@ public class SoundManager {
      */
     public void setBackgroundMusic(String musicFile){
 
-        if(backgroundMusic != null)
+       if(backgroundMusic != null)
             backgroundMusic.stop();
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));

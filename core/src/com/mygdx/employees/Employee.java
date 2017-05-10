@@ -5,87 +5,149 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.UI.EmpMenu;
-import com.mygdx.game.ChaosCompany;
-import com.mygdx.game.OfficeState;
-import com.mygdx.game.StatsManager;
+import com.mygdx.chaoscompany.ChaosCompany;
+import com.mygdx.chaoscompany.StatsManager;
 import com.mygdx.map.Tile;
 import com.mygdx.map.TileMap;
 
 import java.util.ArrayList;
 
+/**
+ * Employees of game
+ */
 public abstract class Employee extends Actor {
 
     /**Texture of the employee*/
     protected Texture           sheet;
 
-    //Temporary Array to store all the frames
+    /**
+     *Temporary Array to store all the frames
+     */
     protected TextureRegion[][] tmp;
 
-    //direction
+    /**
+     * Direction of Employee
+     */
     private int         dir = 2;
 
-    //boolean which tells if employee is moving
+    /**
+     * boolean which tells if employee is moving
+     */
     private boolean     moving = false;
 
-    //boolean which tells if employee is hired or not
+    /**
+     * boolean which tells if employee is hired or not
+     */
     private boolean     hired = false;
 
-    //split into 4 different arrays for 4 different animations
+    /**
+     * Employee animation for each direction
+     */
     protected TextureRegion[]   frames0;
+    /**
+     * Employee animation for each direction
+     */
     protected TextureRegion[]   frames1;
+    /**
+     * Employee animation for each direction
+     */
     protected TextureRegion[]   frames2;
+    /**
+     * Employee animation for each direction
+     */
     protected TextureRegion[]   frames3;
 
-    //Animation array to store the animations for each direction
+    /**
+     * Animations of employee
+     */
     protected Animation<TextureRegion>[]       animations;
 
-    //Current frame that is being drawn
+    /**
+     * Current frame that is being drawn
+     */
     protected TextureRegion     currentFrame;
 
-    //Float that is used to change texture
+    /**
+     * Used to change texture
+     */
     private float               stateTime;
 
     //Number of columns and rows in Animation sheet
     private final int           FRAME_COLS = 4;
     private final int           FRAME_ROWS = 4;
 
+    /**
+     * Employees menu
+     */
     protected EmpMenu menu = null;
+    /**
+     * Employees profession (ARTIST, PROGRAMMER or MARKETING)
+     */
     protected String profession = null;
 
     /**The float that determines how well the employee can do his/her job 1-5*/
     public float skill;
 
-    //Salary variables of employee expensiveness gives a bit randomness to employees salary
+    /**
+     * salary of employee
+     */
     float salary;
+    /**
+     * multiplier that gives a bit randomness to salary
+     */
     float expensiveness;
 
-    //Boolean to determine if the employee is free to work
+    /**
+     * Is employee free to work
+     */
     private boolean isAvailable;
 
-    //Pathfinding variables
+    /**
+     * Tile that employee is currently standing on
+     */
     private Tile        currentTile = null;
+    /**
+     * Last destination of employee
+     */
     private Tile        lastDestination = null;
+    /**
+     * Position that is given to path finding.
+     */
     private Vector2     targetPosition = null;
+    /**
+     * Current tiles index number.
+     */
     private int         currentTileIndex = 0;
+    /**
+     * Is employee walking or not
+     */
     private boolean     walking = false;
 
+    /**
+     * PathFinding
+     */
     private Pathfinding pathfinding = null;
+    /**
+     * Tiles for employees pathfinding
+     */
     private ArrayList<Tile> path = new ArrayList<Tile>();
 
+    /**
+     * Are employee in officestates or hirestates tilemap
+     */
     private TileMap map;
-    private TextureRegion[] regions;
 
 
-    //Manager
+    /**
+     * manager of game
+     */
     private StatsManager manager = null;
 
     /**

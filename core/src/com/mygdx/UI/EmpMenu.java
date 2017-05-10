@@ -12,36 +12,87 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.mygdx.employees.Employee;
-import com.mygdx.game.ChaosCompany;
-import com.mygdx.game.StatsManager;
+import com.mygdx.chaoscompany.ChaosCompany;
+import com.mygdx.chaoscompany.StatsManager;
 
 /**
+ * Menu that appers when you click employee
  * Created by SamiH on 2.4.2017.
  */
 
 public class EmpMenu extends Menu {
+    /**
+     * game
+     */
     private ChaosCompany        game;
+    /**
+     * Employee this class belongs to
+     */
     private Employee            employee;
+    /**
+     * UiStage of state employee is in
+     */
     private Stage               uiStage;
+    /**
+     * Bundle for texts
+     */
     private I18NBundle          bundle = ChaosCompany.myBundle;
 
+    /**
+     * Button to hire employee
+     */
     private TextButton          hireButton;
+    /**
+     * Cancel button
+     */
     private TextButton          cancelButton;
+    /**
+     * Button to fire employee
+     */
     private TextButton          fireButton;
 
+    /**
+     * Scale of buttons
+     */
     private float               buttonScale = .01f;
+    /**
+     * Offset of buttons
+     */
     private float               buttonOffset = .1f;
 
+    /**
+     * Statmanager
+     */
     private StatsManager        manager = null;
 
     //Texts of Employee menu
+    /**
+     * TextLabel for profession
+     */
     private Label               profession = null;
+    /**
+     * Text label for Salary info
+     */
     private Label               salaryText = null;
+    /**
+     * Text label for employees description
+     */
     private Label               description = null;
 
     //Bars for Employee menu
+    /**
+     * Employees skill shown in progressBar
+     */
     private ProgressBar         professionBar = null;
 
+    /**
+     * Constructor
+     * @param employee Employee this class belongs to
+     * @param uiStage uiStage of state employee is in
+     * @param textStage textStage of state employee is in
+     * @param x coordinate x
+     * @param y coordinate y
+     */
     public EmpMenu(final Employee employee, Stage uiStage, Stage textStage, float x, float y){
         super(x, y, 4, 3.5f);
         this.uiStage = uiStage;
@@ -184,6 +235,9 @@ public class EmpMenu extends Menu {
         textStage.addActor(description);
     }
 
+    /**
+     * Method to hide the menu
+     */
     public void hideMenu() {
         cancelButton.remove();
         if(hireButton != null) {

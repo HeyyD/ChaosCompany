@@ -5,6 +5,9 @@ package com.mygdx.furniture;
  */
 
 abstract class ProgrammingFurniture extends Furniture {
+    /**
+     * How much this furniture gives Programming power
+     */
     private int programmingPower = 0;
 
     public void setProgrammingPower(int power){

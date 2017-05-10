@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.UI.AnnouncementBox;
-import com.mygdx.game.ChaosCompany;
+import com.mygdx.chaoscompany.ChaosCompany;
 import com.mygdx.map.Tile;
 
 /**
@@ -22,30 +22,95 @@ import com.mygdx.map.Tile;
  */
 
 public class FurnitureButtons {
+    /**
+     * Move button
+     */
     private TextButton      move;
+    /**
+     * Texture of move button
+     */
     private Texture         moveImg;
+    /**
+     * Texture of cancel button
+     */
     private Texture         cancelImg;
+    /**
+     * Texture of rotate button
+     */
     private Texture         rotateImg;
+    /**
+     * Texture of sell button
+     */
     private Texture         sellImg;
+    /**
+     * Texture of buy button
+     */
     private Texture         buyImg;
 
+    /**
+     * Rotate button
+     */
     private TextButton      rotate;
+    /**
+     * Button for selling / buying furniture
+     */
     private TextButton      buySell;
+    /**
+     * Cancel button
+     */
     private TextButton      cancel;
+    /**
+     * This FurnitureButtons class belongs to this furniture.
+     */
     private Furniture       furniture;
-    private String          buySellText = "B";
+    /**
+     * Skin of buttons
+     */
     private Skin            skin;
+    /**
+     * game
+     */
     private ChaosCompany    game;
+    /**
+     * Stage of OfficeState
+     */
     private Stage           stage;
+    /**
+     * Vector where you calculate where players finger are.
+     */
     private Vector3         touch;
+    /**
+     * Tilemap
+     */
     private Tile[][]        tiles;
+    /**
+     * Helps to transform coordinates from stage to another
+     */
     private Vector2         screenCoords;
+    /**
+     * Object stage of officeState
+     */
     private Stage           objectStage;
+    /**
+     * Batch
+     */
     private SpriteBatch     batch;
 
+    /**
+     * Style for buttons
+     */
     private TextButton.TextButtonStyle textButtonStyle;
 
+    /**
+     * Scale of buttons
+     */
     private float           buttonScale = 0.01f;
+
+    /**
+     * Constructor
+     * @param g Game
+     * @param f Furniture this class belongs to.
+     */
     public FurnitureButtons(ChaosCompany g, Furniture f){
         game = g;
         furniture = f;
@@ -155,6 +220,9 @@ public class FurnitureButtons {
         create();
     }
 
+    /**
+     * Creates and shows buttons
+     */
     public void create(){
         //tell officeState that we are moving object.
         game.getOfficeState().setIsMoving(true);
@@ -363,6 +431,9 @@ public class FurnitureButtons {
         stage.addActor(buySell);
     }
 
+    /**
+     * Hides all the buttons.
+     */
     public void removeButtons(){
         cancel.remove();
         rotate.remove();

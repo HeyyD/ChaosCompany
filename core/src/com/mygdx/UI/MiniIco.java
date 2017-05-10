@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
+ * Mini icons in Build menu is made with this class and MiniIcons class combined.
  * Created by SamiH on 6.5.2017.
  */
 

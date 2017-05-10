@@ -9,11 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
+ * Shows moneyUI in top right corner of the game
  * Created by SamiH on 26.3.2017.
  */
 
 public class MoneyUi extends Actor{
 
+    /**
+     * texture
+     */
     private Texture texture;
 
     public MoneyUi(){

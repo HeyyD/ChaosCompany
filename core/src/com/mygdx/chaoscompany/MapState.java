@@ -1,7 +1,6 @@
-package com.mygdx.game;
+package com.mygdx.chaoscompany;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,51 +18,134 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.ArrayList;
 
 /**
+ * MapState in game
  * Created by SamiH on 24.2.2017.
  */
 
 public class MapState implements Screen {
-    private ChaosCompany game;
+    /**
+     * Game
+     */
+    private com.mygdx.chaoscompany.ChaosCompany game;
+    /**
+     * batch to draw textures
+     */
     private SpriteBatch batch;
+    /**
+     * Camera of mapState
+     */
     private OrthographicCamera camera;
+    /**
+     * Maps texture
+     */
     private Texture map;
+    /**
+     * ChaosCompany buildings texture when not pushed
+     */
     private Texture companyUP;
+
+    /**
+     * ChaosCompany buildings texture when pushed down
+     */
     private Texture companyDOWN;
+    /**
+     * JobCenter buildings texture when not pushed
+     */
     private Texture jobCenterUP;
+    /**
+     * JobCenter buildings texture when pushed down
+     */
     private Texture jobCenterDOWN;
+    /**
+     * Manager of the game
+     */
     private StatsManager manager;
 
+    /**
+     * Button for ChaosCompany
+     */
     private ImageButton company;
+    /**
+     * Button for hireState
+     */
     private ImageButton jobCenter;
+    /**
+     * ImageButtonStyle for buttons
+     */
     private ImageButton.ImageButtonStyle style;
 
+    /**
+     * Skin for buttons
+     */
     private Skin skin;
+    /**
+     * Stage
+     */
     private Stage stage;
 
     //some variables that check which effects have taken place
+    /**
+     * Contains statue that is at map atm.
+     */
     private Texture statue = null;
+    /**
+     * Trees in map atm.
+     */
     private Texture trees;
+    /**
+     * trash cans in map atm.
+     */
     private Texture trash;
+    /**
+     * Right content of map atm.
+     */
     private Texture right;
+    /**
+     * Left content of map atm.
+     */
     private Texture left;
+    /**
+     * Top content of map atm.
+     */
     private Texture top;
 
+    /**
+     * All bad effects of statue
+     */
     private ArrayList<Texture> statueBadEffects = new ArrayList<Texture>();
+    /**
+     * Good effects of right area
+     */
     private ArrayList<Texture> rightGoodEffects = new ArrayList<Texture>();
+    /**
+     * bad effects of right area
+     */
     private ArrayList<Texture> rightBadEffects = new ArrayList<Texture>();
+    /**
+     * good effects of left area
+     */
     private ArrayList<Texture> leftGoodEffects = new ArrayList<Texture>();
+    /**
+     * bad effects of left area
+     */
     private ArrayList<Texture> leftBadEffects = new ArrayList<Texture>();
+    /**
+     * good effects of top area
+     */
     private ArrayList<Texture> topGoodEffects = new ArrayList<Texture>();
+    /**
+     * bad effects of top area
+     */
     private ArrayList<Texture> topBadEffects = new ArrayList<Texture>();
 
 
-    public MapState(ChaosCompany g){
+    public MapState(com.mygdx.chaoscompany.ChaosCompany g){
         game = g;
         batch = game.getSpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480f);
         batch.setProjectionMatrix(camera.combined);
-        manager = ChaosCompany.manager;
+        manager = com.mygdx.chaoscompany.ChaosCompany.manager;
 
         map = new Texture("MapState/EmptyMap.png");
         map.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -137,6 +219,9 @@ public class MapState implements Screen {
 
     }
 
+    /**
+     * Called when map is updated
+     */
     public void updateMap(){
         int karma = manager.getKarma();
 

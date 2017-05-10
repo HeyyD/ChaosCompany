@@ -6,34 +6,61 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Array;
-import com.mygdx.employees.Employee;
-import com.mygdx.game.BuildMenu;
-import com.mygdx.game.ChaosCompany;
-import com.mygdx.game.GameButton;
+import com.mygdx.chaoscompany.ChaosCompany;
+import com.mygdx.chaoscompany.GameButton;
 
-import java.util.ArrayList;
-
+/**
+ * UI Of officeState
+ */
 public class OfficeStateUI {
 
+    /**
+     * Develop menu of game
+     */
     public static DevelopMenu developMenu = null;
+    /**
+     * Progress bar which tells when game is developed completely
+     */
     public static ProgressBar developmentTimeBar;
 
+    /**
+     * Ui stage of office state
+     */
     public Stage uiStage = null;
+    /**
+     * Develop Button in office state
+     */
     public TextButton developButton;
+    /**
+     * Settings button, bottom left corner
+     */
     public TextButton settingsButton;
+    /**
+     * Scale of buttons
+     */
     public float buttonScale = 0.01f;
+    /**
+     * Button offset
+     */
     public float buttonOffset = 0.2f;
+
+    /**
+     * Skin of buttons
+     */
     private Skin skin = null;
 
+    /**
+     * Constructor
+     * @param uiStage UiStage of offisceState
+     * @param textStage textStage of officeState
+     * @param game Game
+     */
     public OfficeStateUI(final Stage uiStage, Stage textStage, final ChaosCompany game){
 
         createSkin();
@@ -86,6 +113,9 @@ public class OfficeStateUI {
         });
     }
 
+    /**
+     * Creates skin of buttons
+     */
     private void createSkin(){
         //Setting up skin color and size of button
         skin = new Skin();

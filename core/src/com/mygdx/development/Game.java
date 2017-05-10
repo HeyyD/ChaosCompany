@@ -9,10 +9,9 @@ import com.mygdx.employees.Artist;
 import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
-import com.mygdx.furniture.Computer;
 import com.mygdx.furniture.ComputerFurniture;
-import com.mygdx.game.ChaosCompany;
-import com.mygdx.game.StatsManager;
+import com.mygdx.chaoscompany.ChaosCompany;
+import com.mygdx.chaoscompany.StatsManager;
 
 import java.util.ArrayList;
 

@@ -14,7 +14,7 @@ import com.mygdx.employees.Employee;
 import com.mygdx.employees.MarketingExecutive;
 import com.mygdx.employees.Programmer;
 import com.mygdx.furniture.ComputerFurniture;
-import com.mygdx.game.ChaosCompany;
+import com.mygdx.chaoscompany.ChaosCompany;
 
 import java.util.ArrayList;
 
