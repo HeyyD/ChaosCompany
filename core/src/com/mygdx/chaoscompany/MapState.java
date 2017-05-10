@@ -228,21 +228,24 @@ public class MapState implements Screen {
         if(karma > 0){
 
             left = leftGoodEffects.get(MathUtils.random(0, leftGoodEffects.size() - 1));
+            right = rightGoodEffects.get(MathUtils.random(0, rightGoodEffects.size() - 1));
+            top = topGoodEffects.get(MathUtils.random(0, topGoodEffects.size() - 1));
 
-            if(karma >= 35){
+            if(karma >= 50){
                 trees = new Texture("MapState/GoodTrees6.png");
-            } else if(karma >= 28){
+            } else if(karma >= 40){
                 trees = new Texture("MapState/GoodTrees5.png");
-            } else if(karma >= 21){
+            } else if(karma >= 30){
                 trees = new Texture("MapState/GoodTrees4.png");
-            } else if(karma >= 14){
+            } else if(karma >= 20){
                 trees = new Texture("MapState/GoodTrees3.png");
                 statue = new Texture("MapState/Center3.png");
-            } else if(karma >= 7){
+            } else if(karma >= 10){
                 trees = new Texture("MapState/GoodTrees2.png");
             } else{
                 trees = new Texture("MapState/GoodTrees1.png");
                 trash = new Texture("MapState/Trash1.png");
+                statue = new Texture("MapState/Center2.png");
             }
         }
 
@@ -252,17 +255,16 @@ public class MapState implements Screen {
             left = leftBadEffects.get(MathUtils.random(0, leftBadEffects.size() - 1));
             top = topBadEffects.get(MathUtils.random(0, topBadEffects.size() - 1));
 
-            if(karma <= -35){
+            if(karma <= -50){
                 trees = new Texture("MapState/BadTrees6.png");
-            } else if(karma <= -28){
+            } else if(karma <= -40){
                 trees = new Texture("MapState/BadTrees5.png");
-            } else if(karma <= -21){
+            } else if(karma <= -30){
                 trees = new Texture("MapState/BadTrees4.png");
-            } else if(karma <= -14){
+            } else if(karma <= -20){
                 trees = new Texture("MapState/BadTrees3.png");
-                if(statue != null)
-                    statue = statueBadEffects.get(MathUtils.random(0, statueBadEffects.size() - 1));
-            } else if(karma <= -7){
+                statue = statueBadEffects.get(MathUtils.random(0, statueBadEffects.size() - 1));
+            } else if(karma <= -10){
                 trees = new Texture("MapState/BadTrees2.png");
                 trash = new Texture("MapState/Trash2.png");
             } else{

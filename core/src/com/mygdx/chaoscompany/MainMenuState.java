@@ -1,16 +1,21 @@
 package com.mygdx.chaoscompany;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.UI.DevelopMenu;
@@ -87,6 +92,8 @@ public class MainMenuState implements Screen {
      * How fast pictures rotates
      */
     private float rotationSpeed = 0.10f;
+    private CheckBox.CheckBoxStyle muteButtonStyle;
+    private CheckBox muteButton;
 
     /**
      * Constructor
@@ -119,6 +126,7 @@ public class MainMenuState implements Screen {
 
         //Setting up skin color and size of button
         skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
+        muteButtonStyle = createCheckboxStyle();
 
         //Create TextButton three TextButtons
         final TextButton playBtn = new TextButton(bundle.get("play"),skin);
@@ -187,6 +195,26 @@ public class MainMenuState implements Screen {
             }
         });
         stage.addActor(exitBtn);
+
+        //MUTE BUTTON
+        float muteScale = 0.5f;
+        float offset = 5f;
+        muteButton = new CheckBox("", muteButtonStyle);
+        muteButton.setTransform(true);
+        muteButton.setScale(muteScale);
+        muteButton.setPosition(0 + offset, (camera.viewportHeight - muteButton.getHeight() * muteScale) - offset);
+
+        muteButton.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("JEE");
+                ChaosCompany.soundManager.mute(muteButton.isChecked());
+            }
+        });
+
+        stage.addActor(muteButton);
     }
 
 
@@ -256,5 +284,17 @@ public class MainMenuState implements Screen {
 
     public ChaosCompany getGame(){
         return game;
+    }
+
+    private CheckBox.CheckBoxStyle createCheckboxStyle(){
+
+        CheckBox.CheckBoxStyle style;
+        SpriteDrawable off = new SpriteDrawable(new Sprite(new Texture("TitleScreen/NonMute.png")));
+        SpriteDrawable on = new SpriteDrawable(new Sprite(new Texture("TitleScreen/Mute.png")));
+        BitmapFont font = new BitmapFont(Gdx.files.internal("font.txt"));
+
+        style = new CheckBox.CheckBoxStyle(off, on, font, Color.WHITE);
+        return style;
+
     }
 }
