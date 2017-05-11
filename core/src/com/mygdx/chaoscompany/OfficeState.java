@@ -200,6 +200,8 @@ public class OfficeState implements GestureDetector.GestureListener, Screen{
         game = g;
         developing = false;
 
+        ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.neutralMusic);
+
         GL20 gl = Gdx.graphics.getGL20();
         gl.glEnable(GL20.GL_BLEND);
         gl.glEnable(GL20.GL_TEXTURE_2D);

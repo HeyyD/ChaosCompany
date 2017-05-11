@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
@@ -138,6 +139,8 @@ public class MapState implements Screen {
      */
     private ArrayList<Texture> topBadEffects = new ArrayList<Texture>();
 
+    private boolean neutral = true;
+
 
     public MapState(com.mygdx.chaoscompany.ChaosCompany g){
         game = g;
@@ -231,18 +234,30 @@ public class MapState implements Screen {
             right = rightGoodEffects.get(MathUtils.random(0, rightGoodEffects.size() - 1));
             top = topGoodEffects.get(MathUtils.random(0, topGoodEffects.size() - 1));
 
-            if(karma >= 50){
+            if(karma >= 100){
                 trees = new Texture("MapState/GoodTrees6.png");
-            } else if(karma >= 40){
+            } else if(karma >= 80){
                 trees = new Texture("MapState/GoodTrees5.png");
-            } else if(karma >= 30){
+            } else if(karma >= 60){
                 trees = new Texture("MapState/GoodTrees4.png");
-            } else if(karma >= 20){
+            } else if(karma >= 40){
+
+                if(neutral == true){
+                    ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.happyMusic);
+                    neutral = false;
+                }
+
                 trees = new Texture("MapState/GoodTrees3.png");
                 statue = new Texture("MapState/Center3.png");
-            } else if(karma >= 10){
+            } else if(karma >= 20){
                 trees = new Texture("MapState/GoodTrees2.png");
             } else{
+
+                if(neutral == false){
+                    ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.neutralMusic);
+                    neutral = true;
+                }
+
                 trees = new Texture("MapState/GoodTrees1.png");
                 trash = new Texture("MapState/Trash1.png");
                 statue = new Texture("MapState/Center2.png");
@@ -255,18 +270,22 @@ public class MapState implements Screen {
             left = leftBadEffects.get(MathUtils.random(0, leftBadEffects.size() - 1));
             top = topBadEffects.get(MathUtils.random(0, topBadEffects.size() - 1));
 
-            if(karma <= -50){
+            if(karma <= -100){
                 trees = new Texture("MapState/BadTrees6.png");
-            } else if(karma <= -40){
+            } else if(karma <= -80){
                 trees = new Texture("MapState/BadTrees5.png");
-            } else if(karma <= -30){
+            } else if(karma <= -60){
                 trees = new Texture("MapState/BadTrees4.png");
-            } else if(karma <= -20){
+            } else if(karma <= -40){
                 trees = new Texture("MapState/BadTrees3.png");
                 statue = statueBadEffects.get(MathUtils.random(0, statueBadEffects.size() - 1));
-            } else if(karma <= -10){
+            } else if(karma <= -20){
                 trees = new Texture("MapState/BadTrees2.png");
                 trash = new Texture("MapState/Trash2.png");
+                if(neutral == true){
+                    ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.sadMusic);
+                    neutral = false;
+                }
             } else{
                 trees = new Texture("MapState/Badtrees1.png");
             }
