@@ -30,7 +30,7 @@ public class Game {
 
     private ProgressBar progressBar = null;
     private StatsManager statsManager;
-    private float developmentSpeed = 5;
+    private float developmentSpeed = 4;
     private int value;
     private float setMoneyTime = 15;
     private float currentMoneyTime = setMoneyTime;

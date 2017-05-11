@@ -35,7 +35,7 @@ public class MarketingExecutive extends Employee{
         getManager().setSalaries(getManager().getSalaries() - (int)salary);
 
 
-        getManager().setMarketingPower(getManager().getMarketingPower()+(int)(skill*80));
+        getManager().setMarketingPower(getManager().getMarketingPower()+(int)(skill*250));
         int x = 11;
         int y = 11;
         //set Employee to random place at officeState and reserve Tile

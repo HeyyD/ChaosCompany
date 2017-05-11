@@ -35,7 +35,7 @@ public class Artist extends Employee{
         setHired(true);
         getManager().setSalaries(getManager().getSalaries() - (int)salary);
 
-        getManager().setWellBeing(getManager().getWellBeing() + (int)(skill*250));
+        getManager().setWellBeing(getManager().getWellBeing() + (int)(skill*350));
 
         int x = 11;
         int y = 11;

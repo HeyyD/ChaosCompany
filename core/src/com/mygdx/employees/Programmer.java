@@ -35,7 +35,7 @@ public class Programmer extends Employee{
             int x = 11;
             int y = 11;
 
-            getManager().setProgrammingPower(getManager().getProgrammingPower() + (int)(skill*100));
+            getManager().setProgrammingPower(getManager().getProgrammingPower() + (int)(skill*200));
             while (ChaosCompany.officeState.getTileMap().getTiles()[x][y].getIsFull() == true) {
                 x = MathUtils.random(0, 9);
                 y = MathUtils.random(0, 9);
