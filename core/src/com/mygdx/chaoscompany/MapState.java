@@ -280,6 +280,12 @@ public class MapState implements Screen {
             } else if(karma >= 60){
                 trees = goodTrees4;
             } else if(karma >= 40){
+
+                if(neutralMap == true){
+                    neutralMap = false;
+                    ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.happyMusic);
+                }
+
                 trees = goodTrees3;
                 statue = centerGood;
             } else if(karma >= 20){
