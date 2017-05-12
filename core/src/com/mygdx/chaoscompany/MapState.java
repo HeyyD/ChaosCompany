@@ -371,6 +371,7 @@ public class MapState implements Screen {
     @Override
     public void dispose() {
 
+        //jee
         trees.dispose();
         statue.dispose();
         left.dispose();
