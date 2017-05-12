@@ -240,7 +240,10 @@ public class MapState implements Screen {
         statueBadEffects.add(new Texture("MapState/Center4.png"));
 
         rightGoodEffects.add(right);
+        rightGoodEffects.add(new Texture("MapState/Right5.png"));
+
         rightBadEffects.add(new Texture("MapState/Right3.png"));
+        rightBadEffects.add(new Texture("MapState/Right4.png"));
 
         leftGoodEffects.add(left);
         leftGoodEffects.add(new Texture("MapState/Left2.png"));
@@ -249,6 +252,8 @@ public class MapState implements Screen {
         leftBadEffects.add(new Texture("MapState/Left1.png"));
 
         topGoodEffects.add(top);
+        topGoodEffects.add(new Texture("MapState/Top5.png"));
+        topGoodEffects.add(new Texture("MapState/Top6.png"));
 
         topBadEffects.add(new Texture("MapState/Top1.png"));
         topBadEffects.add(new Texture("MapState/Top3.png"));
