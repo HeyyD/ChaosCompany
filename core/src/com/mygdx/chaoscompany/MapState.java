@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
@@ -93,10 +94,6 @@ public class MapState implements Screen {
      */
     private Texture trees;
     /**
-     * trash cans in map atm.
-     */
-    private Texture trash;
-    /**
      * Right content of map atm.
      */
     private Texture right;
@@ -138,6 +135,27 @@ public class MapState implements Screen {
      */
     private ArrayList<Texture> topBadEffects = new ArrayList<Texture>();
 
+    private Texture neutralTrees;
+
+    private Texture badTrees1;
+    private Texture badTrees2;
+    private Texture badTrees3;
+    private Texture badTrees4;
+    private Texture badTrees5;
+    private Texture badTrees6;
+
+    private Texture goodTrees1;
+    private Texture goodTrees2;
+    private Texture goodTrees3;
+    private Texture goodTrees4;
+    private Texture goodTrees5;
+    private Texture goodTrees6;
+
+    private Texture centerGood;
+    private Texture centerNeutral;
+
+    private boolean neutralMap = true;
+
 
     public MapState(com.mygdx.chaoscompany.ChaosCompany g){
         game = g;
@@ -159,6 +177,7 @@ public class MapState implements Screen {
 
         company.setPosition(0,camera.viewportHeight - companyUP.getHeight());
         company.setSize(company.getWidth(), company.getHeight());
+
         company.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -192,12 +211,30 @@ public class MapState implements Screen {
         });
         stage.addActor(jobCenter);
 
+        neutralTrees = new Texture("MapState/Trees.png");
+
+        centerNeutral = new Texture("MapState/Center2.png");
+        centerGood = new Texture("MapState/Center3.png");
+
         statue = new Texture("MapState/Center2.png");
-        trees = new Texture("MapState/Trees.png");
-        trash = new Texture("MapState/Trash1.png");
+        trees = neutralTrees;
         right = new Texture("MapState/Right1.png");
         left = new Texture("MapState/Left4.png");
         top = new Texture("MapState/Top2.png");
+
+        badTrees1 = new Texture("MapState/Badtrees1.png");
+        badTrees2 = new Texture("MapState/BadTrees2.png");
+        badTrees3 = new Texture("MapState/BadTrees3.png");
+        badTrees4 = new Texture("MapState/BadTrees4.png");
+        badTrees5 = new Texture("MapState/BadTrees5.png");
+        badTrees6 = new Texture("MapState/BadTrees6.png");
+
+        goodTrees1 = new Texture("MapState/GoodTrees1.png");
+        goodTrees2 = new Texture("MapState/GoodTrees2.png");
+        goodTrees3 = new Texture("MapState/GoodTrees3.png");
+        goodTrees4 = new Texture("MapState/GoodTrees4.png");
+        goodTrees5 = new Texture("MapState/GoodTrees5.png");
+        goodTrees6 = new Texture("MapState/GoodTrees6.png");
 
         statueBadEffects.add(new Texture("MapState/Center1.png"));
         statueBadEffects.add(new Texture("MapState/Center4.png"));
@@ -231,21 +268,26 @@ public class MapState implements Screen {
             right = rightGoodEffects.get(MathUtils.random(0, rightGoodEffects.size() - 1));
             top = topGoodEffects.get(MathUtils.random(0, topGoodEffects.size() - 1));
 
-            if(karma >= 50){
-                trees = new Texture("MapState/GoodTrees6.png");
+            if(karma >= 100){
+                trees = goodTrees6;
+            } else if(karma >= 80){
+                trees = goodTrees5;
+            } else if(karma >= 60){
+                trees = goodTrees4;
             } else if(karma >= 40){
-                trees = new Texture("MapState/GoodTrees5.png");
-            } else if(karma >= 30){
-                trees = new Texture("MapState/GoodTrees4.png");
+                trees = goodTrees3;
+                statue = centerGood;
             } else if(karma >= 20){
-                trees = new Texture("MapState/GoodTrees3.png");
-                statue = new Texture("MapState/Center3.png");
-            } else if(karma >= 10){
-                trees = new Texture("MapState/GoodTrees2.png");
+                trees = goodTrees2;
             } else{
-                trees = new Texture("MapState/GoodTrees1.png");
-                trash = new Texture("MapState/Trash1.png");
-                statue = new Texture("MapState/Center2.png");
+
+                if(neutralMap == false){
+                    neutralMap = true;
+                    ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.neutralMusic);
+                }
+
+                trees = goodTrees1;
+                statue = centerNeutral;
             }
         }
 
@@ -255,25 +297,28 @@ public class MapState implements Screen {
             left = leftBadEffects.get(MathUtils.random(0, leftBadEffects.size() - 1));
             top = topBadEffects.get(MathUtils.random(0, topBadEffects.size() - 1));
 
-            if(karma <= -50){
-                trees = new Texture("MapState/BadTrees6.png");
+            if(karma <= -100){
+                trees = badTrees6;
+            } else if(karma <= -80){
+                trees = badTrees5;
+            } else if(karma <= -60){
+                trees = badTrees4;
             } else if(karma <= -40){
-                trees = new Texture("MapState/BadTrees5.png");
-            } else if(karma <= -30){
-                trees = new Texture("MapState/BadTrees4.png");
-            } else if(karma <= -20){
-                trees = new Texture("MapState/BadTrees3.png");
+                trees = badTrees3;
                 statue = statueBadEffects.get(MathUtils.random(0, statueBadEffects.size() - 1));
-            } else if(karma <= -10){
-                trees = new Texture("MapState/BadTrees2.png");
-                trash = new Texture("MapState/Trash2.png");
+            } else if(karma <= -20){
+                if(neutralMap == true){
+                    neutralMap = false;
+                    ChaosCompany.soundManager.setBackgroundMusic(ChaosCompany.soundManager.sadMusic);
+                }
+                trees = badTrees2;
             } else{
-                trees = new Texture("MapState/Badtrees1.png");
+                trees = badTrees1;
             }
         }
 
         else{
-            trees = new Texture("MapState/Trees.png");
+            trees = neutralTrees;
         }
     }
 
@@ -296,7 +341,6 @@ public class MapState implements Screen {
 
         batch.begin();
             batch.draw(statue,0,0);
-            batch.draw(trash,0, 0);
             batch.draw(right,0, 0);
             batch.draw(left,0, 0);
             batch.draw(top,0, 0);
@@ -326,12 +370,28 @@ public class MapState implements Screen {
 
     @Override
     public void dispose() {
+
         trees.dispose();
         statue.dispose();
-        trash.dispose();
         left.dispose();
         right.dispose();
         top.dispose();
+
+        badTrees1.dispose();
+        badTrees2.dispose();
+        badTrees3.dispose();
+        badTrees4.dispose();
+        badTrees5.dispose();
+        badTrees6.dispose();
+        goodTrees1.dispose();
+        goodTrees2.dispose();
+        goodTrees3.dispose();
+        goodTrees4.dispose();
+        goodTrees5.dispose();
+        goodTrees6.dispose();
+        centerGood.dispose();
+        centerNeutral.dispose();
+
         stage.dispose();
     }
 }
