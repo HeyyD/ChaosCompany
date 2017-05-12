@@ -267,11 +267,11 @@ public abstract class Employee extends Actor {
         manager.setSalaries(manager.getSalaries() + (int)salary);
 
         if(this.getClass() == Programmer.class){
-            manager.setProgrammingPower(manager.getProgrammingPower() - (int)(skill*100));
+            manager.setProgrammingPower(manager.getProgrammingPower() - (int)(skill*200));
         }else if(this.getClass() == Artist.class){
-            manager.setWellBeing(manager.getWellBeing()-(int)(skill*250));
+            manager.setWellBeing(manager.getWellBeing()-(int)(skill*350));
         }else{
-            manager.setMarketingPower(manager.getMarketingPower()-(int)(skill*80));
+            manager.setMarketingPower(manager.getMarketingPower()-(int)(skill*250));
         }
 
     }

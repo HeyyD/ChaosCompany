@@ -17,6 +17,10 @@ public class SoundManager {
      */
     public Music backgroundMusic;
 
+    public Music neutralMusic;
+    public Music sadMusic;
+    public Music happyMusic;
+
     public Sound blop;
 
     private float musicVolume = 0.5f;
@@ -26,34 +30,31 @@ public class SoundManager {
      * At the start the background music is set and all the sound effects are created
      */
     public SoundManager(){
-        setBackgroundMusic("Sounds/background.mp3");
+
+        neutralMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/background.mp3"));
+        sadMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/sadMusic.mp3"));
+        happyMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/happyMusic.mp3"));
 
         blop = Gdx.audio.newSound(Gdx.files.internal("Sounds/blop.wav"));
+
     }
 
     /**
      * Sets the background music
      * @param musicFile The name of the music file
      */
-    public void setBackgroundMusic(String musicFile){
-
-       /*if(backgroundMusic != null)
-            backgroundMusic.stop();
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(musicVolume);
-        backgroundMusic.play();*/
+    public void setBackgroundMusic(Music musicFile){
 
        if(backgroundMusic == null) {
-           backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
+           backgroundMusic = musicFile;
            backgroundMusic.setLooping(true);
            backgroundMusic.setVolume(musicVolume);
            backgroundMusic.play();
        } else {
-           System.out.println("täälä");
            fadeOut(musicFile);
        }
+
+        System.out.println(backgroundMusic.toString());
     }
 
     /**
@@ -83,7 +84,7 @@ public class SoundManager {
         backgroundMusic.setVolume(musicVolume);
     }
 
-    private void fadeOut(final String musicFile){
+    private void fadeOut(final Music musicFile){
 
         final float musicFadeStep = 0.01f;
         float fadeRate = 0.05f;
@@ -94,7 +95,7 @@ public class SoundManager {
                 if(backgroundMusic.getVolume() >= musicFadeStep)
                     backgroundMusic.setVolume(backgroundMusic.getVolume() - musicFadeStep);
                 else {
-                    backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
+                    backgroundMusic = musicFile;
                     backgroundMusic.setLooping(true);
                     backgroundMusic.play();
                     backgroundMusic.setVolume(0);

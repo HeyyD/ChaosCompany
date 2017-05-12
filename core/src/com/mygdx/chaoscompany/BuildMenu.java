@@ -430,7 +430,7 @@ public class BuildMenu extends Actor{
                     icons2 = new MiniIcons(getX()+0.73f, getY()+1, computerButtonTex,
                             moneyIco, marketingButtonTex, ""+1,""+4000,""+180);
                     icons3 = new MiniIcons(getX()+1.43f, getY()+1, computerButtonTex,
-                            moneyIco, programmingIco, ""+1,""+4000,""+180);
+                            moneyIco, programmingIco, ""+1,""+4000,""+90);
                     icons4 = new MiniIcons(getX()+2.13f, getY()+1, computerButtonTex,
                             moneyIco, wellBeingButtonTex, ""+1,""+4000, ""+180);
                     addActors(computerButtons);

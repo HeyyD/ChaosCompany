@@ -77,7 +77,7 @@ public class PowerComputer extends ComputerFurniture {
     public void sell() {
         //minus benfits
         manager.setEmployeeSlots(manager.getEmployeeSlots()- 1);
-        manager.setProgrammingPower(manager.getProgrammingPower()-180);
+        manager.setProgrammingPower(manager.getProgrammingPower()-90);
         //add money
         manager.setMoney(manager.getMoney() + getSellPrice());
         //Destroy couch
@@ -88,7 +88,7 @@ public class PowerComputer extends ComputerFurniture {
     @Override
     public void buy(){
         manager.setEmployeeSlots(manager.getEmployeeSlots()+ 1);
-        manager.setProgrammingPower(manager.getProgrammingPower()+180);
+        manager.setProgrammingPower(manager.getProgrammingPower()+90);
         manager.setMoney(manager.getMoney() - getPrice());
         setAlpha(1);
         setBought(true);

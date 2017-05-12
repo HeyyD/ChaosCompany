@@ -14,7 +14,6 @@ import java.util.Locale;
  */
 public class ChaosCompany extends Game {
 
-    //Screens
     /**
      * Main Menu screen
      */
@@ -195,7 +194,7 @@ public class ChaosCompany extends Game {
     }
     public void updateManager(){
         manager.setGameValue((int) (200 * (1+((float)manager.getWellBeing() / 300))) );
-        manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/600)) + manager.getSalaries()));
+        manager.setIncome((int)(manager.getGameIncome() * (1 + ((float)manager.getMarketingPower()/4000)) + manager.getSalaries()));
     }
 
     public com.mygdx.chaoscompany.OfficeState getOfficeState(){
