@@ -99,8 +99,9 @@ public class SoundManager {
                     backgroundMusic.setLooping(true);
                     backgroundMusic.play();
                     backgroundMusic.setVolume(0);
+                    //this.cancel();
+                    Timer.instance().clear();
                     fadeIn();
-                    this.cancel();
                 }
             }
         }, 0f, fadeRate);
@@ -117,7 +118,8 @@ public class SoundManager {
                 if(backgroundMusic.getVolume() <= musicVolume)
                     backgroundMusic.setVolume(backgroundMusic.getVolume() + musicFadeStep);
                 else {
-                    this.cancel();
+                    //this.cancel();
+                    Timer.instance().clear();
                 }
             }
         }, 0f, fadeRate);
